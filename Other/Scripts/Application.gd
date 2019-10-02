@@ -3,7 +3,7 @@ extends Node
 func quit():
 	print("Application: quiting")
 	Config.save()
-	sleep(0.1) #As the config file grows this should too
+	sleep(1) #As the config file grows this should too
 	get_tree().quit()
 
 func sleep(seconds : float):

@@ -1,16 +1,12 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://2D/Scripts/login_screen.gd" type="Script" id=1]
 [ext_resource path="res://2D/Scenes/login_window.tscn" type="PackedScene" id=2]
 [ext_resource path="res://2D/Scripts/fps_counter.gd" type="Script" id=3]
 [ext_resource path="res://2D/Scripts/options_button.gd" type="Script" id=4]
 [ext_resource path="res://2D/Scripts/quit_button.gd" type="Script" id=5]
-[ext_resource path="res://2D/Scenes/options_window.tscn" type="PackedScene" id=6]
-[ext_resource path="res://2D/Scripts/options_window.gd" type="Script" id=7]
-[ext_resource path="res://addons/Window/Window.gd" type="Script" id=8]
-[ext_resource path="res://addons/Window/Window.png" type="Texture" id=9]
-
-[sub_resource type="Theme" id=1]
+[ext_resource path="res://addons/Window/Window.gd" type="Script" id=6]
+[ext_resource path="res://addons/Window/Window.png" type="Texture" id=7]
 
 [node name="login_screen" type="Control"]
 script = ExtResource( 1 )
@@ -20,85 +16,6 @@ margin_left = 830.0
 margin_top = 780.0
 margin_right = 1130.0
 margin_bottom = 990.0
-
-[node name="options_window" type="Popup" parent="."]
-margin_left = 59.0
-margin_top = 150.0
-margin_right = 459.0
-margin_bottom = 750.0
-theme = SubResource( 1 )
-
-[node name="PanelContainer" type="PanelContainer" parent="options_window"]
-margin_right = 400.0
-margin_bottom = 600.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="options_window"]
-editor/display_folded = true
-visible = false
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 393.0
-margin_bottom = 593.0
-custom_constants/separation = 20
-
-[node name="spacer" type="Control" parent="options_window/VBoxContainer"]
-margin_right = 386.0
-
-[node name="tabs_container" type="TabContainer" parent="options_window/VBoxContainer"]
-editor/display_folded = true
-margin_top = 20.0
-margin_right = 386.0
-margin_bottom = 586.0
-rect_clip_content = true
-size_flags_vertical = 3
-
-[node name="Graphics" type="Tabs" parent="options_window/VBoxContainer/tabs_container"]
-editor/display_folded = true
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
-
-[node name="HSlider" type="HSlider" parent="options_window/VBoxContainer/tabs_container/Graphics"]
-margin_right = 300.0
-margin_bottom = 16.0
-ticks_on_borders = true
-
-[node name="Sound" type="Tabs" parent="options_window/VBoxContainer/tabs_container"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
-
-[node name="Gui" type="Tabs" parent="options_window/VBoxContainer/tabs_container"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
-
-[node name="ColorRect" type="ColorRect" parent="options_window"]
-margin_left = 2.0
-margin_right = 398.0
-margin_bottom = 20.0
-rect_clip_content = true
-size_flags_stretch_ratio = 0.0
-color = Color( 0.176471, 0.168627, 0.2, 1 )
-
-[node name="Label" type="Label" parent="options_window"]
-margin_right = 400.0
-margin_bottom = 20.0
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "Options"
-align = 1
-valign = 1
 
 [node name="fps_counter" type="Label" parent="."]
 margin_right = 40.0
@@ -126,24 +43,15 @@ focus_next = NodePath("../login_window/login_field")
 text = "Quit"
 script = ExtResource( 5 )
 
-[node name="save_" type="Control" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
-
-[node name="options_window" parent="save_" instance=ExtResource( 6 )]
-visible = false
-margin_top = 200.0
-margin_bottom = 800.0
-script = ExtResource( 7 )
-
 [node name="Window" type="Popup" parent="."]
 visible = true
-margin_right = 40.0
-margin_bottom = 40.0
-script = ExtResource( 8 )
+margin_left = 200.0
+margin_top = 200.0
+margin_right = 400.0
+margin_bottom = 400.0
+script = ExtResource( 6 )
 __meta__ = {
-"_editor_icon": ExtResource( 9 )
+"_editor_icon": ExtResource( 7 )
 }
-title_color = Color( 0.243137, 0.0666667, 0.0666667, 1 )
 [connection signal="pressed" from="options_button" to="options_button" method="_on_config_button_pressed"]
 [connection signal="gui_input" from="quit_button" to="quit_button" method="_on_quit_button_gui_input"]
