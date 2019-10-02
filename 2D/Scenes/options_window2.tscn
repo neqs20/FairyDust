@@ -1,0 +1,50 @@
+[gd_scene format=2]
+
+[node name="options_window" type="Popup"]
+editor/display_folded = true
+margin_top = 20.0
+margin_right = 400.0
+margin_bottom = 620.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 393.0
+margin_bottom = 593.0
+custom_constants/separation = 25
+
+[node name="tabs_container" type="TabContainer" parent="VBoxContainer"]
+margin_right = 386.0
+margin_bottom = 586.0
+size_flags_vertical = 3
+
+[node name="Graphics" type="Tabs" parent="VBoxContainer/tabs_container"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/tabs_container/Graphics"]
+margin_right = 300.0
+margin_bottom = 16.0
+ticks_on_borders = true
+
+[node name="Sound" type="Tabs" parent="VBoxContainer/tabs_container"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="Gui" type="Tabs" parent="VBoxContainer/tabs_container"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0

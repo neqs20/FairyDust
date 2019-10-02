@@ -1,2 +1,3 @@
 # FairyDust
-MMO RPG game made with godot
+An MMORPG game in early development stage.
+Engine: Godot v3.1.1 stable official
