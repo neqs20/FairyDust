@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(gdb) Launch",
+            "name": "Run Project",
             "type": "cppdbg",
             "request": "launch",
             "program": "D:\\GodotEngine\\forked_godot\\bin\\godot.windows.opt.tools.64.exe",
