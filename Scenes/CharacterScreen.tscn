@@ -1,0 +1,648 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Scripts/CharacterRotation.gd" type="Script" id=1]
+[ext_resource path="res://Assets/2D/char_screen.png" type="Texture" id=2]
+[ext_resource path="res://Assets/3D/Characters/Elf.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Fonts/Patrick_Hand/PatrickHand-Regular.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://Scripts/Description.gd" type="Script" id=5]
+
+
+[sub_resource type="ViewportTexture" id=1]
+viewport_path = NodePath("world_3d")
+
+[sub_resource type="DynamicFont" id=2]
+size = 30
+use_filter = true
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 30
+use_filter = true
+font_data = ExtResource( 4 )
+
+[sub_resource type="GDScript" id=4]
+script/source = "extends VBoxContainer
+
+var current_id
+var change = false
+var a = 0
+
+onready var buttons = get_tree().get_nodes_in_group(\"char_buttons\")
+export(NodePath) onready var char_name_path 
+export(NodePath) onready var char_level_path
+export(NodePath) onready var char_class_path 
+export(NodePath) onready var char_map_path
+export(NodePath) onready var description_path
+onready var description = get_node(description_path)
+onready var char_map = get_node(char_map_path)
+onready var char_level = get_node(char_level_path)
+onready var char_class = get_node(char_class_path)
+onready var char_name = get_node(char_name_path)
+onready var enter_button = get_tree().get_current_scene().get_node(\"Button\")
+
+func _ready():
+	for i in Network.characters.keys():
+		buttons[i].set_text(Network.characters[i]['name'])
+	for i in range(buttons.size()):
+		if buttons[i].get_text().empty():
+			buttons[i].set_disabled(true)
+		buttons[i].connect(\"toggled\", self, \"button_x_toggled\", [i])
+	set_process(false)
+
+func button_x_toggled(pressed, id):
+	set_process(true)
+	if pressed:
+		current_id = id
+		description.show()
+	
+
+func _process(delta):
+	if current_id != null:
+		enter_button.set_disabled(false)
+	for i in range(buttons.size()):
+		if buttons[i].is_pressed() and i != current_id:
+			buttons[i].set_pressed(false)
+		elif not buttons[i].is_pressed() and i == current_id:
+			buttons[i].set_pressed(true)
+	update_description()
+	set_process(false)
+
+func update_description():
+	if current_id != null:
+		char_name.set_text(Network.characters[current_id]['name'])
+		char_level.set_text(str(Network.characters[current_id]['level']))
+		char_class.set_text(Globals.classes[Network.characters[current_id]['class']])
+		char_map.set_text(Globals.maps[Network.characters[current_id]['map']])
+	
+
+
+func _on_Button_pressed():
+	pass
+"
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 6.10352e-05
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 0.00012207
+texture = ExtResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="world_3d" type="Viewport" parent="."]
+size = Vector2( 800, 800 )
+transparent_bg = true
+render_target_update_mode = 3
+gui_disable_input = true
+shadow_atlas_size = 2
+
+[node name="charcter_camera" type="Camera" parent="world_3d"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 3.2 )
+size = 4.0
+
+[node name="DirectionalLight" type="DirectionalLight" parent="world_3d"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 3.2 )
+
+[node name="character" type="Spatial" parent="world_3d"]
+
+[node name="Elf" parent="world_3d/character" instance=ExtResource( 3 )]
+
+[node name="CharacterRender" type="TextureRect" parent="."]
+anchor_left = 0.105
+anchor_top = 0.345
+anchor_right = 0.39
+anchor_bottom = 0.853
+margin_left = -0.843475
+margin_top = -0.439819
+margin_right = 0.956482
+margin_bottom = -0.079834
+texture = SubResource( 1 )
+expand = true
+flip_v = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CharacterList" type="Panel" parent="."]
+anchor_left = 0.755
+anchor_top = 0.083
+anchor_right = 0.964
+anchor_bottom = 0.917
+margin_left = 0.400024
+margin_top = 0.360001
+margin_right = -0.880005
+margin_bottom = -0.359985
+grow_horizontal = 2
+grow_vertical = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Description" type="Control" parent="CharacterList"]
+visible = false
+anchor_left = 0.075
+anchor_top = 0.033
+anchor_right = 0.908
+anchor_bottom = 0.256
+margin_left = 5.0
+margin_top = 0.299999
+margin_right = 1.80002
+margin_bottom = -0.400009
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="name" type="Control" parent="CharacterList/Description"]
+anchor_right = 1.0
+anchor_bottom = 0.2
+margin_right = 3.05176e-05
+margin_bottom = 2.0
+
+[node name="left" type="Label" parent="CharacterList/Description/name" groups=[
+"description_labels",
+]]
+anchor_right = 0.203
+anchor_bottom = 1.0
+margin_right = -22.77
+custom_fonts/font = SubResource( 2 )
+text = "Name:"
+valign = 1
+max_lines_visible = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="right" type="Label" parent="CharacterList/Description/name" groups=[
+"description_labels",
+]]
+anchor_right = 0.178
+anchor_bottom = 1.0
+margin_left = 75.0
+margin_right = 26.4
+margin_bottom = -3.8147e-06
+custom_fonts/font = SubResource( 3 )
+valign = 1
+max_lines_visible = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="level" type="Control" parent="CharacterList/Description"]
+anchor_top = 0.242
+anchor_right = 1.0
+anchor_bottom = 0.452
+margin_top = -3.8147e-06
+margin_right = 3.05176e-05
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="left" type="Label" parent="CharacterList/Description/level" groups=[
+"description_labels",
+]]
+anchor_right = 0.188
+anchor_bottom = 1.0
+margin_right = -21.12
+margin_bottom = -3.8147e-06
+custom_fonts/font = SubResource( 3 )
+text = "Level:"
+valign = 1
+max_lines_visible = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="right" type="Label" parent="CharacterList/Description/level" groups=[
+"description_labels",
+]]
+anchor_right = 0.285
+anchor_bottom = 1.0
+margin_left = 70.0
+margin_right = -0.0500259
+margin_bottom = -7.62939e-06
+custom_fonts/font = SubResource( 3 )
+valign = 1
+max_lines_visible = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="class" type="Control" parent="CharacterList/Description"]
+anchor_top = 0.484
+anchor_right = 1.0
+anchor_bottom = 0.694
+margin_top = -7.62939e-06
+margin_right = 3.05176e-05
+margin_bottom = -1.52588e-05
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="left" type="Label" parent="CharacterList/Description/class" groups=[
+"description_labels",
+]]
+anchor_right = 0.203
+anchor_bottom = 1.0
+margin_right = -22.77
+custom_fonts/font = SubResource( 3 )
+text = "Class:"
+valign = 1
+max_lines_visible = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="right" type="Label" parent="CharacterList/Description/class" groups=[
+"description_labels",
+]]
+anchor_right = 0.491
+anchor_bottom = 1.0
+margin_left = 75.0
+margin_right = -55.11
+margin_bottom = 3.8147e-06
+custom_fonts/font = SubResource( 3 )
+valign = 1
+max_lines_visible = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="map" type="Control" parent="CharacterList/Description"]
+anchor_top = 0.726
+anchor_right = 1.0
+anchor_bottom = 0.936
+margin_bottom = -1.52588e-05
+
+[node name="left" type="Label" parent="CharacterList/Description/map" groups=[
+"description_labels",
+]]
+anchor_right = 1.25
+anchor_bottom = 1.05
+margin_bottom = -3.8147e-06
+custom_fonts/font = SubResource( 3 )
+text = "Map:"
+valign = 1
+max_lines_visible = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="right" type="Label" parent="CharacterList/Description/map" groups=[
+"description_labels",
+]]
+anchor_right = 4.55
+anchor_bottom = 1.0
+margin_left = 58.0
+margin_right = -1319.5
+margin_bottom = 2.00002
+custom_fonts/font = SubResource( 3 )
+valign = 1
+max_lines_visible = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSeparator" type="HSeparator" parent="CharacterList"]
+anchor_left = 0.025
+anchor_top = 0.267
+anchor_right = 0.975
+anchor_bottom = 0.267
+margin_top = -0.300018
+margin_right = 3.05176e-05
+margin_bottom = 3.69998
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CharaterList" type="Control" parent="CharacterList"]
+anchor_left = 0.087
+anchor_top = 0.294
+anchor_right = 0.912
+anchor_bottom = 0.961
+margin_left = 0.199997
+margin_top = 0.399994
+margin_right = 0.200012
+margin_bottom = 0.0999146
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CharacterList/CharaterList"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = 6.10352e-05
+follow_focus = true
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CharacterList/CharaterList/ScrollContainer"]
+margin_right = 318.0
+margin_bottom = 1073.0
+size_flags_horizontal = 15
+size_flags_vertical = 15
+custom_constants/separation = 66
+script = SubResource( 4 )
+char_name_path = NodePath("../../../Description/name/right")
+char_level_path = NodePath("../../../Description/level/right")
+char_class_path = NodePath("../../../Description/class/right")
+char_map_path = NodePath("../../../Description/map/right")
+description_path = NodePath("../../../Description")
+
+[node name="button1" type="Control" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer"]
+margin_right = 318.0
+margin_bottom = 1.0
+rect_min_size = Vector2( 1, 1 )
+
+[node name="Button" type="Button" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer/button1" groups=[
+"char_buttons",
+]]
+anchor_right = 1.0
+anchor_bottom = 40.0
+margin_right = 2.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+toggle_mode = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="button2" type="Control" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer"]
+margin_top = 67.0
+margin_right = 318.0
+margin_bottom = 68.0
+rect_min_size = Vector2( 1, 1 )
+
+[node name="Button" type="Button" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer/button2" groups=[
+"char_buttons",
+]]
+anchor_right = 1.0
+anchor_bottom = 40.0
+margin_right = 2.0
+toggle_mode = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="button3" type="Control" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer"]
+margin_top = 134.0
+margin_right = 318.0
+margin_bottom = 135.0
+rect_min_size = Vector2( 1, 1 )
+
+[node name="Button" type="Button" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer/button3" groups=[
+"char_buttons",
+]]
+anchor_right = 1.0
+anchor_bottom = 40.0
+margin_right = 2.0
+toggle_mode = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="button4" type="Control" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer"]
+margin_top = 201.0
+margin_right = 318.0
+margin_bottom = 202.0
+rect_min_size = Vector2( 1, 1 )
+
+[node name="Button" type="Button" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer/button4" groups=[
+"char_buttons",
+]]
+anchor_right = 1.0
+anchor_bottom = 40.0
+toggle_mode = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="button5" type="Control" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer"]
+margin_top = 268.0
+margin_right = 318.0
+margin_bottom = 269.0
+rect_min_size = Vector2( 1, 1 )
+
+[node name="Button" type="Button" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer/button5" groups=[
+"char_buttons",
+]]
+anchor_right = 1.0
+anchor_bottom = 40.0
+margin_right = 2.0
+toggle_mode = true
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="button6" type="Control" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer"]
+margin_top = 335.0
+margin_right = 318.0
+margin_bottom = 336.0
+rect_min_size = Vector2( 1, 1 )
+
+[node name="Button" type="Button" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer/button6" groups=[
+"char_buttons",
+]]
+anchor_right = 1.0
+anchor_bottom = 40.0
+toggle_mode = true
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="button7" type="Control" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer"]
+margin_top = 402.0
+margin_right = 318.0
+margin_bottom = 403.0
+rect_min_size = Vector2( 1, 1 )
+
+[node name="Button" type="Button" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer/button7" groups=[
+"char_buttons",
+]]
+anchor_right = 1.0
+anchor_bottom = 40.0
+toggle_mode = true
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="button8" type="Control" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer"]
+margin_top = 469.0
+margin_right = 318.0
+margin_bottom = 470.0
+rect_min_size = Vector2( 1, 1 )
+
+[node name="Button" type="Button" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer/button8" groups=[
+"char_buttons",
+]]
+anchor_right = 1.0
+anchor_bottom = 40.0
+toggle_mode = true
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="button9" type="Control" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer"]
+margin_top = 536.0
+margin_right = 318.0
+margin_bottom = 537.0
+rect_min_size = Vector2( 1, 1 )
+
+[node name="Button" type="Button" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer/button9" groups=[
+"char_buttons",
+]]
+anchor_right = 1.0
+anchor_bottom = 40.0
+toggle_mode = true
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="button10" type="Control" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer"]
+margin_top = 603.0
+margin_right = 318.0
+margin_bottom = 604.0
+rect_min_size = Vector2( 1, 1 )
+
+[node name="Button" type="Button" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer/button10" groups=[
+"char_buttons",
+]]
+anchor_right = 1.0
+anchor_bottom = 40.0
+toggle_mode = true
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="button11" type="Control" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer"]
+margin_top = 670.0
+margin_right = 318.0
+margin_bottom = 671.0
+rect_min_size = Vector2( 1, 1 )
+
+[node name="Button" type="Button" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer/button11" groups=[
+"char_buttons",
+]]
+anchor_right = 1.0
+anchor_bottom = 40.0
+toggle_mode = true
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="button12" type="Control" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer"]
+margin_top = 737.0
+margin_right = 318.0
+margin_bottom = 738.0
+rect_min_size = Vector2( 1, 1 )
+
+[node name="Button" type="Button" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer/button12" groups=[
+"char_buttons",
+]]
+anchor_right = 1.0
+anchor_bottom = 40.0
+toggle_mode = true
+__meta__ = {
+"_edit_use_anchors_": true,
+"_editor_description_": ""
+}
+
+[node name="button13" type="Control" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer"]
+margin_top = 804.0
+margin_right = 318.0
+margin_bottom = 805.0
+rect_min_size = Vector2( 1, 1 )
+
+[node name="Button" type="Button" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer/button13" groups=[
+"char_buttons",
+]]
+anchor_right = 1.0
+anchor_bottom = 40.0
+toggle_mode = true
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="button14" type="Control" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer"]
+margin_top = 871.0
+margin_right = 318.0
+margin_bottom = 872.0
+rect_min_size = Vector2( 1, 1 )
+
+[node name="Button" type="Button" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer/button14" groups=[
+"char_buttons",
+]]
+anchor_right = 1.0
+anchor_bottom = 40.0
+toggle_mode = true
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="button15" type="Control" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer"]
+margin_top = 938.0
+margin_right = 318.0
+margin_bottom = 939.0
+rect_min_size = Vector2( 1, 1 )
+
+[node name="Button" type="Button" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer/button15" groups=[
+"char_buttons",
+]]
+anchor_right = 1.0
+anchor_bottom = 40.0
+toggle_mode = true
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="button16" type="Control" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer"]
+margin_top = 1005.0
+margin_right = 318.0
+margin_bottom = 1006.0
+rect_min_size = Vector2( 1, 1 )
+
+[node name="Button" type="Button" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer/button16" groups=[
+"char_buttons",
+]]
+anchor_right = 1.0
+anchor_bottom = 40.0
+toggle_mode = true
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="Control17" type="Control" parent="CharacterList/CharaterList/ScrollContainer/VBoxContainer"]
+margin_top = 1072.0
+margin_right = 318.0
+margin_bottom = 1073.0
+rect_min_size = Vector2( 1, 1 )
+
+[node name="Button" type="Button" parent="."]
+margin_left = 885.0
+margin_top = 900.0
+margin_right = 1035.0
+margin_bottom = 950.0
+disabled = true
+text = "ENTER"
+[connection signal="gui_input" from="." to="." method="_on_Control_gui_input"]
+[connection signal="pressed" from="Button" to="CharacterList/CharaterList/ScrollContainer/VBoxContainer" method="_on_Button_pressed"]

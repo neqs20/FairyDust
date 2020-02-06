@@ -35,8 +35,6 @@ func _ready():
 func _notification(what):
 	if what == 11:
 		current_log_file.close()
-		if logger_thread.is_active():
-			logger_thread.wait_to_finish()
 		
 
 
@@ -127,12 +125,14 @@ func load_log_files(_data) -> void:
 	if log_files_list.size() > MAX_LOG_FILES:
 		log_files_list.sort()
 		delete_old_log_files()
+	logger_thread.wait_to_finish()
 
 
 func delete_old_log_files() -> void:
 	for _i in range(log_files_list.size() - MAX_LOG_FILES):
 		remove_file(log_files_list[0])
 		log_files_list.pop_front()
+	
 
 
 func remove_file(name := "") -> void:
