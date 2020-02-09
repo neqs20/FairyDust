@@ -13,14 +13,13 @@
 script/source = "extends Control
 
 
-
 var is_login_empty = false
 
 func _ready():
 	grab_focus()
 	is_login_empty = $credentials_window/login.get_text().empty()
 
-func _process(delta):
+func _process(_delta):
 	while not Log.output.empty():
 		print(Log.output.pop_front())
 
