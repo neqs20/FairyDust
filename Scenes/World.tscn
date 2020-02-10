@@ -2,7 +2,8 @@
 
 [ext_resource path="res://Assets/3D/Terrain/low-poly-terrain.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/PlayerController.gd" type="Script" id=2]
-[ext_resource path="res://Scenes/CameraController.gd" type="Script" id=3]
+[ext_resource path="res://Scripts/CameraController.gd" type="Script" id=3]
+
 
 [sub_resource type="PrismMesh" id=1]
 size = Vector3( 0.1, 0.1, 0.1 )
