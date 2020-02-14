@@ -21,13 +21,13 @@ func _ready():
 	anim.play(\"fade\")
 
 
-func _process(_delta):
-	while not Log.output.empty():
-		print(Log.output.pop_front())
+#func _process(_delta):
+#	while not Log.output.empty():
+#		print(Log.output.pop_front())
 
 
-func _on_quit_pressed():
-	App.quit()
+#func _on_quit_pressed():
+#	App.quit()
 
 "
 
@@ -84,6 +84,8 @@ onready var login = $\"../login\"
 onready var password = $\"../password\"
 onready var dialog : AcceptDialog = $\"../dialog\"
 
+
+\"\"\"
 func _on_enter_pressed():
 	if not login.get_text().empty() and not password.get_text().empty():
 		if Network.connected:
@@ -97,7 +99,7 @@ func _on_enter_pressed():
 				Log.error(\"Could not connect sginal to dialog error code: {0}\", [error])
 			dialog.popup_centered(Vector2(300, 150))
 			Network.setup_client()
-
+\"\"\"
 
 func dialog_window_hide():
 	get_tree().set_pause(false)

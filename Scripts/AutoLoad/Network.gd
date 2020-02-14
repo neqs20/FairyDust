@@ -20,16 +20,16 @@ func _ready():
 
 func disconnected():
 	#kick to login screen with error popup server disconnected (is this triggered when client's net connection dies too?)
-	Log.info("disconnected")
+	#Log.info("disconnected")
 	connected = false
 
 
 func connect_failed():
-	Log.info("failed")
+	#Log.info("failed")
 	connected = false
 
 func connected_to_server():
-	Log.info("connected")
+	#Log.info("connected")
 	connected = true
 
 
@@ -44,7 +44,7 @@ func on_server_packet(_channel, packet):
 				popup("Error", "Unknown username or password")
 			elif status == 1:
 				var error = get_tree().change_scene("res://CharacterScreen.tscn")
-				Log.error("Could not change scene error code: {0}", [error])
+	#			Log.error("Could not change scene error code: {0}", [error])
 			else:
 				popup("Error", "Something went wrong. Please contact server administrator!")
 		PacketType.CHARACTERS_INFO:
@@ -129,3 +129,8 @@ func setup_client():
 		client_error = client_peer.create_client("192.168.100.100", 4666, 16)
 		client.set_network_peer(client_peer)
 		add_child(client)
+
+
+func _exit_tree():
+	client.free()
+	window.free()

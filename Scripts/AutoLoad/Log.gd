@@ -11,13 +11,14 @@ var d_regex = RegEx.new()
 var current_log_path
 var current_log_file
 var log_files_list = []
-var logger_thread := Thread.new()
+var logger_thread
 
 enum TYPE { DEBUG, INFO, WARNING, ERROR, NONE }
 
 var output = []
 
 func _init():
+	logger_thread = Thread.new()
 	create_file()
 	d_regex.compile(date_regex)
 
@@ -101,9 +102,12 @@ func create_file():
 			current_log_file.seek_end()
 			print("Opening file ", current_log_path)
 		else:
+			var dir = Directory.new()
+			if not dir.dir_exists(path):
+				dir.make_dir(path)
 			current_log_file.open(current_log_path, File.WRITE_READ)
 			print("Server log file does not exist. Creating...")
-
+		
 
 
 func store(line) -> void:
@@ -125,7 +129,7 @@ func load_log_files(_data) -> void:
 	if log_files_list.size() > MAX_LOG_FILES:
 		log_files_list.sort()
 		delete_old_log_files()
-	logger_thread.wait_to_finish()
+	
 
 
 func delete_old_log_files() -> void:
@@ -147,3 +151,9 @@ func remove_file(name := "") -> void:
 				error("Could not delete file '{0}'. It either doesn't exist or access is denied", [path + name])
 			_:
 				error("Unexpected error occured while deleting oldest log file '{0}'", [path + name])
+
+
+func _exit_tree():
+	logger_thread.wait_to_finish()
+	
+

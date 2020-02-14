@@ -1,10 +1,11 @@
 extends TextureButton
 
+var label = Label.new()
+
 func _ready():
 	connect("button_down", self, "_on_enter_button_down")
 	connect("button_up", self, "_on_enter_button_up")
 	if not has_node("text"):
-		var label = Label.new()
 		label.set_name("text")
 		label.set_text("Default Text")
 		label.set_size(get_size())
@@ -17,3 +18,6 @@ func _on_enter_button_up():
 
 func _on_enter_button_down():
 	$text.set_position(Vector2(1,1))
+
+func _exit_tree():
+	label.free()

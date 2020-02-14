@@ -21,13 +21,13 @@ config/icon="res://icon.png"
 
 [autoload]
 
-App="*res://Scripts/AutoLoad/App.gd"
 Log="*res://Scripts/AutoLoad/Log.gd"
 Network="*res://Scripts/AutoLoad/Network.gd"
 Globals="*res://Scripts/AutoLoad/Globals.gd"
 
 [debug]
 
+settings/stdout/verbose_stdout=true
 gdscript/warnings/integer_division=false
 
 [display]
