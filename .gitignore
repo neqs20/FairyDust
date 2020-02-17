@@ -1,3 +1,5 @@
 Export/
-
+.import/
 !.vscode/
+
+*.import

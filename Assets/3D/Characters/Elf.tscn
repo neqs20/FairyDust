@@ -6,15 +6,10 @@
 script/source = "extends Spatial
 
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = \"text\"
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	$AnimationPlayer.connect(\"animation_finished\", self, \"anim_finish\")
 	$AnimationPlayer.play(\"Idle\")
+
 
 func anim_finish(name):
 	$AnimationPlayer.play(\"Idle\")

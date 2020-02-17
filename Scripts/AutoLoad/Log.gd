@@ -1,53 +1,45 @@
 extends Node
 
+enum TYPE { DEBUG, INFO, WARNING, ERROR, NONE }
+
 const date_regex = "^log(\\d{4})(-)((0)[1-9]|(1)[0-2])(-)((0)[1-9]|[1-2][0-9]|(3)[0-1])(\\.txt)$" 
-const path = "user://logs/"
+const folder_path = "user://logs/"
 const MAX_LOG_FILES = 10
 
 var log_level = TYPE.DEBUG
-
 var d_regex = RegEx.new()
 
 var current_log_path
-var current_log_file
-var log_files_list = []
+var log_file
 var logger_thread
-
-enum TYPE { DEBUG, INFO, WARNING, ERROR, NONE }
 
 var output = []
 
-func _init():
-	logger_thread = Thread.new()
+
+func _init() -> void:
 	create_file()
+	logger_thread = Thread.new()
+
 	d_regex.compile(date_regex)
 
-
-
-func _ready():
-	var error = logger_thread.start(self, "load_log_files")
-	match error:
-		ERR_CANT_CREATE:
-			error("Cannnot create thread")
+func _ready() -> void:
+	match logger_thread.start(self, "load_log_files"):
 		OK:
 			info("A worker thread has started for Server Logger")
+		ERR_CANT_CREATE:
+			error("Cannnot create thread")
 
-
-func _notification(what):
+func _notification(what) -> void:
 	if what == 11:
-		current_log_file.close()
-		
-
+		log_file.close()
 
 func get_time() -> String:
 	var date = OS.get_datetime()
 	return "[" + str(date["hour"]) + ":" + str(date["minute"]) + ":" + str(date["second"]) + "]"
 
-
-func print_raw(message : String):
+func printout(message : String) -> void:
 	output.append(message)
 	store(message)
-
 
 func out(level : int, format_string : String, args := []) -> void:
 	match level:
@@ -60,100 +52,84 @@ func out(level : int, format_string : String, args := []) -> void:
 		TYPE.ERROR, _:
 			error(format_string, args)
 
-
-
 func info(format_string := "", args := []) -> void:
 	var line = get_time() + " [CLIENT][INFO]: " + format_string.format(args, "{_}")
 	if log_level <= TYPE.INFO:
-		output.append(line)
-		store(line)
-
+		printout(line)
 
 func debug(format_string := "", args := []) -> void:
 	var line = get_time() + " [CLIENT][DEBUG]: " + format_string.format(args, "{_}")
 	if log_level <= TYPE.DEBUG:
-		output.append(line)
-		store(line)
-
+		printout(line)
 
 func warn(format_string := "", args := []) -> void:
 	var line = get_time() + " [CLIENT][WARNING]: " + format_string.format(args, "{_}")
 	if log_level <= TYPE.WARNING:
-		output.append(line)
-		store(line)
-
+		printout(line)
 
 func error(format_string := "", args := []) -> void:
 	var line = get_time() + " [CLIENT][ERROR]: " + format_string.format(args, "{_}")
 	if log_level <= TYPE.ERROR:
-		output.append(line)
-		store(line)
+		printout(line)
 
-func create_file():
-	if current_log_file == null:
+func create_file() -> void:
+	if log_file == null:
+		log_file  = File.new()
+
 		var date = OS.get_datetime()
 		var day = str(date["day"]) if date["day"] >= 10 else "0" + str(date["day"])
 		var month = str(date["month"]) if date["month"] >= 10 else "0" + str(date["month"])
-		var year = str(date["year"])
-		current_log_path  = path + "log" + year + "-" + month + "-" + day + ".txt"
-		current_log_file  = File.new()
-		if current_log_file.file_exists(current_log_path):
-			current_log_file.open(current_log_path, File.READ_WRITE)
-			current_log_file.seek_end()
-			print("Opening file ", current_log_path)
+
+		current_log_path  = folder_path + "log" + str(date["year"]) + "-" + month + "-" + day + ".txt"
+
+		if log_file.file_exists(current_log_path):
+			log_file.open(current_log_path, File.READ_WRITE)
+			log_file.seek_end()
 		else:
 			var dir = Directory.new()
-			if not dir.dir_exists(path):
-				dir.make_dir(path)
-			current_log_file.open(current_log_path, File.WRITE_READ)
-			print("Server log file does not exist. Creating...")
-		
+			if not dir.dir_exists(folder_path):
+				dir.make_dir(folder_path)
 
+			log_file.open(current_log_path, File.WRITE_READ)
 
-func store(line) -> void:
-	if not line.empty():
-		current_log_file.store_line(line)
-
+func store(line : String) -> void:
+	if not line.empty() and not log_file == null:
+		log_file.store_line(line)
 
 func load_log_files(_data) -> void:
 	var dir = Directory.new()
-	dir.open(path)
+	dir.open(folder_path)
 	dir.list_dir_begin(true, true)
 
+	var log_files_list = []
+	var file
 	while true:
-		var file = dir.get_next()
+		file = dir.get_next()
 		if file == "":
-			break
+			break # continue
 		if d_regex.search(file):
 			log_files_list.append(file)
 	if log_files_list.size() > MAX_LOG_FILES:
 		log_files_list.sort()
-		delete_old_log_files()
-	
+		delete_old_log_files(log_files_list)
 
+func delete_old_log_files(list : Array) -> void:
+	var to_delete = list.slice(MAX_LOG_FILES, list.size() - 1)
 
-func delete_old_log_files() -> void:
-	for _i in range(log_files_list.size() - MAX_LOG_FILES):
-		remove_file(log_files_list[0])
-		log_files_list.pop_front()
-	
+	var dir = Directory.new()
 
-
-func remove_file(name := "") -> void:
-	if name != "":
-		var dir = Directory.new()
-		dir.open(path)
-		var error = dir.remove(name) 
-		match error:
-			OK:
-				info("Successfully deleted file '{0}'", [path + name])
-			FAILED:
-				error("Could not delete file '{0}'. It either doesn't exist or access is denied", [path + name])
+	for file in to_delete:
+		match dir.open(folder_path):
 			_:
-				error("Unexpected error occured while deleting oldest log file '{0}'", [path + name])
+				error("Could not open folder '{0}'", [ folder_path ])
+		match dir.remove(file):
+			OK:
+				info("Successfully deleted file '{0}'", [ folder_path + file ])
+			FAILED:
+				error("Could not delete file '{0}'. It either doesn't exist or access is denied", [ folder_path + file ])
+			_:
+				error("Unexpected error occured while deleting oldest log file '{0}'", [ folder_path + file ])
+		to_delete.pop_front()
 
-
-func _exit_tree():
+func _exit_tree() -> void:
 	logger_thread.wait_to_finish()
-	
-
