@@ -1,0 +1,80 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://LoginScreen/Scripts/LoginWindowManager.gd" type="Script" id=1]
+
+[node name="LoginScreen" type="Control"]
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LoginWindow" type="VBoxContainer" parent="."]
+margin_left = 860.0
+margin_top = 800.0
+margin_right = 1060.0
+margin_bottom = 922.0
+custom_constants/separation = 10
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Login" type="LineEdit" parent="LoginWindow"]
+margin_right = 200.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 0, 28 )
+focus_next = NodePath("../Password")
+focus_previous = NodePath("../Buttons/Quit")
+align = 1
+max_length = 16
+placeholder_text = "LOGIN"
+caret_blink = true
+
+[node name="Password" type="LineEdit" parent="LoginWindow"]
+margin_top = 38.0
+margin_right = 200.0
+margin_bottom = 66.0
+rect_min_size = Vector2( 0, 28 )
+focus_next = NodePath("../SaveId")
+focus_previous = NodePath("../Login")
+align = 1
+max_length = 16
+secret = true
+placeholder_text = "PASSWORD"
+caret_blink = true
+
+[node name="SaveId" type="CheckBox" parent="LoginWindow"]
+margin_top = 76.0
+margin_right = 74.0
+margin_bottom = 100.0
+size_flags_horizontal = 0
+text = "Save Id"
+
+[node name="Buttons" type="HBoxContainer" parent="LoginWindow"]
+margin_top = 110.0
+margin_right = 200.0
+margin_bottom = 138.0
+
+[node name="Enter" type="Button" parent="LoginWindow/Buttons"]
+margin_right = 98.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 0, 28 )
+focus_next = NodePath("../Quit")
+focus_previous = NodePath("../../SaveId")
+size_flags_horizontal = 3
+disabled = true
+text = "ENTER"
+
+[node name="Quit" type="Button" parent="LoginWindow/Buttons"]
+margin_left = 102.0
+margin_right = 200.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 0, 28 )
+focus_next = NodePath("../../Login")
+focus_previous = NodePath("../Enter")
+size_flags_horizontal = 3
+text = "QUIT"
+[connection signal="text_changed" from="LoginWindow/Login" to="LoginWindow" method="_on_Login_and_Password_text_changed"]
+[connection signal="text_changed" from="LoginWindow/Password" to="LoginWindow" method="_on_Login_and_Password_text_changed"]
+[connection signal="text_entered" from="LoginWindow/Password" to="LoginWindow" method="_on_Password_text_entered"]
+[connection signal="pressed" from="LoginWindow/Buttons/Enter" to="LoginWindow" method="_on_Enter_pressed"]
+[connection signal="pressed" from="LoginWindow/Buttons/Quit" to="LoginWindow" method="_on_Quit_pressed"]
