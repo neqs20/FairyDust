@@ -1,0 +1,58 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Reference",
+"class": "Errors",
+"language": "GDScript",
+"path": "res://Global/Scripts/Errors.gd"
+}, {
+"base": "Reference",
+"class": "Packet",
+"language": "GDScript",
+"path": "res://Global/Scripts/Packet.gd"
+} ]
+_global_script_class_icons={
+"Errors": "",
+"Packet": ""
+}
+
+[application]
+
+config/name="FairyDust"
+run/main_scene="res://LoginScreen/LoginScreen.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+Logger="*res://Global/Scripts/AutoLoad/Logger.gd"
+Config="*res://Global/Scripts/AutoLoad/Config.gd"
+SceneChanger="*res://Global/Scripts/AutoLoad/SceneChanger/SceneChanger.tscn"
+Utils="*res://Global/Scripts/AutoLoad/Utils.gd"
+Network="*res://Global/Scripts/AutoLoad/Network.gd"
+Data="*res://Global/Scripts/AutoLoad/Data.gd"
+
+[debug]
+
+settings/stdout/verbose_stdout=true
+
+[display]
+
+window/size/width=1920
+window/size/height=1080
+window/size/fullscreen=true
+
+[editor_plugins]
+
+enabled=PoolStringArray(  )
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"
