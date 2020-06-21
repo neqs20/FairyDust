@@ -1,5 +1,7 @@
-Export/
-.import/
+.vscode/
 
-export_presets.cfg
-*.import
+.import/
+Export/
+
+
+**/*.import

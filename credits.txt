@@ -1,4 +1,4 @@
 Huge thanks to:
 
-- Joe Tossey: for supplying the model for Warrior (Global/Assets/Warrior/Warrior.tscn)
-- Maciek Krol: for supplying the model for Canyon (World/Tadderia/Assets/Canyon/Canyon.tscn)
+- Joe Tossey: for supplying the model of Warrior (Global/Assets/Warrior/Warrior.tscn)
+- Maciek Krol: for supplying the model of Canyon (World/Tadderia/Assets/Canyon/Canyon.tscn)
