@@ -38,6 +38,7 @@ func _enter_tree() -> void:
 
 remote func on_server_packet(packet) -> void:
 	latency = int((OS.get_ticks_usec() - start) / 1000.0)
+	"""
 	if packet.length() < Packet.LENGTH: return
 	
 	match packet.lcut(Packet.LENGTH):
@@ -57,7 +58,7 @@ remote func on_server_packet(packet) -> void:
 			var p_class = get_int(packet.lcut(1))
 			
 			var name = packet
-
+	"""
 func send(packet) -> void:
 	start = OS.get_ticks_usec()
 	rpc_id(1, FUNC, id, packet)

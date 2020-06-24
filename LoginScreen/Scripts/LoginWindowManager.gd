@@ -28,7 +28,7 @@ func _on_Login_and_Password_text_changed(_new_text) -> void:
 	EnterButton.disabled = not (Login.text.length() >= _MINIMUM_LENGTH and Password.text.length() >= _MINIMUM_LENGTH)
 
 func _on_Enter_pressed() -> void:
-	Network.send(Packet.LOGIN + hex(Login.text.length(), 2) + Login.text + Password.text.sha256_text());
+	Network.send(serialized());
 
 func _on_Quit_pressed() -> void:
 	if SaveId.pressed:
@@ -40,3 +40,5 @@ func _exit_tree() -> void:
 	if Network.is_logged_in:
 		Network.send(Packet.BASIC_CHAR_DATA)
 
+func serialized() -> Dictionary:
+	return {"type" : Packet.LOGIN, "login" : Login.text, "password" : Password.text.sha256_text()}
