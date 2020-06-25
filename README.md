@@ -1,4 +1,4 @@
-[![Fairy Dust logo](/Global/Assets/icon/fairy_dust_icon.png)](https://discord.gg/7PVQxmr)
+[![Fairy Dust logo](/fairy_dust_icon.png)](https://discord.gg/7PVQxmr)
 ## FairyDust Client
 
 Homepage: N/A  
