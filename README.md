@@ -14,9 +14,6 @@ It made my life great again.
 
 ### How to play it ?
 
-Note: Keep in mind that this is multiplayer game and it requires a dedicated server.
-[You can find it here](https://github.com/HazmatDemon/fairy-dust-server)
-
 ### Binary
 
 You can find exported game on this [Realeses](https://github.com/HazmatDemon/fairy-dust-client/releases) page.
@@ -27,3 +24,5 @@ You can also clone this repository and export it, but you have to use my custom 
 It contains a few tools that were essential to me (Discord Game SDK, SQLite). 
 You will find more details once you visit this [site](https://github.com/HazmatDemon/godot).
 
+Note: Keep in mind that this is multiplayer game and it requires a dedicated server.
+[You can find it here](https://github.com/HazmatDemon/fairy-dust-server)
