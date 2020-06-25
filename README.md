@@ -1,7 +1,7 @@
-[![Fairy Dust logo](/Global/Assets/icon/fairy_dust_icon.png)]()
+[![Fairy Dust logo](/Global/Assets/icon/fairy_dust_icon.png)](https://discord.gg/7PVQxmr)
 ## FairyDust Client
 
-Homepage: N/A
+Homepage: N/A  
 Discord: https://discord.gg/7PVQxmr
 
 #### An MMORPG game in early development stage.
