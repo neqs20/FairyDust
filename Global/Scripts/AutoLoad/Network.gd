@@ -3,7 +3,7 @@ extends Node
 var client : NetworkedMultiplayerENet = NetworkedMultiplayerENet.new()
 var discord : DiscordSDK = DiscordSDK.new()
 
-const SIGNALS = {
+const SIGNALS : Dictionary = {
 	"connected_to_server" : "connected",
 	"connection_failed" : "failed",
 	"server_disconnected" : "disconnected"
@@ -36,9 +36,8 @@ func _enter_tree() -> void:
 	discord.create(698985862419054602, DiscordSDK.NO_REQUIRE_DISCORD)
 	add_child(discord)
 
-remote func on_server_packet(packet) -> void:
+remote func on_server_packet(packet : String) -> void:
 	latency = int((OS.get_ticks_usec() - start) / 1000.0)
-	"""
 	if packet.length() < Packet.LENGTH: return
 	
 	match packet.lcut(Packet.LENGTH):
@@ -58,8 +57,8 @@ remote func on_server_packet(packet) -> void:
 			var p_class = get_int(packet.lcut(1))
 			
 			var name = packet
-	"""
-func send(packet) -> void:
+
+func send(packet : String) -> void:
 	start = OS.get_ticks_usec()
 	rpc_id(1, FUNC, id, packet)
 
@@ -79,11 +78,11 @@ func reset_client() -> void:
 
 func try_change_scene(value : bool) -> void:
 	if value:
-		Logger.warn(Errors.WRONG_USERNAME_OR_PASSWORD)
-		Utils.pop_up("Info!", "Wrong username or password. Please try again.")
+		Logger.info(Errors.FAILED_LOGIN_ATTEMPT)
+		Utils.pop_up("Info!", Errors.WRONG_USERNAME_OR_PASSWORD)
 		return
 	is_logged_in = true
-	SceneChanger.fade_in_and_change("res://CharacterSelection/CharacterSelection.tscn")
+	SceneChanger.fade_in_and_change(SceneChanger.scenes["CharacterSelection"])
 
 func process_char_data(map : int, level : int, class_ : int, name : String) -> void:
 	if get_tree().current_scene.name == "CharacterSelection" and connected:
@@ -102,7 +101,7 @@ func set_details(line : String) -> void:
 	discord.set_details(line)
 	discord.update_activity()
 
-func _exit_tree():
+func _exit_tree() -> void:
 	Config.set_ip(ip)
 	Config.set_port(port)
 	discord.queue_free()

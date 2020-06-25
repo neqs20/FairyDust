@@ -24,7 +24,6 @@ func set_value(section : String, key : String, value) -> void:
 	if is_loaded:
 		config.set_value(section, key, value)
 
-
 func get_resolution() -> Vector2:
 	return get_value("GRAPHICS", "resolution", Vector2(0,0))
 

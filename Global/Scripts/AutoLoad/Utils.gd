@@ -18,7 +18,6 @@ func pop_up(title : String, message : String, size := Vector2(200, 100), node : 
 				dialog.connect("confirmed", node, callback)
 			if node.get_children().find(dialog) == -1:
 				node.add_child(dialog)
-	Logger.info(message)
 	get_tree().set_pause(true)
 	dialog.popup_centered(size)
 

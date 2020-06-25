@@ -1,11 +1,15 @@
 extends CanvasLayer
 
+const scenes : Dictionary = {
+	"CharacterSelection" : "res://CharacterSelection/CharacterSelection.tscn"
+}
+
 onready var animation = $Animation
 
 func change_to(path : String) -> void:
 	animation.play("fade_effect")
 	yield(animation, "animation_finished")
-	assert(get_tree().change_scene(path) == OK)
+	get_tree().change_scene(path)
 	animation.play_backwards("fade_effect")
 	yield(animation, "animation_finished")
 
@@ -13,7 +17,7 @@ func change_to(path : String) -> void:
 func fade_in_and_change(path : String) -> void:
 	animation.play("fade_effect")
 	yield(animation, "animation_finished")
-	assert(get_tree().change_scene(path) == OK)
+	get_tree().change_scene(path)
 
 func fade_out() -> void:
 	animation.play_backwards("fade_effect")
