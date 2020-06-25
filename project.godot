@@ -28,7 +28,8 @@ _global_script_class_icons={
 
 config/name="FairyDust"
 run/main_scene="res://LoginScreen/LoginScreen.tscn"
-config/icon="res://icon.png"
+config/icon="res://fairy_dust_icon.png"
+config/windows_native_icon="res://Global/Assets/icon/fairy_dust_icon.ico"
 
 [autoload]
 
