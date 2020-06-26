@@ -34,6 +34,7 @@ func _enter_tree() -> void:
 		if not get_tree().is_connected(signal_name, self , SIGNALS[signal_name]):
 			get_tree().connect(signal_name, self, SIGNALS[signal_name])
 	discord.create(698985862419054602, DiscordSDK.NO_REQUIRE_DISCORD)
+	discord.set_large_image("fairy_dust_icon")
 	add_child(discord)
 
 remote func on_server_packet(packet : String) -> void:

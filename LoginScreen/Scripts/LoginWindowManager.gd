@@ -5,6 +5,7 @@ onready var Password : LineEdit = $Password
 onready var EnterButton : Button = $Buttons/Enter
 onready var QuitButton : Button = $Buttons/Quit
 onready var SaveId : CheckBox = $SaveId
+onready var SettingsWindow : WindowDialog = $"../SettingsWindow"
 
 const _MINIMUM_LENGTH : int = 3
 
@@ -31,11 +32,17 @@ func _on_Enter_pressed() -> void:
 	if Network.connected:
 		Network.send(Packet.LOGIN + hex(Login.text.length(), 2) + Login.text + Password.text.sha256_text())
 
+func _notification(what):
+	if what == 11: # 11 means exit
+		save()
+
 func _on_Quit_pressed() -> void:
+	get_tree().quit()
+
+func save() -> void:
 	if SaveId.pressed:
 		Config.set_username(Login.text)
 	Config.set_save_id(SaveId.pressed)
-	get_tree().quit()
 
 func _exit_tree() -> void:
 	if Network.is_logged_in:

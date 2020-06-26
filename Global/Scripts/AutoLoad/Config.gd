@@ -66,5 +66,12 @@ func set_port(value : int) -> void:
 	set_value("NETWORK", "port", value)
 
 
+func get_mouse_sensitivity() -> float:
+	return get_value("INPUT", "mouse_sensitivity", 5)
+
+func set_mouse_sensitivity(value : float) -> void:
+	set_value("INPUT", "mouse_sensitivity", value)
+
+
 func _exit_tree():
 	config.save(PATH)

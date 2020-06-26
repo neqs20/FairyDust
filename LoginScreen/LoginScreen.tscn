@@ -1,21 +1,26 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://LoginScreen/Scripts/LoginWindowManager.gd" type="Script" id=1]
+[ext_resource path="res://LoginScreen/Scripts/MainWindowManager.gd" type="Script" id=2]
+[ext_resource path="res://LoginScreen/Scripts/TabsManager.gd" type="Script" id=4]
 
 [node name="LoginScreen" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="LoginWindow" type="VBoxContainer" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 860.0
-margin_top = 800.0
-margin_right = -860.0
-margin_bottom = -158.0
+anchor_left = 0.448
+anchor_top = 0.741
+anchor_right = 0.552
+anchor_bottom = 0.869
+margin_left = -0.160034
+margin_top = -0.28009
+margin_right = 0.159912
+margin_bottom = -16.52
 custom_constants/separation = 10
 script = ExtResource( 1 )
 __meta__ = {
@@ -23,7 +28,7 @@ __meta__ = {
 }
 
 [node name="Login" type="LineEdit" parent="LoginWindow"]
-margin_right = 200.0
+margin_right = 199.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 0, 28 )
 focus_next = NodePath("../Password")
@@ -35,7 +40,7 @@ caret_blink = true
 
 [node name="Password" type="LineEdit" parent="LoginWindow"]
 margin_top = 38.0
-margin_right = 200.0
+margin_right = 199.0
 margin_bottom = 66.0
 rect_min_size = Vector2( 0, 28 )
 focus_next = NodePath("../SaveId")
@@ -55,11 +60,11 @@ text = "Save Id"
 
 [node name="Buttons" type="HBoxContainer" parent="LoginWindow"]
 margin_top = 110.0
-margin_right = 200.0
+margin_right = 199.0
 margin_bottom = 138.0
 
 [node name="Enter" type="Button" parent="LoginWindow/Buttons"]
-margin_right = 98.0
+margin_right = 97.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 0, 28 )
 focus_next = NodePath("../Quit")
@@ -69,16 +74,270 @@ disabled = true
 text = "ENTER"
 
 [node name="Quit" type="Button" parent="LoginWindow/Buttons"]
-margin_left = 102.0
-margin_right = 200.0
+margin_left = 101.0
+margin_right = 199.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 0, 28 )
 focus_next = NodePath("../../Login")
 focus_previous = NodePath("../Enter")
 size_flags_horizontal = 3
 text = "QUIT"
+
+[node name="Settings" type="Button" parent="."]
+anchor_left = 0.033
+anchor_top = 0.921
+anchor_right = 0.083
+anchor_bottom = 0.947
+margin_left = 0.639999
+margin_top = 0.320007
+margin_right = 2.63998
+margin_bottom = 0.240051
+text = "Settings"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SettingsWindow" type="WindowDialog" parent="."]
+visible = true
+anchor_left = 0.008
+anchor_right = 0.242
+anchor_bottom = 0.532
+margin_left = -0.36
+margin_top = 25.0
+margin_right = 0.360016
+margin_bottom = 0.440002
+rect_min_size = Vector2( 350, 450 )
+window_title = "Settings"
+resizable = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SettingsTabs" type="TabContainer" parent="SettingsWindow"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Graphic" type="VBoxContainer" parent="SettingsWindow/SettingsTabs"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="Sound" type="VBoxContainer" parent="SettingsWindow/SettingsTabs"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="Input" type="VBoxContainer" parent="SettingsWindow/SettingsTabs"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+custom_constants/separation = 15
+
+[node name="Control" type="VBoxContainer" parent="SettingsWindow/SettingsTabs/Input"]
+margin_right = 442.0
+margin_bottom = 42.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="SettingsWindow/SettingsTabs/Input/Control"]
+margin_right = 442.0
+margin_bottom = 14.0
+text = "Control"
+align = 1
+valign = 1
+
+[node name="MouseSensitivity" type="HBoxContainer" parent="SettingsWindow/SettingsTabs/Input/Control"]
+margin_top = 18.0
+margin_right = 442.0
+margin_bottom = 42.0
+alignment = 2
+
+[node name="Label" type="Label" parent="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity"]
+margin_top = 5.0
+margin_right = 219.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+text = "Mouse Sensitivity"
+align = 1
+valign = 1
+
+[node name="Input" type="HBoxContainer" parent="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity"]
+margin_left = 223.0
+margin_right = 442.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Slider" type="HSlider" parent="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity/Input"]
+margin_top = 4.0
+margin_right = 157.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 10.0
+step = 0.1
+tick_count = 11
+ticks_on_borders = true
+
+[node name="Value" type="LineEdit" parent="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity/Input"]
+margin_left = 161.0
+margin_right = 219.0
+margin_bottom = 24.0
+max_length = 3
+
+[node name="KeyBinds" type="VBoxContainer" parent="SettingsWindow/SettingsTabs/Input"]
+margin_top = 57.0
+margin_right = 442.0
+margin_bottom = 514.0
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="SettingsWindow/SettingsTabs/Input/KeyBinds"]
+margin_right = 442.0
+margin_bottom = 14.0
+text = "Key Binds"
+align = 1
+valign = 1
+
+[node name="MoveForward" type="HBoxContainer" parent="SettingsWindow/SettingsTabs/Input/KeyBinds"]
+margin_top = 18.0
+margin_right = 442.0
+margin_bottom = 38.0
+
+[node name="Action" type="Label" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/MoveForward"]
+margin_top = 3.0
+margin_right = 219.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+text = "Move Forward"
+align = 1
+valign = 1
+
+[node name="KeyBind" type="Button" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/MoveForward"]
+margin_left = 223.0
+margin_right = 442.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="MoveBackwards" type="HBoxContainer" parent="SettingsWindow/SettingsTabs/Input/KeyBinds"]
+margin_top = 42.0
+margin_right = 442.0
+margin_bottom = 62.0
+
+[node name="Action" type="Label" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/MoveBackwards"]
+margin_top = 3.0
+margin_right = 219.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+text = "Move Backwards"
+align = 1
+valign = 1
+
+[node name="KeyBind" type="Button" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/MoveBackwards"]
+margin_left = 223.0
+margin_right = 442.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="StrafeLeft" type="HBoxContainer" parent="SettingsWindow/SettingsTabs/Input/KeyBinds"]
+margin_top = 66.0
+margin_right = 442.0
+margin_bottom = 86.0
+
+[node name="Action" type="Label" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/StrafeLeft"]
+margin_top = 3.0
+margin_right = 219.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+text = "Move Backwards"
+align = 1
+valign = 1
+
+[node name="KeyBind" type="Button" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/StrafeLeft"]
+margin_left = 223.0
+margin_right = 442.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="StrafeRight" type="HBoxContainer" parent="SettingsWindow/SettingsTabs/Input/KeyBinds"]
+margin_top = 90.0
+margin_right = 442.0
+margin_bottom = 110.0
+
+[node name="Action" type="Label" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/StrafeRight"]
+margin_top = 3.0
+margin_right = 219.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+text = "Move Backwards"
+align = 1
+valign = 1
+
+[node name="KeyBind" type="Button" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/StrafeRight"]
+margin_left = 223.0
+margin_right = 442.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="RotateLeft" type="HBoxContainer" parent="SettingsWindow/SettingsTabs/Input/KeyBinds"]
+margin_top = 114.0
+margin_right = 442.0
+margin_bottom = 134.0
+
+[node name="Action" type="Label" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/RotateLeft"]
+margin_top = 3.0
+margin_right = 219.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+text = "Move Backwards"
+align = 1
+valign = 1
+
+[node name="KeyBind" type="Button" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/RotateLeft"]
+margin_left = 223.0
+margin_right = 442.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="RotateRight" type="HBoxContainer" parent="SettingsWindow/SettingsTabs/Input/KeyBinds"]
+margin_top = 138.0
+margin_right = 442.0
+margin_bottom = 158.0
+
+[node name="Action" type="Label" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/RotateRight"]
+margin_top = 3.0
+margin_right = 219.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+text = "Move Backwards"
+align = 1
+valign = 1
+
+[node name="KeyBind" type="Button" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/RotateRight"]
+margin_left = 223.0
+margin_right = 442.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
 [connection signal="text_changed" from="LoginWindow/Login" to="LoginWindow" method="_on_Login_and_Password_text_changed"]
 [connection signal="text_changed" from="LoginWindow/Password" to="LoginWindow" method="_on_Login_and_Password_text_changed"]
 [connection signal="text_entered" from="LoginWindow/Password" to="LoginWindow" method="_on_Password_text_entered"]
 [connection signal="pressed" from="LoginWindow/Buttons/Enter" to="LoginWindow" method="_on_Enter_pressed"]
 [connection signal="pressed" from="LoginWindow/Buttons/Quit" to="LoginWindow" method="_on_Quit_pressed"]
+[connection signal="pressed" from="Settings" to="." method="_on_Settings_pressed"]
+[connection signal="visibility_changed" from="SettingsWindow" to="SettingsWindow/SettingsTabs" method="_on_SettingsWindow_visibility_changed"]
+[connection signal="value_changed" from="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity/Input/Slider" to="SettingsWindow/SettingsTabs" method="_on_Slider_value_changed"]
