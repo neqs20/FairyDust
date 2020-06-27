@@ -1,50 +1,56 @@
 extends VBoxContainer
 
-onready var Buttons = get_tree().get_nodes_in_group("KeyBindButtons")
-onready var Actions = get_tree().get_nodes_in_group("ActionLabels")
+var buttons : Array = []
 
-func _ready():
-	set_keys()
+func _ready() -> void:
+	for keybind in KeyBinds.create_key_binds_buttons():
+		add_child(keybind, true)
+		buttons.push_back(keybind.get_node(keybind.name)) # it's ok to use `get_node` here since it's a `_ready` function
+	for i in range(buttons.size()):
+		buttons[i].connect("gui_input", self, "_on_key_bind_gui_input", [i])
 
-func _process(delta):
-	if Input.is_action_just_pressed("Move Forward"):
+func _process2(delta):
+	if Input.is_action_just_pressed("move_forward"):
 		print("Moving Forward")
-	elif Input.is_action_just_pressed("Move Backwards"):
+	elif Input.is_action_just_pressed("move_backwards"):
 		print("Moving Backwards")
-	elif Input.is_action_just_pressed("Rotate Left"):
+	elif Input.is_action_just_pressed("rotate_left"):
 		print("Rotating Left")
-	elif Input.is_action_just_pressed("Rotate Right"):
+	elif Input.is_action_just_pressed("rotate_right"):
 		print("Rotating Right")
-	elif Input.is_action_just_pressed("Strafe Left"):
+	elif Input.is_action_just_pressed("strafe_left"):
 		print("Strafing Left")
-	elif Input.is_action_just_pressed("Strafe Right"):
+	elif Input.is_action_just_pressed("strafe_right"):
 		print("Strafing Right")
 
-func _on_KeyBind_gui_input(event : InputEvent, index : int) -> void:
-	if event is InputEventKey and event.pressed:
-		if Buttons[index].pressed:
-			if event.scancode == KEY_ESCAPE:
-				pass
+func _on_key_bind_gui_input(event : InputEvent, index : int) -> void:
+	if event is InputEventKey:
+		if buttons[index].pressed:
+			if event.pressed:
+				buttons[index].text = OS.get_scancode_string(event.get_scancode_with_modifiers())
+				match event.scancode:
+					KEY_CONTROL, KEY_SHIFT, KEY_ALT, KEY_MASK_META, KEY_ESCAPE:
+						buttons[index].text = ""
+					_:
+						change_key(buttons[index].name, event)
 			else:
-				change_key(Actions[index].text, event)
-				set_key(index, Actions[index].text)
-			Buttons[index].pressed = false
-	elif event is InputEventMouseButton:
-		for i in range(Buttons.size()):
+				buttons[index].pressed = false
+				pass
+	elif event is InputEventMouseButton: #!IMPORTANT: Mouse buttons is not enough probably
+		for i in range(buttons.size()):
 				if i == index: continue
-				Buttons[i].pressed = false
+				buttons[i].pressed = false
 
-func change_key(action : String, event : InputEvent) -> void:
+func change_key(action : String, event : InputEventKey) -> void:
 	InputMap.action_erase_events(action) #remove all keybinds from action
-	for i in InputMap.get_actions():
-		if InputMap.action_has_event(i, event):
-			InputMap.action_erase_event(i, event)
-			print(i)
+	var actions = KeyBinds.BINDS.keys()
+	for i in range(actions.size()):
+		if InputMap.action_has_event(actions[i], event):
+			InputMap.action_erase_event(actions[i], event)
+			buttons[i].text = ""
 	InputMap.action_add_event(action, event)
-
-func set_keys() -> void:
-	for i in range(Buttons.size()):
-		set_key(i, Actions[i].text) 
-
-func set_key(index : int, action : String) -> void:
-	Buttons[index].text = InputMap.get_action_list(action)[0].as_text()
+	KeyBinds.BINDS[action]["scancode"] = event.scancode
+	KeyBinds.BINDS[action]["alt"] = event.alt
+	KeyBinds.BINDS[action]["shift"] = event.shift
+	KeyBinds.BINDS[action]["control"] = event.control
+	

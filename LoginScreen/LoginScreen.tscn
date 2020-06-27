@@ -123,7 +123,6 @@ __meta__ = {
 }
 
 [node name="Graphic" type="VBoxContainer" parent="SettingsWindow/SettingsTabs"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -141,6 +140,7 @@ margin_right = -4.0
 margin_bottom = -4.0
 
 [node name="Input" type="VBoxContainer" parent="SettingsWindow/SettingsTabs"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -201,6 +201,7 @@ ticks_on_borders = true
 margin_left = 161.0
 margin_right = 219.0
 margin_bottom = 24.0
+align = 1
 max_length = 3
 
 [node name="KeyBinds" type="VBoxContainer" parent="SettingsWindow/SettingsTabs/Input"]
@@ -216,169 +217,12 @@ margin_bottom = 14.0
 text = "Key Binds"
 align = 1
 valign = 1
-
-[node name="MoveForward" type="HBoxContainer" parent="SettingsWindow/SettingsTabs/Input/KeyBinds"]
-margin_top = 18.0
-margin_right = 442.0
-margin_bottom = 38.0
-
-[node name="Action" type="Label" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/MoveForward" groups=[
-"ActionLabels",
-]]
-margin_top = 3.0
-margin_right = 219.0
-margin_bottom = 17.0
-size_flags_horizontal = 3
-text = "Move Forward"
-align = 1
-valign = 1
-
-[node name="KeyBind" type="Button" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/MoveForward" groups=[
-"KeyBindButtons",
-]]
-margin_left = 223.0
-margin_right = 442.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-toggle_mode = true
-
-[node name="MoveBackwards" type="HBoxContainer" parent="SettingsWindow/SettingsTabs/Input/KeyBinds"]
-margin_top = 42.0
-margin_right = 442.0
-margin_bottom = 62.0
-
-[node name="Action" type="Label" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/MoveBackwards" groups=[
-"ActionLabels",
-]]
-margin_top = 3.0
-margin_right = 219.0
-margin_bottom = 17.0
-size_flags_horizontal = 3
-text = "Move Backwards"
-align = 1
-valign = 1
-
-[node name="KeyBind" type="Button" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/MoveBackwards" groups=[
-"KeyBindButtons",
-]]
-margin_left = 223.0
-margin_right = 442.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-toggle_mode = true
-
-[node name="StrafeLeft" type="HBoxContainer" parent="SettingsWindow/SettingsTabs/Input/KeyBinds"]
-margin_top = 66.0
-margin_right = 442.0
-margin_bottom = 86.0
-
-[node name="Action" type="Label" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/StrafeLeft" groups=[
-"ActionLabels",
-]]
-margin_top = 3.0
-margin_right = 219.0
-margin_bottom = 17.0
-size_flags_horizontal = 3
-text = "Strafe Left"
-align = 1
-valign = 1
-
-[node name="KeyBind" type="Button" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/StrafeLeft" groups=[
-"KeyBindButtons",
-]]
-margin_left = 223.0
-margin_right = 442.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-toggle_mode = true
-
-[node name="StrafeRight" type="HBoxContainer" parent="SettingsWindow/SettingsTabs/Input/KeyBinds"]
-margin_top = 90.0
-margin_right = 442.0
-margin_bottom = 110.0
-
-[node name="Action" type="Label" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/StrafeRight" groups=[
-"ActionLabels",
-]]
-margin_top = 3.0
-margin_right = 219.0
-margin_bottom = 17.0
-size_flags_horizontal = 3
-text = "Strafe Right"
-align = 1
-valign = 1
-
-[node name="KeyBind" type="Button" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/StrafeRight" groups=[
-"KeyBindButtons",
-]]
-margin_left = 223.0
-margin_right = 442.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-toggle_mode = true
-
-[node name="RotateLeft" type="HBoxContainer" parent="SettingsWindow/SettingsTabs/Input/KeyBinds"]
-margin_top = 114.0
-margin_right = 442.0
-margin_bottom = 134.0
-
-[node name="Action" type="Label" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/RotateLeft" groups=[
-"ActionLabels",
-]]
-margin_top = 3.0
-margin_right = 219.0
-margin_bottom = 17.0
-size_flags_horizontal = 3
-text = "Rotate Left"
-align = 1
-valign = 1
-
-[node name="KeyBind" type="Button" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/RotateLeft" groups=[
-"KeyBindButtons",
-]]
-margin_left = 223.0
-margin_right = 442.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-toggle_mode = true
-
-[node name="RotateRight" type="HBoxContainer" parent="SettingsWindow/SettingsTabs/Input/KeyBinds"]
-margin_top = 138.0
-margin_right = 442.0
-margin_bottom = 158.0
-
-[node name="Action" type="Label" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/RotateRight" groups=[
-"ActionLabels",
-]]
-margin_top = 3.0
-margin_right = 219.0
-margin_bottom = 17.0
-size_flags_horizontal = 3
-text = "Rotate Right"
-align = 1
-valign = 1
-
-[node name="KeyBind" type="Button" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/RotateRight" groups=[
-"KeyBindButtons",
-]]
-margin_left = 223.0
-margin_right = 442.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-toggle_mode = true
 [connection signal="text_changed" from="LoginWindow/Login" to="LoginWindow" method="_on_Login_and_Password_text_changed"]
 [connection signal="text_changed" from="LoginWindow/Password" to="LoginWindow" method="_on_Login_and_Password_text_changed"]
 [connection signal="text_entered" from="LoginWindow/Password" to="LoginWindow" method="_on_Password_text_entered"]
 [connection signal="pressed" from="LoginWindow/Buttons/Enter" to="LoginWindow" method="_on_Enter_pressed"]
 [connection signal="pressed" from="LoginWindow/Buttons/Quit" to="LoginWindow" method="_on_Quit_pressed"]
 [connection signal="pressed" from="Settings" to="." method="_on_Settings_pressed"]
-[connection signal="visibility_changed" from="SettingsWindow" to="SettingsWindow/SettingsTabs" method="_on_SettingsWindow_visibility_changed"]
 [connection signal="value_changed" from="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity/Input/Slider" to="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity/Input" method="_on_Slider_value_changed"]
 [connection signal="focus_exited" from="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity/Input/Value" to="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity/Input" method="_on_Value_focus_exited"]
 [connection signal="text_entered" from="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity/Input/Value" to="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity/Input" method="_on_Value_text_entered"]
-[connection signal="gui_input" from="SettingsWindow/SettingsTabs/Input/KeyBinds/MoveForward/KeyBind" to="SettingsWindow/SettingsTabs/Input/KeyBinds" method="_on_KeyBind_gui_input" binds= [ 0 ]]
-[connection signal="gui_input" from="SettingsWindow/SettingsTabs/Input/KeyBinds/MoveBackwards/KeyBind" to="SettingsWindow/SettingsTabs/Input/KeyBinds" method="_on_KeyBind_gui_input" binds= [ 1 ]]
-[connection signal="gui_input" from="SettingsWindow/SettingsTabs/Input/KeyBinds/StrafeLeft/KeyBind" to="SettingsWindow/SettingsTabs/Input/KeyBinds" method="_on_KeyBind_gui_input" binds= [ 2 ]]
-[connection signal="gui_input" from="SettingsWindow/SettingsTabs/Input/KeyBinds/StrafeRight/KeyBind" to="SettingsWindow/SettingsTabs/Input/KeyBinds" method="_on_KeyBind_gui_input" binds= [ 3 ]]
-[connection signal="gui_input" from="SettingsWindow/SettingsTabs/Input/KeyBinds/RotateLeft/KeyBind" to="SettingsWindow/SettingsTabs/Input/KeyBinds" method="_on_KeyBind_gui_input" binds= [ 4 ]]
-[connection signal="gui_input" from="SettingsWindow/SettingsTabs/Input/KeyBinds/RotateRight/KeyBind" to="SettingsWindow/SettingsTabs/Input/KeyBinds" method="_on_KeyBind_gui_input" binds= [ 5 ]]
