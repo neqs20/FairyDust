@@ -12,12 +12,12 @@ _global_script_classes=[ {
 "base": "Object",
 "class": "Errors",
 "language": "GDScript",
-"path": "res://Global/Scripts/Errors.gd"
+"path": "res://global/scripts/errors.gd"
 }, {
-"base": "Reference",
+"base": "Object",
 "class": "Packet",
 "language": "GDScript",
-"path": "res://Global/Scripts/Packet.gd"
+"path": "res://global/scripts/packet.gd"
 } ]
 _global_script_class_icons={
 "Errors": "",
@@ -27,19 +27,19 @@ _global_script_class_icons={
 [application]
 
 config/name="FairyDust"
-run/main_scene="res://LoginScreen/LoginScreen.tscn"
-config/icon="res://fairy_dust_icon128x128.png"
-config/windows_native_icon="res://Global/Assets/icon/fairy_dust_icon.ico"
+run/main_scene="res://login_screen/login_screen.tscn"
+config/icon="res://fairy_dust_icon_128x128.png"
+config/windows_native_icon="res://global/assets/icon/fairy_dust_icon.ico"
 
 [autoload]
 
-Logger="*res://Global/Scripts/AutoLoad/Logger.gd"
-Config="*res://Global/Scripts/AutoLoad/Config.gd"
-SceneChanger="*res://Global/Scripts/AutoLoad/SceneChanger/SceneChanger.tscn"
-Utils="*res://Global/Scripts/AutoLoad/Utils.gd"
-Network="*res://Global/Scripts/AutoLoad/Network.gd"
-Data="*res://Global/Scripts/AutoLoad/Data.gd"
-KeyBinds="*res://Global/Scripts/AutoLoad/KeyBinds.gd"
+Logger="*res://global/scripts/auto_load/logger.gd"
+Config="*res://global/scripts/auto_load/config.gd"
+SceneChanger="*res://global/scripts/auto_load/scene_changer/scene_changer.tscn"
+Utils="*res://global/scripts/auto_load/utils.gd"
+Network="*res://global/scripts/auto_load/network.gd"
+Data="*res://global/scripts/auto_load/data.gd"
+KeyBinds="*res://global/scripts/auto_load/key_binds.gd"
 
 [debug]
 

@@ -1,4 +1,5 @@
-class_name Packet extends Reference
+class_name Packet 
+extends Object
 
 
 const LENGTH : int = 2

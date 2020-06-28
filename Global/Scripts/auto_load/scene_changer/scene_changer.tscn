@@ -1,7 +1,9 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Global/Scripts/AutoLoad/SceneChanger/SceneChanger.gd" type="Script" id=1]
-[ext_resource path="res://Global/Scripts/AutoLoad/SceneChanger/fade_effect.anim" type="Animation" id=2]
+[ext_resource path="res://global/scripts/auto_load/scene_changer/scene_changer.gd" type="Script" id=1]
+[ext_resource path="res://global/scripts/auto_load/scene_changer/fade_effect.anim" type="Animation" id=2]
+
+
 
 [node name="CanvasLayer" type="CanvasLayer"]
 layer = 0

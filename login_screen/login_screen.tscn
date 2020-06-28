@@ -1,15 +1,14 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://LoginScreen/Scripts/LoginWindowManager.gd" type="Script" id=1]
-[ext_resource path="res://LoginScreen/Scripts/MainWindowManager.gd" type="Script" id=2]
-[ext_resource path="res://LoginScreen/Scripts/SensitivityManager.gd" type="Script" id=3]
-[ext_resource path="res://LoginScreen/Scripts/TabsManager.gd" type="Script" id=4]
-[ext_resource path="res://LoginScreen/Scripts/KeyBindsManager.gd" type="Script" id=5]
+[ext_resource path="res://login_screen/scripts/settings_window_visibilty_changer.gd" type="Script" id=1]
+[ext_resource path="res://login_screen/scripts/key_binds_manager.gd" type="Script" id=2]
+[ext_resource path="res://login_screen/scripts/login_window_manager.gd" type="Script" id=3]
+[ext_resource path="res://login_screen/scripts/mouse_settings_manager.gd" type="Script" id=4]
 
 [node name="LoginScreen" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 2 )
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -24,7 +23,7 @@ margin_top = -0.28009
 margin_right = 0.159912
 margin_bottom = -16.52
 custom_constants/separation = 10
-script = ExtResource( 1 )
+script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -117,7 +116,6 @@ __meta__ = {
 [node name="SettingsTabs" type="TabContainer" parent="SettingsWindow"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -181,7 +179,7 @@ margin_left = 223.0
 margin_right = 442.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
-script = ExtResource( 3 )
+script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -209,7 +207,7 @@ margin_top = 57.0
 margin_right = 442.0
 margin_bottom = 514.0
 size_flags_vertical = 3
-script = ExtResource( 5 )
+script = ExtResource( 2 )
 
 [node name="Label" type="Label" parent="SettingsWindow/SettingsTabs/Input/KeyBinds"]
 margin_right = 442.0
