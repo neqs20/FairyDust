@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://login_screen/scripts/settings_window_visibilty_changer.gd" type="Script" id=1]
-[ext_resource path="res://login_screen/scripts/key_binds_manager.gd" type="Script" id=2]
-[ext_resource path="res://login_screen/scripts/login_window_manager.gd" type="Script" id=3]
-[ext_resource path="res://login_screen/scripts/mouse_settings_manager.gd" type="Script" id=4]
+[ext_resource path="res://scenes/login_screen/scripts/settings_window_visibilty_changer.gd" type="Script" id=1]
+[ext_resource path="res://scenes/login_screen/scripts/key_binds_manager.gd" type="Script" id=2]
+[ext_resource path="res://scenes/login_screen/scripts/login_window_manager.gd" type="Script" id=3]
+[ext_resource path="res://scenes/login_screen/scripts/mouse_settings_manager.gd" type="Script" id=4]
 
 [node name="LoginScreen" type="Control"]
 anchor_right = 1.0

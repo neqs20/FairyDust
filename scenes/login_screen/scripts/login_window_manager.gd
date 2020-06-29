@@ -33,7 +33,6 @@ func _notification(what: int) -> void:
 		Config.set_save_id(SaveId.pressed)
 
 
-
 func _on_Password_text_entered(_new_text: String) -> void:
 	EnterButton.emit_signal("pressed")
 

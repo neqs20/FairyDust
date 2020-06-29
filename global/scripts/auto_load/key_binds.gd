@@ -1,5 +1,6 @@
 extends Node
 
+
 var BINDS = {
 	"move_forward" : {
 		"scancode" : KEY_W,
@@ -36,15 +37,19 @@ var BINDS = {
 		"alt" : false,
 		"shift" : false,
 		"control" : false,
-	}
+	},
 }
+
 
 func _ready() -> void:
 	for action in Config.get_input_map_section_keys():
-		if BINDS.has(action):
-			BINDS[action] = Config.get_value("INPUT_MAP", action, BINDS[action], TYPE_DICTIONARY)
+		if not BINDS.has(action):
+			continue
+		BINDS[action] = Config.get_value("INPUT_MAP", action, BINDS[action])
+
 	for bind in BINDS:
 		InputMap.add_action(bind)
+
 		var input = InputEventKey.new()
 		if BINDS[bind].has("alt"):
 			if typeof(BINDS[bind].alt) == TYPE_BOOL:
@@ -55,12 +60,6 @@ func _ready() -> void:
 		if BINDS[bind].has("control"):
 			if typeof(BINDS[bind].control) == TYPE_BOOL:
 				input.control = BINDS[bind].control
-		if BINDS[bind].has("meta"):
-			if typeof(BINDS[bind].meta) == TYPE_BOOL:
-				input.meta = BINDS[bind].meta
-		if BINDS[bind].has("command"):
-			if typeof(BINDS[bind].command) == TYPE_BOOL:
-				input.command = BINDS[bind].command
 		if BINDS[bind].has("scancode"):
 			if typeof(BINDS[bind].scancode) == TYPE_INT:
 				input.scancode = BINDS[bind].scancode
@@ -68,27 +67,31 @@ func _ready() -> void:
 		InputMap.action_add_event(bind, input)
 
 func create_key_binds_buttons() -> Array:
-	var ret : Array = []
+	var ret := []
+
 	for bind in BINDS:
 		var hbox : HBoxContainer = HBoxContainer.new()
 		hbox.name = bind
+
 		var action_label : Label = Label.new()
 		action_label.valign = Label.VALIGN_CENTER
 		action_label.align = Label.ALIGN_CENTER
 		action_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		action_label.text = bind.capitalize()
-		hbox.add_child(action_label)
 		
 		var button : Button = Button.new()
 		button.toggle_mode = true
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.text = InputMap.get_action_list(bind).back().as_text()
 		button.name = bind
+
+		hbox.add_child(action_label)
 		hbox.add_child(button, true)
+
 		ret.push_back(hbox)
 	return ret
 
-func _exit_tree():
+
+func _exit_tree() -> void:
 	for bind in BINDS:
-		print(bind, " ", BINDS[bind])
 		Config.set_value("INPUT_MAP", bind, BINDS[bind])

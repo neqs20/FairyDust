@@ -16,10 +16,10 @@ func _enter_tree() -> void:
 	is_loaded = true
 
 
-func get_value(section: String, key: String, default, type):
+func get_value(section: String, key: String, default):
 	if is_loaded:
 		var v = config.get_value(section, key, default)
-		if typeof(v) == type:
+		if typeof(v) == typeof(default):
 			return v
 	return default
 
@@ -39,7 +39,7 @@ func get_section_keys(section: String) -> Array:
 
 
 func get_resolution() -> Vector2:
-	return get_value("GRAPHICS", "resolution", Vector2(0, 0), TYPE_VECTOR2)
+	return get_value("GRAPHICS", "resolution", Vector2(0, 0))
 
 
 func set_resolution(resolution: Vector2) -> void:
@@ -47,7 +47,7 @@ func set_resolution(resolution: Vector2) -> void:
 
 
 func get_save_id() -> bool:
-	return get_value("LOGIN", "save_id", false, TYPE_BOOL)
+	return get_value("LOGIN", "save_id", false)
 
 
 func set_save_id(state: bool) -> void:
@@ -55,7 +55,7 @@ func set_save_id(state: bool) -> void:
 
 
 func get_username() -> String:
-	return get_value("LOGIN", "username", "", TYPE_STRING)
+	return get_value("LOGIN", "username", "")
 
 
 func set_username(value: String) -> void:
@@ -63,7 +63,7 @@ func set_username(value: String) -> void:
 
 
 func get_version() -> String:
-	return get_value("MISC", "version", "0.0.0", TYPE_STRING) 
+	return get_value("MISC", "version", "0.0.0") 
 
 
 func set_version(value: String) -> void:
@@ -71,7 +71,7 @@ func set_version(value: String) -> void:
 
 
 func get_ip() -> String:
-	return get_value("NETWORK", "ip", "127.0.0.1", TYPE_STRING)
+	return get_value("NETWORK", "ip", "127.0.0.1")
 
 
 func set_ip(value: String) -> void:
@@ -79,7 +79,7 @@ func set_ip(value: String) -> void:
 
 
 func get_port() -> int:
-	return get_value("NETWORK", "port", 4444, TYPE_INT)
+	return get_value("NETWORK", "port", 4444)
 
 
 func set_port(value: int) -> void:
@@ -87,7 +87,7 @@ func set_port(value: int) -> void:
 
 
 func get_mouse_sensitivity() -> float:
-	return get_value("INPUT", "mouse_sensitivity", 5.0, TYPE_REAL)
+	return get_value("INPUT", "mouse_sensitivity", 5.0)
 
 
 func set_mouse_sensitivity(value: float) -> void:

@@ -1,7 +1,7 @@
 .vscode/
 
 .import/
-Export/
+bin/
 
 
 **/*.import
