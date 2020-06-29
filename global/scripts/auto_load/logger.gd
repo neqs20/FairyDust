@@ -19,7 +19,7 @@ const LEFT_BRACKET := "["
 const RIGHT_BRACKET := "]"
 
 const CLIENT_TAG := "[CLIENT]"
-const LOG_TAGS := [ "[DEBUG]", "[INFO]", "[WARNING]", "[ERROR]" ]
+const LOG_TAGS := ["[DEBUG]", "[INFO]", "[WARNING]", "[ERROR]"]
 const TAG_SUFFIX := ": "
 
 const HEADER_BORDER := "############################################################"
@@ -75,15 +75,25 @@ func create_file() -> void:
 		return
 	
 	_log_file = File.new()
-	if _log_file.file_exists(folder_path.plus_file(FILE_NAME)):
-		_log_file.open(folder_path.plus_file(FILE_NAME), File.READ_WRITE)
+	
+	var full_path : String = folder_path.plus_file(FILE_NAME)
+	if _log_file.file_exists(full_path):
+		match _log_file.open(full_path, File.READ_WRITE):
+			ERR_INVALID_PARAMETER, ERR_FILE_CANT_OPEN:
+				_log_file = null
+				return
+
 		_log_file.seek_end()
 	else:
 		var dir = Directory.new()
+
 		if not dir.dir_exists(folder_path):
 			dir.make_dir(folder_path)
+
 		_log_file.open(folder_path.plus_file(FILE_NAME), File.WRITE_READ)
+
 	var date = OS.get_datetime()
+
 	store(HEADER_BORDER)
 	store(LEFT_BORDER + 
 			(ZERO if date[DAY] < 10 else EMPTY) + str(date[DAY]) + DOT +

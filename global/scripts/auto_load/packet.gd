@@ -1,5 +1,4 @@
-class_name Packet
-extends Object
+extends Node
 
 
 var LENGTH := 2

@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 
-const scenes : Dictionary = {
+const scenes := { #* List of instantiable scenes. Quiet worthless ?
 	"character_selection" : "res://character_selection/character_selection.tscn"
 }
 
@@ -9,20 +9,20 @@ onready var animation = $Animation
 
 
 func change_to(path: String) -> void:
-	animation.play("fade_effect")
-	yield(animation, "animation_finished")
+	fade_in_and_change(path)
 
-	get_tree().change_scene(path)
-
-	animation.play_backwards("fade_effect")
-	yield(animation, "animation_finished")
+	fade_out()
 
 
 func fade_in_and_change(path: String) -> void:
 	animation.play("fade_effect")
 	yield(animation, "animation_finished")
 
-	get_tree().change_scene(path)
+	match get_tree().change_scene(path):
+		OK:
+			pass
+		var err:
+			Logger.error(Errors.CANT_CHANGE_SCENE, [err])
 
 
 func fade_out() -> void:

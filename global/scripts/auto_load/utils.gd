@@ -12,13 +12,21 @@ func pop_up(title: String, message: String, size := Vector2(200, 100), node: Nod
 
 	if node == null or callback.empty():
 		if not _dialog.is_connected("confirmed", self, "on_info_dialog_confirmed"):
-			_dialog.connect("confirmed", self, "on_info_dialog_confirmed")
+			match _dialog.connect("confirmed", self, "on_info_dialog_confirmed"):
+				OK:
+					pass
+				var err:
+					Logger.error(Errors.CANT_CONNECT_SIGNAL, [self, "confirmed", "on_info_dialog_confirmed", err])
 		if get_children().find(_dialog) == -1:
 			add_child(_dialog)
 	else:
 		if node.has_method(callback):
 			if not _dialog.is_connected("confirmed", node, callback):
-				_dialog.connect("confirmed", node, callback)
+				match _dialog.connect("confirmed", node, callback):
+					OK:
+						pass
+					var err:
+						Logger.error(Errors.CANT_CONNECT_SIGNAL, [node, "confirmed", callback, err])
 			if node.get_children().find(_dialog) == -1:
 				node.add_child(_dialog)
 

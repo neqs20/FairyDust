@@ -23,7 +23,7 @@ var _discord := DiscordSDK.new()
 func _enter_tree() -> void:
 	ip = Config.get_ip()
 	port = Config.get_port()
-	_client.create__client(ip, port)
+	_client.create_client(ip, port)
 
 	id = _client.get_unique_id()
 

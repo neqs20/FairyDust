@@ -8,20 +8,9 @@
 
 config_version=4
 
-_global_script_classes=[ {
-"base": "Object",
-"class": "Errors",
-"language": "GDScript",
-"path": "res://global/scripts/errors.gd"
-}, {
-"base": "Object",
-"class": "Packet",
-"language": "GDScript",
-"path": "res://global/scripts/packet.gd"
-} ]
+_global_script_classes=[  ]
 _global_script_class_icons={
-"Errors": "",
-"Packet": ""
+
 }
 
 [application]
@@ -35,12 +24,14 @@ config/windows_native_icon="res://fairy_dust_icon.ico"
 [autoload]
 
 Logger="*res://global/scripts/auto_load/logger.gd"
+Errors="*res://global/scripts/auto_load/errors.gd"
 Config="*res://global/scripts/auto_load/config.gd"
 SceneChanger="*res://global/scripts/auto_load/scene_changer/scene_changer.tscn"
 Utils="*res://global/scripts/auto_load/utils.gd"
 Network="*res://global/scripts/auto_load/network.gd"
 Data="*res://global/scripts/auto_load/data.gd"
 KeyBinds="*res://global/scripts/auto_load/key_binds.gd"
+Packet="*res://global/scripts/auto_load/packet.gd"
 
 [debug]
 
@@ -55,7 +46,6 @@ gdscript/warnings/unsafe_call_argument=true
 window/size/width=1920
 window/size/height=1080
 window/size/resizable=false
-window/size/fullscreen=true
 
 [editor]
 

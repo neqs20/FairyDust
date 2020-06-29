@@ -63,33 +63,10 @@ func _ready() -> void:
 		if BINDS[bind].has("scancode"):
 			if typeof(BINDS[bind].scancode) == TYPE_INT:
 				input.scancode = BINDS[bind].scancode
+		if not input.alt and not input.shift and not input.control:
+			input.action_pressed_on_modifier = false
 		input.pressed = true
 		InputMap.action_add_event(bind, input)
-
-func create_key_binds_buttons() -> Array:
-	var ret := []
-
-	for bind in BINDS:
-		var hbox : HBoxContainer = HBoxContainer.new()
-		hbox.name = bind
-
-		var action_label : Label = Label.new()
-		action_label.valign = Label.VALIGN_CENTER
-		action_label.align = Label.ALIGN_CENTER
-		action_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		action_label.text = bind.capitalize()
-		
-		var button : Button = Button.new()
-		button.toggle_mode = true
-		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		button.text = InputMap.get_action_list(bind).back().as_text()
-		button.name = bind
-
-		hbox.add_child(action_label)
-		hbox.add_child(button, true)
-
-		ret.push_back(hbox)
-	return ret
 
 
 func _exit_tree() -> void:

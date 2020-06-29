@@ -24,7 +24,7 @@ func _ready() -> void:
 		EnterButton.grab_focus()
 
 	Network.set_state("Login Screen")
-
+	print(str(ERR_ALREADY_EXISTS))
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_QUIT_REQUEST:
