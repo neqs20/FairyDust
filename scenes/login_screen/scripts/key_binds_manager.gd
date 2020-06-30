@@ -5,20 +5,13 @@ const buttons := []
 
 
 func _ready() -> void:
-	for keybind in _create_key_binds_buttons():
-		add_child(keybind, true)
-
-		buttons.push_back(keybind.get_node(keybind.name))
-
-	for i in range(buttons.size()):
-		buttons[i].connect("gui_input", self, "_on_key_bind_gui_input", [i])
-
-
-func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("move_forward"):
-		print("FORWARD")
-	if Input.is_action_just_pressed("move_backwards"):
-		print("BACKWARDS")
+	var kbb = _create_key_binds_buttons()
+	for i in range(kbb.size()):
+		add_child(kbb[i], true)
+		
+		var b = kbb[i].get_node(kbb[i].name)
+		b.connect("gui_input", self, "_on_key_bind_gui_input", [i])
+		buttons.push_back(b)
 
 
 func _on_key_bind_gui_input(event: InputEvent, index: int) -> void:
@@ -59,18 +52,12 @@ func _change_key(action: String, event: InputEventKey) -> void:
 
 	InputMap.action_add_event(action, event)
 
-	KeyBinds.BINDS[action]["scancode"] = event.scancode
-	KeyBinds.BINDS[action]["alt"] = event.alt
-	KeyBinds.BINDS[action]["shift"] = event.shift
-	KeyBinds.BINDS[action]["control"] = event.control
+	KeyBinds.update_bind(action, event.scancode, event.alt, event.shift, event.control)
 
 
 func _erase_key(action: String, index: int, event: InputEventKey) -> void:
 	InputMap.action_erase_event(action, event)
-	KeyBinds.BINDS[action]["scancode"] = 0
-	KeyBinds.BINDS[action]["alt"] = false
-	KeyBinds.BINDS[action]["shift"] = false
-	KeyBinds.BINDS[action]["control"] = false
+	KeyBinds.update_bind(action, 0, false, false, false)
 	buttons[index].text = ""
 
 func _create_key_binds_buttons() -> Array:
