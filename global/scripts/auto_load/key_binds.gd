@@ -44,6 +44,12 @@ var BINDS = {
 		"shift" : false,
 		"control" : false,
 	},
+	"talk" : {
+		"scancode" : KEY_V,
+		"alt" : false,
+		"shift" : false,
+		"control" : false,
+	},
 }
 
 

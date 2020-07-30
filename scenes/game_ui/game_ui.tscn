@@ -1,0 +1,92 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://scenes/game_ui/Container.gd" type="Script" id=1]
+[ext_resource path="res://global/fonts/Ubuntu/Ubuntu-Italic.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://global/fonts/Ubuntu/Ubuntu-Bold.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://global/fonts/Ubuntu Mono/UbuntuMono-Regular.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://global/fonts/Ubuntu/Ubuntu-BoldItalic.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://global/fonts/Ubuntu/Ubuntu-Regular.ttf" type="DynamicFontData" id=6]
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 1, 1, 1, 0.0980392 )
+
+[sub_resource type="DynamicFont" id=1]
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=2]
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=3]
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=4]
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=5]
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 6 )
+
+[node name="game_ui" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="chat" type="Control" parent="."]
+margin_top = 780.0
+margin_right = 450.0
+margin_bottom = 1080.0
+mouse_filter = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Container" type="VBoxContainer" parent="chat"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="messages" type="RichTextLabel" parent="chat/Container"]
+margin_right = 450.0
+margin_bottom = 299.0
+focus_mode = 2
+size_flags_vertical = 3
+custom_styles/normal = SubResource( 6 )
+custom_fonts/mono_font = SubResource( 1 )
+custom_fonts/bold_italics_font = SubResource( 2 )
+custom_fonts/italics_font = SubResource( 3 )
+custom_fonts/bold_font = SubResource( 4 )
+custom_fonts/normal_font = SubResource( 5 )
+custom_constants/line_separation = -1
+bbcode_enabled = true
+scroll_following = true
+selection_enabled = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="input" type="LineEdit" parent="chat/Container"]
+visible = false
+margin_top = 275.0
+margin_right = 450.0
+margin_bottom = 299.0
+[connection signal="meta_hover_ended" from="chat/Container/messages" to="chat/Container" method="_on_messages_meta_hover_ended"]
+[connection signal="meta_hover_started" from="chat/Container/messages" to="chat/Container" method="_on_messages_meta_hover_started"]
+[connection signal="mouse_entered" from="chat/Container/messages" to="chat/Container" method="_on_messages_mouse_entered"]
+[connection signal="mouse_exited" from="chat/Container/messages" to="chat/Container" method="_on_messages_mouse_exited"]
+[connection signal="text_entered" from="chat/Container/input" to="chat/Container" method="_on_input_text_entered"]

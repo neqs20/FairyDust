@@ -21,6 +21,11 @@ run/main_scene="res://scenes/login_screen/login_screen.tscn"
 config/icon="res://fairy_dust_icon_128x128.png"
 config/windows_native_icon="res://fairy_dust_icon.ico"
 
+[audio]
+
+default_bus_layout=""
+enable_audio_input=true
+
 [autoload]
 
 Logger="*res://global/scripts/auto_load/logger.gd"
@@ -35,6 +40,7 @@ Packet="*res://global/scripts/auto_load/packet.gd"
 
 [debug]
 
+settings/stdout/verbose_stdout=true
 gdscript/warnings/unused_class_variable=true
 gdscript/warnings/unsafe_property_access=true
 gdscript/warnings/unsafe_method_access=true
@@ -45,7 +51,8 @@ gdscript/warnings/unsafe_call_argument=true
 
 window/size/width=1920
 window/size/height=1080
-window/size/resizable=false
+window/size/fullscreen=true
+window/vsync/use_vsync=false
 
 [editor]
 
@@ -57,4 +64,5 @@ limits/message_queue/max_size_kb=4096
 
 [rendering]
 
+quality/filters/msaa=3
 environment/default_environment="res://default_env.tres"

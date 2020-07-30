@@ -1,6 +1,9 @@
 extends Node
 
 
-var LENGTH := 2
+const LENGTH := 2
 
-var LOGIN := "00"
+const LOGIN := "00"
+const BASIC_CHAR_DATA := "01"
+const FULL_CHAR_DATA := "02"
+const VOICE := "03"

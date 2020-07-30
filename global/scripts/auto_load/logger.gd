@@ -3,7 +3,7 @@ extends Node
 enum TYPE { DEBUG, INFO, WARNING, ERROR, NONE }
 
 const folder_path := "user://logs/"
-const FILE_NAME := "log.txt"
+const FILE_NAME := "stdout.log"
 const EMPTY := ""
 const ZERO := "0"
 const DOT := "."

@@ -3,8 +3,8 @@ extends Control
 
 const DEFAULT_POSITION := Vector2(15, 25)
 
-onready var SettingsWindow : WindowDialog = $SettingsWindow
-onready var SettingsButton : Button = $Settings
+onready var SettingsWindow: WindowDialog = $SettingsWindow
+onready var SettingsButton: Button = $Settings
 
 
 func _on_Settings_pressed() -> void:

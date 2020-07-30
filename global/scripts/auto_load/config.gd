@@ -1,6 +1,7 @@
 extends Node
 
-const PATH: String = "user://settings.cfg"
+
+const PATH := "user://settings.ini"
 
 var config := ConfigFile.new()
 var is_loaded := false
@@ -12,7 +13,7 @@ func _enter_tree() -> void:
 			Logger.info(Errors.CONFIG_FILE_NOT_FOUND, [PATH])
 		else:
 			Logger.error(Errors.CONFIG_FILE_ERROR, [PATH, error])
-			return
+		return
 	is_loaded = true
 
 

@@ -3,7 +3,7 @@ extends Control
 
 var character_data = []
 
-onready var list: GridContainer = $Info/List
+onready var list: ItemList = $Info/List
 onready var name_val: Label = $Info/Panel/VBoxContainer/NameVal
 onready var class_val: Label = $Info/Panel/VBoxContainer/ClassVal
 onready var map_val: Label = $Info/Panel/VBoxContainer/MapVal
@@ -11,12 +11,13 @@ onready var level_val: Label = $Info/Panel/VBoxContainer/LevelVal
 
 
 func _ready() -> void:
-	Network.set_state("CharacterSelection")
+	Network.set_state("Choosing a character")
+	Network.connect("basic_char_data_received", self, "_basic_char_data_received")
 
 
-func load_data() -> void:
-	for i in character_data:
-		list.add_item(i["name"])
+func _basic_char_data_received(data: Dictionary) -> void:
+	character_data.push_back(data)
+	list.add_item(data['name'])
 
 
 func _on_List_item_selected(index: int) -> void:

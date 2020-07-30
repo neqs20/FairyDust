@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/tadderia/assets/canyon/canyon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/warrior/warrior.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/tadderia/tadderia.gd" type="Script" id=3]
+[ext_resource path="res://scenes/game_ui/game_ui.tscn" type="PackedScene" id=4]
 
 [node name="Tadderia" type="Spatial"]
 script = ExtResource( 3 )
@@ -12,3 +13,8 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.8, 0 )
 
 [node name="Spatial" parent="." instance=ExtResource( 2 )]
 transform = Transform( 0.06, 0, 0, 0, 0.06, 0, 0, 0, 0.06, -0.693633, 0.155026, 0.96479 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( -0.998297, 0.000317634, -0.0583298, 0, 0.999985, 0.0054454, 0.0583307, 0.00543613, -0.998282, -0.25, 0.5, -1.678 )
+
+[node name="game_ui" parent="." instance=ExtResource( 4 )]

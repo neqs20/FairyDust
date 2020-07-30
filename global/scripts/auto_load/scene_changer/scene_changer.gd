@@ -2,7 +2,7 @@ extends CanvasLayer
 
 
 const scenes := { #* List of instantiable scenes. Quiet worthless ?
-	"character_selection" : "res://character_selection/character_selection.tscn"
+	"character_selection" : "res://scenes/character_selection/character_selection.tscn"
 }
 
 onready var animation = $Animation
