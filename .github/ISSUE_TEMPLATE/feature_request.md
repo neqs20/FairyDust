@@ -3,7 +3,7 @@ name: Feature request
 about: Suggest an idea for this project
 title: "[FP]"
 labels: enhancement
-assignees: ''
+assignees: neqs20
 
 ---
 
