@@ -23,15 +23,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="List" type="ItemList" parent="Info"]
-anchor_top = 0.334
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -0.399979
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Panel" type="Panel" parent="Info"]
 anchor_right = 1.0
 anchor_bottom = 0.25
@@ -94,6 +85,15 @@ margin_left = 56.0
 margin_top = 111.0
 margin_right = 56.0
 margin_bottom = 125.0
+
+[node name="List" type="ItemList" parent="Info"]
+anchor_top = 0.334
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -0.399979
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Button" type="Button" parent="."]
 margin_left = 660.0

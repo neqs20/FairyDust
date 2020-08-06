@@ -1,31 +1,21 @@
 extends CanvasLayer
 
 
-const scenes := { #* List of instantiable scenes. Quiet worthless ?
-	"character_selection" : "res://scenes/character_selection/character_selection.tscn"
-}
-
 onready var animation = $Animation
 
 
-func change_to(path: String) -> void:
-	fade_in_and_change(path)
-
-	fade_out()
-
-
-func fade_in_and_change(path: String) -> void:
+func change(path: String, node: Node = null, sig: String = "") -> void:
 	animation.play("fade_effect")
 	yield(animation, "animation_finished")
-
-	match get_tree().change_scene(path):
-		OK:
-			pass
-		var err:
-			Logger.error(Errors.CANT_CHANGE_SCENE, [err])
-
-
-func fade_out() -> void:
+	
+	var error = get_tree().change_scene(path)
+	if error != OK:
+		Logger.error(Errors.CANT_CHANGE_SCENE, [error])
+	if not (node == null or sig.empty()):
+		if node.has_signal(sig):
+			yield(node, sig)
 	animation.play_backwards("fade_effect")
 	yield(animation, "animation_finished")
+	
+
 

@@ -1,9 +1,16 @@
+## Config
+## @desc:
+##     Wrapper of [ConfigFile].
+##     
 extends Node
 
 
+## A path to the file
 const PATH := "user://settings.ini"
 
+
 var config := ConfigFile.new()
+##
 var is_loaded := false
 
 func _enter_tree() -> void:
@@ -13,10 +20,11 @@ func _enter_tree() -> void:
 			Logger.info(Errors.CONFIG_FILE_NOT_FOUND, [PATH])
 		else:
 			Logger.error(Errors.CONFIG_FILE_ERROR, [PATH, error])
-		return
+			return
 	is_loaded = true
 
-
+# gets a value from config. If config is not loaded or entry doesn't exist or 
+# types aren't matching returns default
 func get_value(section: String, key: String, default):
 	if is_loaded:
 		var v = config.get_value(section, key, default)

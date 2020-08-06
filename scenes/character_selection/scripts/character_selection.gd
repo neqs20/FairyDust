@@ -16,6 +16,8 @@ func _ready() -> void:
 
 
 func _basic_char_data_received(data: Dictionary) -> void:
+	if data.empty():
+		return
 	character_data.push_back(data)
 	list.add_item(data['name'])
 

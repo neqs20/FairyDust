@@ -4,29 +4,14 @@ enum TYPE { DEBUG, INFO, WARNING, ERROR, NONE }
 
 const folder_path := "user://logs/"
 const FILE_NAME := "stdout.log"
-const EMPTY := ""
-const ZERO := "0"
-const DOT := "."
-const COMA_SEPERATOR := ", "
-const COLON := ":"
-const HOUR := "hour"
-const MINUTE := "minute"
-const SECOND := "second"
-const DAY := "day"
-const MONTH := "month"
-const YEAR := "year"
-const LEFT_BRACKET := "["
-const RIGHT_BRACKET := "]"
 
-const CLIENT_TAG := "[CLIENT]"
-const LOG_TAGS := ["[DEBUG]", "[INFO]", "[WARNING]", "[ERROR]"]
-const TAG_SUFFIX := ": "
+const TAGS := ["[DEBUG]", "[INFO]", "[WARNING]", "[ERROR]"]
 
 const HEADER_BORDER := "############################################################"
 const LEFT_BORDER := "#                   "
 const RIGHT_BORDER := "                   #"
 
-var log_level = TYPE.DEBUG
+var log_level : int = TYPE.DEBUG
 
 var _log_file: File = null
 
@@ -35,38 +20,41 @@ func _init() -> void:
 	create_file()
 
 
-func _notification(what: int) -> void:
-	if what == 11:
-		if not _log_file == null:
-			_log_file.close()
+func _exit_tree() -> void:
+	if not _log_file == null:
+		_log_file.close()
 
 
 func get_time() -> String:
-	var date : Dictionary = OS.get_datetime()
-	return LEFT_BRACKET + (ZERO if date[HOUR] < 10 else EMPTY) + str(date[HOUR]) + COLON + \
-			(ZERO if date[MINUTE] < 10 else EMPTY) + str(date[MINUTE]) + COLON + \
-			(ZERO if date[SECOND] < 10 else EMPTY) + str(date[SECOND]) + RIGHT_BRACKET
+	var time : Dictionary = OS.get_time()
+	return "[%s:%s:%s]" % [str(time["hour"]).pad_zeros(2), str(time["minute"]).pad_zeros(2), 
+			str(time["second"]).pad_zeros(2)]
 
+
+func get_datetime() -> String:
+	var datetime : Dictionary = OS.get_datetime()
+	return "%s.%s.%s, %s:%s:%s" % [str(datetime["day"]).pad_zeros(2), str(datetime["month"]).pad_zeros(2), 
+			str(datetime["year"]), str(datetime["hour"]).pad_zeros(2), str(datetime["minute"]).pad_zeros(2), 
+			str(datetime["second"]).pad_zeros(2)]
 
 func out(level: int, format_string := "", args := []) -> void:
 	if log_level <= level and level >= TYPE.DEBUG and level < TYPE.NONE:
-		print_and_store(get_time() + CLIENT_TAG + LOG_TAGS[level] + 
-				TAG_SUFFIX + format_string.format(args, "{_}"))
+		print_and_store(get_time() + "[CLIENT]" + TAGS[level] + ": "+ format_string.format(args, "{_}"))
 
 
-func debug(format_string := EMPTY, args := []) -> void:
+func debug(format_string: String, args := []) -> void:
 	out(TYPE.DEBUG, format_string, args)
 
 
-func info(format_string := EMPTY, args := []) -> void:
+func info(format_string: String, args := []) -> void:
 	out(TYPE.INFO, format_string, args)
 
 
-func warn(format_string := EMPTY, args := []) -> void:
+func warn(format_string: String, args := []) -> void:
 	out(TYPE.WARNING, format_string, args)
 
 
-func error(format_string := EMPTY, args := []) -> void:
+func error(format_string: String, args := []) -> void:
 	out(TYPE.ERROR, format_string, args)
 
 
@@ -90,19 +78,13 @@ func create_file() -> void:
 		if not dir.dir_exists(folder_path):
 			dir.make_dir(folder_path)
 
-		_log_file.open(folder_path.plus_file(FILE_NAME), File.WRITE_READ)
-
-	var date = OS.get_datetime()
+		var error = _log_file.open(folder_path.plus_file(FILE_NAME), File.WRITE_READ)
+		if not error == OK:
+			_log_file == null
+			return
 
 	store(HEADER_BORDER)
-	store(LEFT_BORDER + 
-			(ZERO if date[DAY] < 10 else EMPTY) + str(date[DAY]) + DOT +
-			(ZERO if date[MONTH] < 10 else EMPTY) + str(date[MONTH]) + DOT +
-			str(date[YEAR]) + COMA_SEPERATOR +
-			(ZERO if date[HOUR] < 10 else EMPTY) + str(date[HOUR]) + COLON + 
-			(ZERO if date[MINUTE] < 10 else EMPTY) + str(date[MINUTE]) + COLON +
-			(ZERO if date[SECOND] < 10 else EMPTY) + str(date[SECOND]) +
-			RIGHT_BORDER)
+	store(LEFT_BORDER + get_datetime() + RIGHT_BORDER)
 	store(HEADER_BORDER)
 
 

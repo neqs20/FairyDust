@@ -1,16 +1,20 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://scenes/login_screen/scripts/settings_window_visibilty_changer.gd" type="Script" id=1]
+[ext_resource path="res://scenes/login_screen/scripts/settings_button.gd" type="Script" id=1]
 [ext_resource path="res://scenes/login_screen/scripts/key_binds_manager.gd" type="Script" id=2]
 [ext_resource path="res://scenes/login_screen/scripts/login_window_manager.gd" type="Script" id=3]
 [ext_resource path="res://scenes/login_screen/scripts/mouse_settings_manager.gd" type="Script" id=4]
+[ext_resource path="res://scenes/login_screen/scripts/key_binds_generator.gd" type="Script" id=5]
+
+[sub_resource type="StyleBoxEmpty" id=1]
 
 [node name="LoginScreen" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 1 )
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_horizontal_guides_": [  ],
+"_edit_use_anchors_": false,
+"_edit_vertical_guides_": [  ]
 }
 
 [node name="LoginWindow" type="VBoxContainer" parent="."]
@@ -29,7 +33,7 @@ __meta__ = {
 }
 
 [node name="Login" type="LineEdit" parent="LoginWindow"]
-margin_right = 199.0
+margin_right = 133.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 0, 28 )
 focus_next = NodePath("../Password")
@@ -41,7 +45,7 @@ caret_blink = true
 
 [node name="Password" type="LineEdit" parent="LoginWindow"]
 margin_top = 38.0
-margin_right = 199.0
+margin_right = 133.0
 margin_bottom = 66.0
 rect_min_size = Vector2( 0, 28 )
 focus_next = NodePath("../SaveId")
@@ -61,11 +65,11 @@ text = "Save Id"
 
 [node name="Buttons" type="HBoxContainer" parent="LoginWindow"]
 margin_top = 110.0
-margin_right = 199.0
+margin_right = 133.0
 margin_bottom = 138.0
 
 [node name="Enter" type="Button" parent="LoginWindow/Buttons"]
-margin_right = 97.0
+margin_right = 64.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 0, 28 )
 focus_next = NodePath("../Quit")
@@ -75,8 +79,8 @@ disabled = true
 text = "ENTER"
 
 [node name="Quit" type="Button" parent="LoginWindow/Buttons"]
-margin_left = 101.0
-margin_right = 199.0
+margin_left = 68.0
+margin_right = 133.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 0, 28 )
 focus_next = NodePath("../../Login")
@@ -93,20 +97,18 @@ margin_left = 0.639999
 margin_top = 0.320007
 margin_right = 2.63998
 margin_bottom = 0.240051
+toggle_mode = true
 text = "Settings"
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SettingsWindow" type="WindowDialog" parent="."]
-visible = true
-anchor_left = 0.008
-anchor_right = 0.242
-anchor_bottom = 0.532
-margin_left = -0.36
+margin_left = 15.0
 margin_top = 25.0
-margin_right = 0.359985
-margin_bottom = 0.440002
+margin_right = 465.0
+margin_bottom = 575.0
 rect_min_size = Vector2( 350, 450 )
 window_title = "Settings"
 resizable = true
@@ -122,13 +124,114 @@ __meta__ = {
 }
 
 [node name="Graphic" type="VBoxContainer" parent="SettingsWindow/SettingsTabs"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
 margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
+
+[node name="Window" type="VBoxContainer" parent="SettingsWindow/SettingsTabs/Graphic"]
+margin_right = 442.0
+margin_bottom = 114.0
+
+[node name="Label" type="Label" parent="SettingsWindow/SettingsTabs/Graphic/Window"]
+margin_right = 442.0
+margin_bottom = 14.0
+text = "Window"
+align = 1
+valign = 1
+
+[node name="Resolution" type="HBoxContainer" parent="SettingsWindow/SettingsTabs/Graphic/Window"]
+margin_top = 18.0
+margin_right = 442.0
+margin_bottom = 38.0
+
+[node name="Label" type="Label" parent="SettingsWindow/SettingsTabs/Graphic/Window/Resolution"]
+margin_top = 3.0
+margin_right = 219.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+text = "Resolution"
+valign = 1
+
+[node name="OptionButton" type="OptionButton" parent="SettingsWindow/SettingsTabs/Graphic/Window/Resolution"]
+margin_left = 223.0
+margin_right = 442.0
+margin_bottom = 20.0
+size_flags_horizontal = 7
+size_flags_vertical = 4
+text = "1920x1080"
+items = [ "1920x1080", null, false, 0, null ]
+selected = 0
+
+[node name="Mode" type="HBoxContainer" parent="SettingsWindow/SettingsTabs/Graphic/Window"]
+margin_top = 42.0
+margin_right = 442.0
+margin_bottom = 62.0
+
+[node name="Label" type="Label" parent="SettingsWindow/SettingsTabs/Graphic/Window/Mode"]
+margin_top = 3.0
+margin_right = 219.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+text = "Mode"
+valign = 1
+
+[node name="OptionButton" type="OptionButton" parent="SettingsWindow/SettingsTabs/Graphic/Window/Mode"]
+margin_left = 223.0
+margin_right = 442.0
+margin_bottom = 20.0
+size_flags_horizontal = 7
+size_flags_vertical = 4
+text = "Fullscreen"
+items = [ "Fullscreen", null, false, 0, null, "Windowed", null, false, 1, null ]
+selected = 0
+
+[node name="Msaa" type="HBoxContainer" parent="SettingsWindow/SettingsTabs/Graphic/Window"]
+margin_top = 66.0
+margin_right = 442.0
+margin_bottom = 86.0
+
+[node name="Label" type="Label" parent="SettingsWindow/SettingsTabs/Graphic/Window/Msaa"]
+margin_top = 3.0
+margin_right = 219.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+text = "Msaa"
+valign = 1
+
+[node name="OptionButton" type="OptionButton" parent="SettingsWindow/SettingsTabs/Graphic/Window/Msaa"]
+margin_left = 223.0
+margin_right = 442.0
+margin_bottom = 20.0
+size_flags_horizontal = 7
+size_flags_vertical = 4
+text = "Disabled"
+items = [ "Disabled", null, false, 0, null, "MSAA 2x", null, false, 1, null, "MSAA 4x", null, false, 2, null, "MSAA 8x", null, false, 3, null, "MSAA 16x", null, false, 4, null ]
+selected = 0
+
+[node name="GridContainer" type="GridContainer" parent="SettingsWindow/SettingsTabs/Graphic/Window"]
+margin_top = 90.0
+margin_right = 442.0
+margin_bottom = 114.0
+columns = 2
+
+[node name="Vsync" type="CheckBox" parent="SettingsWindow/SettingsTabs/Graphic/Window/GridContainer"]
+margin_left = 50.0
+margin_right = 169.0
+margin_bottom = 24.0
+size_flags_horizontal = 6
+text = "Vsync Enabled"
+align = 1
+
+[node name="FontOversampling" type="CheckBox" parent="SettingsWindow/SettingsTabs/Graphic/Window/GridContainer"]
+margin_left = 258.0
+margin_right = 407.0
+margin_bottom = 24.0
+size_flags_horizontal = 6
+text = "Font Oversampling"
+align = 1
 
 [node name="Sound" type="VBoxContainer" parent="SettingsWindow/SettingsTabs"]
 visible = false
@@ -140,6 +243,7 @@ margin_right = -4.0
 margin_bottom = -4.0
 
 [node name="Input" type="VBoxContainer" parent="SettingsWindow/SettingsTabs"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -149,12 +253,12 @@ margin_bottom = -4.0
 custom_constants/separation = 15
 
 [node name="Control" type="VBoxContainer" parent="SettingsWindow/SettingsTabs/Input"]
-margin_right = 441.0
-margin_bottom = 42.0
+margin_right = 442.0
+margin_bottom = 34.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="SettingsWindow/SettingsTabs/Input/Control"]
-margin_right = 441.0
+margin_right = 442.0
 margin_bottom = 14.0
 text = "Control"
 align = 1
@@ -162,23 +266,23 @@ valign = 1
 
 [node name="MouseSensitivity" type="HBoxContainer" parent="SettingsWindow/SettingsTabs/Input/Control"]
 margin_top = 18.0
-margin_right = 441.0
-margin_bottom = 42.0
+margin_right = 442.0
+margin_bottom = 34.0
 alignment = 2
 
 [node name="Label" type="Label" parent="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity"]
-margin_top = 5.0
-margin_right = 218.0
-margin_bottom = 19.0
+margin_top = 1.0
+margin_right = 219.0
+margin_bottom = 15.0
 size_flags_horizontal = 3
 text = "Mouse Sensitivity"
 align = 1
 valign = 1
 
 [node name="Input" type="HBoxContainer" parent="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity"]
-margin_left = 222.0
-margin_right = 441.0
-margin_bottom = 24.0
+margin_left = 223.0
+margin_right = 442.0
+margin_bottom = 16.0
 size_flags_horizontal = 3
 script = ExtResource( 4 )
 __meta__ = {
@@ -186,9 +290,8 @@ __meta__ = {
 }
 
 [node name="Slider" type="HSlider" parent="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity/Input"]
-margin_top = 4.0
-margin_right = 157.0
-margin_bottom = 20.0
+margin_right = 167.0
+margin_bottom = 16.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
 max_value = 10.0
@@ -197,31 +300,59 @@ tick_count = 11
 ticks_on_borders = true
 
 [node name="Value" type="LineEdit" parent="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity/Input"]
-margin_left = 161.0
+margin_left = 171.0
 margin_right = 219.0
-margin_bottom = 24.0
+margin_bottom = 16.0
+custom_styles/normal = SubResource( 1 )
 align = 1
 max_length = 3
 
 [node name="KeyBinds" type="VBoxContainer" parent="SettingsWindow/SettingsTabs/Input"]
-margin_top = 57.0
-margin_right = 441.0
+margin_top = 49.0
+margin_right = 442.0
 margin_bottom = 514.0
 size_flags_vertical = 3
 script = ExtResource( 2 )
 
 [node name="Label" type="Label" parent="SettingsWindow/SettingsTabs/Input/KeyBinds"]
-margin_right = 441.0
+margin_right = 442.0
 margin_bottom = 14.0
 text = "Key Binds"
 align = 1
 valign = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="SettingsWindow/SettingsTabs/Input/KeyBinds"]
+margin_top = 18.0
+margin_right = 442.0
+margin_bottom = 465.0
+size_flags_vertical = 3
+follow_focus = true
+scroll_horizontal_enabled = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/ScrollContainer"]
+margin_right = 442.0
+margin_bottom = 308.0
+size_flags_horizontal = 3
+custom_constants/separation = 0
+script = ExtResource( 5 )
+
+[node name="Labels" type="VBoxContainer" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/ScrollContainer/HBoxContainer"]
+margin_right = 221.0
+margin_bottom = 308.0
+size_flags_horizontal = 3
+
+[node name="Buttons" type="VBoxContainer" parent="SettingsWindow/SettingsTabs/Input/KeyBinds/ScrollContainer/HBoxContainer"]
+margin_left = 221.0
+margin_right = 442.0
+margin_bottom = 308.0
+size_flags_horizontal = 3
 [connection signal="text_changed" from="LoginWindow/Login" to="LoginWindow" method="_on_Login_and_Password_text_changed"]
 [connection signal="text_changed" from="LoginWindow/Password" to="LoginWindow" method="_on_Login_and_Password_text_changed"]
 [connection signal="text_entered" from="LoginWindow/Password" to="LoginWindow" method="_on_Password_text_entered"]
 [connection signal="pressed" from="LoginWindow/Buttons/Enter" to="LoginWindow" method="_on_Enter_pressed"]
 [connection signal="pressed" from="LoginWindow/Buttons/Quit" to="LoginWindow" method="_on_Quit_pressed"]
-[connection signal="pressed" from="Settings" to="." method="_on_Settings_pressed"]
+[connection signal="toggled" from="Settings" to="Settings" method="_on_Settings_toggled"]
+[connection signal="popup_hide" from="SettingsWindow" to="Settings" method="_on_SettingsWindow_popup_hide"]
 [connection signal="value_changed" from="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity/Input/Slider" to="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity/Input" method="_on_Slider_value_changed"]
 [connection signal="focus_exited" from="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity/Input/Value" to="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity/Input" method="_on_Value_focus_exited"]
 [connection signal="text_entered" from="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity/Input/Value" to="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity/Input" method="_on_Value_text_entered"]

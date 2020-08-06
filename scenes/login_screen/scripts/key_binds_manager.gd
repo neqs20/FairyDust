@@ -1,86 +1,66 @@
+## Key Binds Manager
 extends VBoxContainer
 
 
-const buttons := []
+## An array of [Button]s.
+onready var buttons: Array = $ScrollContainer/HBoxContainer/Buttons.get_children()
 
 
 func _ready() -> void:
-	var kbb = _create_key_binds_buttons()
-	for i in range(kbb.size()):
-		add_child(kbb[i], true)
-		
-		var b = kbb[i].get_node(kbb[i].name)
-		b.connect("gui_input", self, "_on_key_bind_gui_input", [i])
-		buttons.push_back(b)
+	for button in buttons:
+		button.connect("gui_input", self, "_on_key_bind_gui_input", [button])
 
 
-func _on_key_bind_gui_input(event: InputEvent, index: int) -> void:
+## Called when one of [Button]s from [member buttons] receive [signal Control.gui_input].
+## [param button] is a reference to that [Button].
+func _on_key_bind_gui_input(event: InputEvent, button: Button) -> void:
+	# Only InputEventKey is supported.
+	# TODO: Add support for InputEventMouseButton.
 	if event is InputEventKey:
-		if not buttons[index].pressed:
+		# button needs to pressed to bind a key
+		if not button.pressed:
 			return
 
 		if event.pressed:
-			buttons[index].text = OS.get_scancode_string(event.get_scancode_with_modifiers())
+			# Remember current key bind
+			var last_bind = button.text
+			# Display current scancode with modifiers
+			button.text = OS.get_scancode_string(event.get_scancode_with_modifiers())
+			# Enable modifiers if event has any
 			event.action_pressed_on_modifier = event.alt or event.control or event.shift
 			match event.scancode:
-				KEY_CONTROL, KEY_SHIFT, KEY_ALT, KEY_MASK_META:
-						buttons[index].text = ""
+				# Don't allow binding control, shift and meta key alone
+				KEY_CONTROL, KEY_SHIFT, KEY_MASK_META:
+					button.text = last_bind
 				KEY_ESCAPE:
-					_erase_key(buttons[index].name, index, event)
+					_erase_key(button)
 				_:
-					_change_key(buttons[index].name, event)
-
+					_change_key(button.name, event)
 			return
-
-		buttons[index].pressed = false
+		button.pressed = false
 	elif event is InputEventMouseButton:
-		for i in range(buttons.size()):
-			if i == index: 
+		for b in buttons:
+			if button == b:
 				continue
+			b.pressed = false
 
-			buttons[i].pressed = false
 
+## Deletes every occurence of [param event] and adds [param event] to the [param action]
 func _change_key(action: String, event: InputEventKey) -> void:
+	# Delete all events from the action
 	InputMap.action_erase_events(action)
-	
-	var actions = KeyBinds.BINDS.keys()
 
-	for i in range(actions.size()):
-		if not InputMap.action_has_event(actions[i], event):
+	# Check if event already exist
+	for button in buttons:
+		if not InputMap.action_has_event(button.name, event):
 			continue
-		_erase_key(actions[i], i, event)
+		_erase_key(button)
 
+	# add new event to the action
 	InputMap.action_add_event(action, event)
 
-	KeyBinds.update_bind(action, event.scancode, event.alt, event.shift, event.control)
 
-
-func _erase_key(action: String, index: int, event: InputEventKey) -> void:
-	InputMap.action_erase_event(action, event)
-	KeyBinds.update_bind(action, 0, false, false, false)
-	buttons[index].text = ""
-
-func _create_key_binds_buttons() -> Array:
-	var ret := []
-
-	for bind in KeyBinds.BINDS:
-		var hbox : HBoxContainer = HBoxContainer.new()
-		hbox.name = bind
-
-		var action_label : Label = Label.new()
-		action_label.valign = Label.VALIGN_CENTER
-		action_label.align = Label.ALIGN_CENTER
-		action_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		action_label.text = bind.capitalize()
-		
-		var button : Button = Button.new()
-		button.toggle_mode = true
-		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		button.text = InputMap.get_action_list(bind).back().as_text()
-		button.name = bind
-
-		hbox.add_child(action_label)
-		hbox.add_child(button, true)
-
-		ret.push_back(hbox)
-	return ret
+## Deletes all events from action, clears [Button]'s text
+func _erase_key(button: Button) -> void:
+	InputMap.action_erase_events(button.name)
+	button.text = ""
