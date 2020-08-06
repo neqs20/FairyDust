@@ -16,7 +16,7 @@ It made my life great again.
 
 ### Binary
 
-You can find exported game on this [Realeses](https://github.com/HazmatDemon/fairy-dust-client/releases) page.
+You can find exported game on this [Releases](https://github.com/HazmatDemon/fairy-dust-client/releases) page.
 
 ### Export it your self
 
