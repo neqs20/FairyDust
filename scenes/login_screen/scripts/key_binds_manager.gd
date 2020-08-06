@@ -33,7 +33,10 @@ func _on_key_bind_gui_input(event: InputEvent, button: Button) -> void:
 				KEY_CONTROL, KEY_SHIFT, KEY_MASK_META:
 					button.text = last_bind
 				KEY_ESCAPE:
-					_erase_key(button)
+					if button.name == "ui_cancel":
+						_change_key(button.name, event)
+					else:
+						_erase_key(button)
 				_:
 					_change_key(button.name, event)
 			return
@@ -43,6 +46,7 @@ func _on_key_bind_gui_input(event: InputEvent, button: Button) -> void:
 			if button == b:
 				continue
 			b.pressed = false
+
 
 
 ## Deletes every occurence of [param event] and adds [param event] to the [param action]

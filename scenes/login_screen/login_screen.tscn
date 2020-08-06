@@ -9,6 +9,7 @@
 [sub_resource type="StyleBoxEmpty" id=1]
 
 [node name="LoginScreen" type="Control"]
+pause_mode = 1
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
@@ -105,11 +106,13 @@ __meta__ = {
 }
 
 [node name="SettingsWindow" type="WindowDialog" parent="."]
+pause_mode = 1
 margin_left = 15.0
 margin_top = 25.0
 margin_right = 465.0
 margin_bottom = 575.0
 rect_min_size = Vector2( 350, 450 )
+popup_exclusive = true
 window_title = "Settings"
 resizable = true
 __meta__ = {

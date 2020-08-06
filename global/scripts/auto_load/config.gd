@@ -10,8 +10,8 @@ const PATH := "user://settings.ini"
 
 
 var config := ConfigFile.new()
-##
 var is_loaded := false
+
 
 func _enter_tree() -> void:
 	var error = config.load(PATH)
@@ -23,8 +23,9 @@ func _enter_tree() -> void:
 			return
 	is_loaded = true
 
-# gets a value from config. If config is not loaded or entry doesn't exist or 
-# types aren't matching returns default
+## Returns a value located under [param section] with a [param key].
+## If config is not loaded or entry doesn't exist or 
+## types aren't matching returns default.
 func get_value(section: String, key: String, default):
 	if is_loaded:
 		var v = config.get_value(section, key, default)
@@ -33,17 +34,18 @@ func get_value(section: String, key: String, default):
 	return default
 
 
+## Sets a value in given [param section] and [param key]. If config is not loaded
+## does nothing
 func set_value(section: String, key: String, value) -> void:
 	if is_loaded:
 		config.set_value(section, key, value)
 
-
+## Returns [Array] of [String]s (keys) from [param section]. If section doesn't
+## exists or doesn't have any keys returns empty array
 func get_section_keys(section: String) -> Array:
 	if is_loaded:
 		if config.has_section(section):
-			var ret = config.get_section_keys(section)
-			if not ret.empty():
-				return ret
+			return Array(config.get_section_keys(section))
 	return []
 
 

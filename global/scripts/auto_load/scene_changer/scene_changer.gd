@@ -1,9 +1,12 @@
+## Scene Changer
 extends CanvasLayer
 
 
 onready var animation = $Animation
 
-
+## Changes the scene to [param path] with fade effect.
+## If [param node] is not null and [param sig] exists waits for [param sig]
+## before fading out
 func change(path: String, node: Node = null, sig: String = "") -> void:
 	animation.play("fade_effect")
 	yield(animation, "animation_finished")
