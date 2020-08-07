@@ -18,25 +18,63 @@ __meta__ = {
 "_edit_vertical_guides_": [  ]
 }
 
-[node name="LoginWindow" type="VBoxContainer" parent="."]
-anchor_left = 0.448
-anchor_top = 0.741
-anchor_right = 0.552
-anchor_bottom = 0.869
-margin_left = -0.160034
-margin_top = -0.28009
-margin_right = 0.159912
-margin_bottom = -16.52
+[node name="Main" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Left" type="VBoxContainer" parent="Main"]
+margin_right = 640.0
+margin_bottom = 1080.0
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="Settings" type="Button" parent="Main/Left"]
+margin_left = 271.0
+margin_top = 948.0
+margin_right = 369.0
+margin_bottom = 976.0
+rect_min_size = Vector2( 98, 28 )
+size_flags_horizontal = 4
+toggle_mode = true
+text = "Settings"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="Main/Left"]
+margin_top = 980.0
+margin_right = 640.0
+margin_bottom = 1080.0
+rect_min_size = Vector2( 0, 100 )
+
+[node name="Center" type="VBoxContainer" parent="Main"]
+margin_left = 640.0
+margin_right = 1280.0
+margin_bottom = 1080.0
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="LoginWindow" type="VBoxContainer" parent="Main/Center"]
+margin_left = 220.0
+margin_top = 842.0
+margin_right = 420.0
+margin_bottom = 976.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 4
 custom_constants/separation = 10
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Login" type="LineEdit" parent="LoginWindow"]
-margin_right = 133.0
-margin_bottom = 28.0
-rect_min_size = Vector2( 0, 28 )
+[node name="Login" type="LineEdit" parent="Main/Center/LoginWindow"]
+margin_right = 200.0
+margin_bottom = 24.0
 focus_next = NodePath("../Password")
 focus_previous = NodePath("../Buttons/Quit")
 align = 1
@@ -44,10 +82,10 @@ max_length = 16
 placeholder_text = "LOGIN"
 caret_blink = true
 
-[node name="Password" type="LineEdit" parent="LoginWindow"]
-margin_top = 38.0
-margin_right = 133.0
-margin_bottom = 66.0
+[node name="Password" type="LineEdit" parent="Main/Center/LoginWindow"]
+margin_top = 34.0
+margin_right = 200.0
+margin_bottom = 62.0
 rect_min_size = Vector2( 0, 28 )
 focus_next = NodePath("../SaveId")
 focus_previous = NodePath("../Login")
@@ -57,20 +95,20 @@ secret = true
 placeholder_text = "PASSWORD"
 caret_blink = true
 
-[node name="SaveId" type="CheckBox" parent="LoginWindow"]
-margin_top = 76.0
+[node name="SaveId" type="CheckBox" parent="Main/Center/LoginWindow"]
+margin_top = 72.0
 margin_right = 74.0
-margin_bottom = 100.0
+margin_bottom = 96.0
 size_flags_horizontal = 0
 text = "Save Id"
 
-[node name="Buttons" type="HBoxContainer" parent="LoginWindow"]
-margin_top = 110.0
-margin_right = 133.0
-margin_bottom = 138.0
+[node name="Buttons" type="HBoxContainer" parent="Main/Center/LoginWindow"]
+margin_top = 106.0
+margin_right = 200.0
+margin_bottom = 134.0
 
-[node name="Enter" type="Button" parent="LoginWindow/Buttons"]
-margin_right = 64.0
+[node name="Enter" type="Button" parent="Main/Center/LoginWindow/Buttons"]
+margin_right = 98.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 0, 28 )
 focus_next = NodePath("../Quit")
@@ -79,9 +117,9 @@ size_flags_horizontal = 3
 disabled = true
 text = "ENTER"
 
-[node name="Quit" type="Button" parent="LoginWindow/Buttons"]
-margin_left = 68.0
-margin_right = 133.0
+[node name="Quit" type="Button" parent="Main/Center/LoginWindow/Buttons"]
+margin_left = 102.0
+margin_right = 200.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 0, 28 )
 focus_next = NodePath("../../Login")
@@ -89,21 +127,17 @@ focus_previous = NodePath("../Enter")
 size_flags_horizontal = 3
 text = "QUIT"
 
-[node name="Settings" type="Button" parent="."]
-anchor_left = 0.033
-anchor_top = 0.921
-anchor_right = 0.083
-anchor_bottom = 0.947
-margin_left = 0.639999
-margin_top = 0.320007
-margin_right = 2.63998
-margin_bottom = 0.240051
-toggle_mode = true
-text = "Settings"
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Seperation" type="Control" parent="Main/Center"]
+margin_top = 980.0
+margin_right = 640.0
+margin_bottom = 1080.0
+rect_min_size = Vector2( 0, 100 )
+
+[node name="Right" type="VBoxContainer" parent="Main"]
+margin_left = 1280.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+size_flags_horizontal = 3
 
 [node name="SettingsWindow" type="WindowDialog" parent="."]
 pause_mode = 1
@@ -349,13 +383,13 @@ margin_left = 221.0
 margin_right = 442.0
 margin_bottom = 308.0
 size_flags_horizontal = 3
-[connection signal="text_changed" from="LoginWindow/Login" to="LoginWindow" method="_on_Login_and_Password_text_changed"]
-[connection signal="text_changed" from="LoginWindow/Password" to="LoginWindow" method="_on_Login_and_Password_text_changed"]
-[connection signal="text_entered" from="LoginWindow/Password" to="LoginWindow" method="_on_Password_text_entered"]
-[connection signal="pressed" from="LoginWindow/Buttons/Enter" to="LoginWindow" method="_on_Enter_pressed"]
-[connection signal="pressed" from="LoginWindow/Buttons/Quit" to="LoginWindow" method="_on_Quit_pressed"]
-[connection signal="toggled" from="Settings" to="Settings" method="_on_Settings_toggled"]
-[connection signal="popup_hide" from="SettingsWindow" to="Settings" method="_on_SettingsWindow_popup_hide"]
+[connection signal="toggled" from="Main/Left/Settings" to="Main/Left/Settings" method="_on_Settings_toggled"]
+[connection signal="text_changed" from="Main/Center/LoginWindow/Login" to="Main/Center/LoginWindow" method="_on_Login_and_Password_text_changed"]
+[connection signal="text_changed" from="Main/Center/LoginWindow/Password" to="Main/Center/LoginWindow" method="_on_Login_and_Password_text_changed"]
+[connection signal="text_entered" from="Main/Center/LoginWindow/Password" to="Main/Center/LoginWindow" method="_on_Password_text_entered"]
+[connection signal="pressed" from="Main/Center/LoginWindow/Buttons/Enter" to="Main/Center/LoginWindow" method="_on_Enter_pressed"]
+[connection signal="pressed" from="Main/Center/LoginWindow/Buttons/Quit" to="Main/Center/LoginWindow" method="_on_Quit_pressed"]
+[connection signal="popup_hide" from="SettingsWindow" to="Main/Left/Settings" method="_on_SettingsWindow_popup_hide"]
 [connection signal="value_changed" from="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity/Input/Slider" to="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity/Input" method="_on_Slider_value_changed"]
 [connection signal="focus_exited" from="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity/Input/Value" to="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity/Input" method="_on_Value_focus_exited"]
 [connection signal="text_entered" from="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity/Input/Value" to="SettingsWindow/SettingsTabs/Input/Control/MouseSensitivity/Input" method="_on_Value_text_entered"]

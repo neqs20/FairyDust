@@ -1,3 +1,4 @@
+## Key Binds
 extends Node
 
 
@@ -19,7 +20,7 @@ func _ready() -> void:
 		InputMap.action_erase_events(action)
 		InputMap.action_add_event(action, input)
 
-# Checks if event exists in any action
+## Returns true if event exists in any action
 func has_event(event: InputEventKey) -> bool:
 	for caction in InputMap.get_actions():
 		# get all InputEvents from input map

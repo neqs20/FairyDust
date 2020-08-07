@@ -48,8 +48,8 @@ gdscript/warnings/unsafe_call_argument=true
 
 [display]
 
-window/size/width=1280
-window/size/height=720
+window/size/width=1920
+window/size/height=1080
 window/vsync/use_vsync=false
 
 [editor]

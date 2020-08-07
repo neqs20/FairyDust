@@ -2,7 +2,7 @@
 extends Button
 
 
-onready var SettingsWindow: WindowDialog = $"../SettingsWindow"
+onready var SettingsWindow: WindowDialog = $"/root/LoginScreen/SettingsWindow"
 
 ## Position and size of [member SettingsWindow]
 const popup_size := Rect2(15, 35, 450, 550)

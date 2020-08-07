@@ -1,21 +1,32 @@
+## Network
+## @desc:
+##     Handles incoming server packets in callback fashion. Sends packets to the server.
 extends Node
 
+## [param result] is a 4-bit signed integer that is either 1 or 0 (hex: 0-f)
+## Note that Godot only supports 64 bit signed integers
 signal authentication(result)
-signal characters_data(map, level, classname, name)
+## [param map] is a 8-bit unsigned integer (hex: 00-ff)
+## [param level] is a 8-bit unsigned integer (hex: 00-ff)
+## [param classname] is a 4-bit unsigned integer (hex: 0-f)
+## [param charname] is a String
+signal characters_data(map, level, classname, charname)
 
 const SIGNALS := {
-	"connected_to_server" : "connected",
-	"connection_failed" : "failed",
-	"server_disconnected" : "disconnected",
-	"server_packet" : "on_server_packet",
+	"connected_to_server": "connected",
+	"connection_failed": "failed",
+	"server_disconnected": "disconnected",
+	"server_packet": "on_server_packet",
 }
 const APPLICATION_ID := 698985862419054602
 
 var port: int
 var ip: String
 
+## Helper variable that stores the time in which packet was sent
 var start := 0
-var latency := 0 # measured in ms
+## Network delay measured in milliseconds
+var latency := 0
 var connected := false
 var is_logged_in := false
 
@@ -53,22 +64,18 @@ func on_server_packet(channel: int, raw_packet: PoolByteArray) -> void:
 		Packet.LOGIN:
 			if not packet.length() == 1:
 				return
-			#emit_signal("authentication", get_int(packet.lcut(1)))
-			var result = get_int(packet.lcut(1))
-			if result == 1:
-				Logger.info(Errors.FAILED_LOGIN_ATTEMPT)
-				Utils.pop_up("Info!", Errors.WRONG_USERNAME_OR_PASSWORD)
-			elif result == 0:
-				is_logged_in = true
-				SceneChanger.change("res://scenes/character_selection/character_selection.tscn", self, "basic_char_data_received")
+			emit_signal("authentication", get_int(packet.lcut(1)))
+			#var result = get_int(packet.lcut(1))
+			#if result == 1:
+			#	Logger.info(Errors.FAILED_LOGIN_ATTEMPT)
+			#	Utils.pop_up("Info!", Errors.WRONG_USERNAME_OR_PASSWORD)
+			#elif result == 0:
+			#	is_logged_in = true
+			#	SceneChanger.change("res://scenes/character_selection/character_selection.tscn", self, "basic_char_data_received")
 		Packet.BASIC_CHAR_DATA:
-			var data = {}
 			if packet.length() > 5:
-				data["map"] = get_int(packet.lcut(2))
-				data["level"] = get_int(packet.lcut(2))
-				data["class"] = get_int(packet.lcut(1))
-				data["name"] = packet
-			emit_signal("basic_char_data_received", data)
+				emit_signal("characters_data", get_int(packet.lcut(2)), 
+						get_int(packet.lcut(2)), get_int(packet.lcut(1)), packet)
 		_:
 			Logger.info("Unhandled packet type. Data: {0}", [packet])
 

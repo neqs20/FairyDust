@@ -1,3 +1,4 @@
+## Character Selection
 extends Control
 
 
@@ -15,18 +16,18 @@ func _ready() -> void:
 	Network.connect("characters_data", self, "_characters_data")
 
 
-func characters_data(data: Dictionary) -> void:
-	if data.empty():
-		return
-	character_data.push_back(data)
-	list.add_item(data['name'])
+func characters_data(map, level, classname, charname) -> void:
+	#character_data.push_back(data)
+	#list.add_item(data['name'])
+	pass
 
 
 func _on_List_item_selected(index: int) -> void:
-	name_val.text = character_data[index]["name"]
-	class_val.text = Data.get_class_name_by_index(character_data[index]["class"])
-	map_val.text = Data.get_map_by_index(character_data[index]["map"])
-	level_val.text = str(character_data[index]["level"])
+	#name_val.text = character_data[index]["name"]
+	#class_val.text = Data.get_class_name_by_index(character_data[index]["class"])
+	#map_val.text = Data.get_map_by_index(character_data[index]["map"])
+	#level_val.text = str(character_data[index]["level"])
+	pass
 
 
 func _on_Button_pressed() -> void:
