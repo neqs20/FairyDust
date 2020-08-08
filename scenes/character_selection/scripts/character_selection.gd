@@ -12,11 +12,13 @@ onready var level_val: Label = $Info/Panel/VBoxContainer/LevelVal
 
 
 func _ready() -> void:
-	Network.set_state("Choosing a character")
+	Network.set_state("Choosing the character")
 	Network.connect("characters_data", self, "_characters_data")
 
 
-func characters_data(map, level, classname, charname) -> void:
+func _characters_data(map: int, level: int, classname: int, charname: String) -> void:
+	if charname.empty():
+		return
 	#character_data.push_back(data)
 	#list.add_item(data['name'])
 	pass

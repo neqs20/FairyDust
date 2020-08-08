@@ -5,20 +5,21 @@ extends Node
 
 ## [param result] is a 4-bit signed integer that is either 1 or 0 (hex: 0-f)
 ## Note that Godot only supports 64 bit signed integers
-signal authentication(result)
+signal log_in(result)
 ## [param map] is a 8-bit unsigned integer (hex: 00-ff)
 ## [param level] is a 8-bit unsigned integer (hex: 00-ff)
 ## [param classname] is a 4-bit unsigned integer (hex: 0-f)
 ## [param charname] is a String
 signal characters_data(map, level, classname, charname)
 
-const SIGNALS := {
-	"connected_to_server": "connected",
-	"connection_failed": "failed",
-	"server_disconnected": "disconnected",
-	"server_packet": "on_server_packet",
+enum State {
+	NONE,
+	CONNECTED,
+	LOGGED_IN,
+	READY_TO_PLAY,
+	IN_GAME,
+	MAX,
 }
-const APPLICATION_ID := 698985862419054602
 
 var port: int
 var ip: String
@@ -27,12 +28,12 @@ var ip: String
 var start := 0
 ## Network delay measured in milliseconds
 var latency := 0
-var connected := false
-var is_logged_in := false
 
 var id := -1
 
-var state
+## Represents current state of the client. This is used to prevent some
+## unwanted actions (e.g. client should not receive login packets if is already in game)
+var state: int = State.NONE
 
 var _client := ENetNode.new()
 var _client_peer := ENetPacketPeer.new()
@@ -43,37 +44,30 @@ func _enter_tree() -> void:
 	ip = Config.get_ip()
 	port = Config.get_port()
 
-	create_client()
+	_create_client()
+
+	_initialize_discord_game_sdk()
+
 	pause_mode = Node.PAUSE_MODE_PROCESS
 
-	var dis_error = discord.create(APPLICATION_ID, DiscordGameSDK.NO_REQUIRE_DISCORD)
-	if not dis_error == OK:
-		Logger.error(Errors.CANT_CREATE_DISCORD_HOOK, [dis_error])
-	discord.set_activity_large_image("fairy_dust_icon")
 
-	add_child(discord)
-
+## Called when a packet is received from the server
 func on_server_packet(channel: int, raw_packet: PoolByteArray) -> void:
 	latency = int((OS.get_ticks_usec() - start) / 1000.0)
 
 	var packet = raw_packet.get_string_from_utf8()
 	if packet.length() < Packet.LENGTH: 
 		return
-
+	print(packet)
 	match packet.lcut(Packet.LENGTH):
 		Packet.LOGIN:
 			if not packet.length() == 1:
 				return
-			emit_signal("authentication", get_int(packet.lcut(1)))
-			#var result = get_int(packet.lcut(1))
-			#if result == 1:
-			#	Logger.info(Errors.FAILED_LOGIN_ATTEMPT)
-			#	Utils.pop_up("Info!", Errors.WRONG_USERNAME_OR_PASSWORD)
-			#elif result == 0:
-			#	is_logged_in = true
-			#	SceneChanger.change("res://scenes/character_selection/character_selection.tscn", self, "basic_char_data_received")
+			emit_signal("log_in", get_int(packet.lcut(1)))
 		Packet.BASIC_CHAR_DATA:
-			if packet.length() > 5:
+			if packet.length() == 0:
+				emit_signal("characters_data", 0, 0, 0, "")
+			elif packet.length() > 5:
 				emit_signal("characters_data", get_int(packet.lcut(2)), 
 						get_int(packet.lcut(2)), get_int(packet.lcut(1)), packet)
 		_:
@@ -81,7 +75,7 @@ func on_server_packet(channel: int, raw_packet: PoolByteArray) -> void:
 
 
 func send_tcp(packet: PoolByteArray, channel := 0) -> void:
-	if not connected:
+	if state < State.CONNECTED:
 		return
 
 	start = OS.get_ticks_usec()
@@ -90,7 +84,7 @@ func send_tcp(packet: PoolByteArray, channel := 0) -> void:
 
 
 func send_udp(packet: PoolByteArray, channel := 0) -> void:
-	if not connected:
+	if state < State.CONNECTED:
 		return
 
 	start = OS.get_ticks_usec()
@@ -99,7 +93,7 @@ func send_udp(packet: PoolByteArray, channel := 0) -> void:
 
 
 func connected() -> void:
-	connected = true
+	state = State.CONNECTED
 	Logger.info("Connected to the server")
 
 
@@ -112,8 +106,7 @@ func disconnected() -> void:
 
 
 func reset_client() -> void:
-	connected = false
-	is_logged_in = false
+	state = State.NONE
 	id = -1
 
 
@@ -129,10 +122,12 @@ func _exit_tree() -> void:
 	Config.set_ip(ip)
 	Config.set_port(port)
 
-func create_client() -> void:
-	var error = _client_peer.create_client(ip, port, 2)
+
+## Sets up network and connects necessary signals
+func _create_client() -> void:
+	var error = _client_peer.create_client(ip, port)
 	if not error == OK:
-		Logger.error(Errors.CANT_CREATE_CLIENT)
+		Logger.error(Messages.CANT_CREATE_CLIENT)
 
 	_client.set_network_peer(_client_peer)
 	_client.poll_mode = ENetNode.MODE_PHYSICS
@@ -140,10 +135,33 @@ func create_client() -> void:
 
 	id = _client.get_network_unique_id()
 	
-	for signal_name in SIGNALS:
-		if not _client.is_connected(signal_name, self, SIGNALS[signal_name]):
-			var connect_error = _client.connect(signal_name, self, SIGNALS[signal_name])
-			if not connect_error == OK:
-				Logger.error(Errors.CANT_CONNECT_SIGNAL, [self, signal_name, SIGNALS[signal_name], connect_error])
-	
+	var signals := {
+		"connected_to_server": "connected",
+		"connection_failed": "failed",
+		"server_disconnected": "disconnected",
+		"server_packet": "on_server_packet",
+	}
+
+	_connect_signals(signals)
+
 	add_child(_client)
+
+
+## Helper function that connects signals
+## Keys are signals, Values are functions
+func _connect_signals(signals: Dictionary) -> void:
+	for signal_name in signals:
+		if not _client.is_connected(signal_name, self, signals[signal_name]):
+			var connect_error = _client.connect(signal_name, self, signals[signal_name])
+			if not connect_error == OK:
+				Logger.error(Messages.CANT_CONNECT_SIGNAL, [self, signal_name, signals[signal_name], connect_error])
+
+
+## Creates [DiscordGameSDK] instance, sets default image for Rich Presence
+func _initialize_discord_game_sdk() -> void:
+	var error = discord.create(698985862419054602, DiscordGameSDK.NO_REQUIRE_DISCORD)
+	if not error == OK:
+		Logger.error(Messages.CANT_CREATE_DISCORD_HOOK, [error])
+		return
+	discord.set_activity_large_image("fairy_dust_icon")
+	add_child(discord)

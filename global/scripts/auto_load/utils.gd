@@ -1,9 +1,13 @@
+## Utilities
+## @desc:
+##     Helper script for showing all kinds of popups with just one line of code
 extends Node
 
 
 var _dialog : AcceptDialog = AcceptDialog.new()
 
 
+## Shows a popup. If [param node] is spcified with a callback
 func pop_up(title: String, message: String, size := Vector2(200, 100), node: Node = null, callback := "") -> void:
 	_dialog.window_title = title
 	_dialog.dialog_text = message
@@ -16,7 +20,7 @@ func pop_up(title: String, message: String, size := Vector2(200, 100), node: Nod
 				OK:
 					pass
 				var err:
-					Logger.error(Errors.CANT_CONNECT_SIGNAL, [self, "confirmed", "on_info_dialog_confirmed", err])
+					Logger.error(Messages.CANT_CONNECT_SIGNAL, [self, "confirmed", "on_info_dialog_confirmed", err])
 		if get_children().find(_dialog) == -1:
 			add_child(_dialog)
 	else:
@@ -26,7 +30,7 @@ func pop_up(title: String, message: String, size := Vector2(200, 100), node: Nod
 					OK:
 						pass
 					var err:
-						Logger.error(Errors.CANT_CONNECT_SIGNAL, [node, "confirmed", callback, err])
+						Logger.error(Messages.CANT_CONNECT_SIGNAL, [node, "confirmed", callback, err])
 			if node.get_children().find(_dialog) == -1:
 				node.add_child(_dialog)
 

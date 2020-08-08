@@ -20,6 +20,7 @@ func _ready() -> void:
 		InputMap.action_erase_events(action)
 		InputMap.action_add_event(action, input)
 
+
 ## Returns true if event exists in any action
 func has_event(event: InputEventKey) -> bool:
 	for caction in InputMap.get_actions():

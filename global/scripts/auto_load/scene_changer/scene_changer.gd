@@ -13,7 +13,7 @@ func change(path: String, node: Node = null, sig: String = "") -> void:
 	
 	var error = get_tree().change_scene(path)
 	if error != OK:
-		Logger.error(Errors.CANT_CHANGE_SCENE, [error])
+		Logger.error(Messages.CANT_CHANGE_SCENE, [error])
 	if not (node == null or sig.empty()):
 		if node.has_signal(sig):
 			yield(node, sig)

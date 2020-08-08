@@ -17,9 +17,9 @@ func _enter_tree() -> void:
 	var error = config.load(PATH)
 	if not error == OK:
 		if error == ERR_FILE_NOT_FOUND:
-			Logger.info(Errors.CONFIG_FILE_NOT_FOUND, [PATH])
+			Logger.info(Messages.CONFIG_FILE_NOT_FOUND, [PATH])
 		else:
-			Logger.error(Errors.CONFIG_FILE_ERROR, [PATH, error])
+			Logger.error(Messages.CONFIG_FILE_ERROR, [PATH, error])
 			return
 	is_loaded = true
 
@@ -111,5 +111,5 @@ func get_input_map_section_keys() -> Array:
 
 func _exit_tree() -> void:
 	if not config.save(PATH) == OK:
-		Logger.error(Errors.CONFIG_SAVE_FAIL, [PATH])
+		Logger.error(Messages.CONFIG_SAVE_FAIL, [PATH])
 		

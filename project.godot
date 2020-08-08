@@ -28,7 +28,7 @@ enable_audio_input=true
 [autoload]
 
 Logger="*res://global/scripts/auto_load/logger.gd"
-Errors="*res://global/scripts/auto_load/errors.gd"
+Messages="*res://global/scripts/auto_load/messages.gd"
 Config="*res://global/scripts/auto_load/config.gd"
 SceneChanger="*res://global/scripts/auto_load/scene_changer/scene_changer.tscn"
 Utils="*res://global/scripts/auto_load/utils.gd"

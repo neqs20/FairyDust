@@ -24,6 +24,7 @@ func _ready() -> void:
 	else:
 		EnterButton.grab_focus()
 
+	Network.connect("log_in", self, "_log_in")
 	Network.set_state("Login Screen")
 
 
@@ -47,7 +48,7 @@ func _on_Login_and_Password_text_changed(_new_text: String) -> void:
 ## If connected to server sends credential data
 ## Otherwise displays PopUp dialog
 func _on_Enter_pressed() -> void:
-	if Network.connected:
+	if Network.state == Network.State.CONNECTED:
 		Network.send_udp((Packet.LOGIN + hex(Login.text.length(), 2) + Login.text 
 				+ Password.text.sha256_text()).to_ascii())
 	else:
@@ -60,10 +61,23 @@ func _on_Quit_pressed() -> void:
 	get_tree().quit()
 
 
+## Called when LOGIN packet is received
+func _log_in(result: int) -> void:
+	match result:
+		# Sent credentials were correct
+		0:
+			Network.state = Network.State.LOGGED_IN
+			SceneChanger.change("res://scenes/character_selection/character_selection.tscn", Network, "characters_data")
+		# They were incorrect
+		_:
+			Logger.info(Messages.FAILED_LOGIN_ATTEMPT)
+			Utils.pop_up("Information", Messages.WRONG_USERNAME_OR_PASSWORD)
+
+
 func _exit_tree() -> void:
 	if SaveId.pressed:
 		Config.set_username(Login.text)
 	Config.set_save_id(SaveId.pressed)
 
-	if Network.is_logged_in:
+	if Network.state == Network.State.LOGGED_IN:
 		Network.send_udp(Packet.BASIC_CHAR_DATA.to_ascii())
