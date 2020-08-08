@@ -1,8 +1,31 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scenes/character_selection/scripts/character_selection.gd" type="Script" id=1]
+[ext_resource path="res://scenes/tadderia/assets/canyon/canyon.tscn" type="PackedScene" id=2]
+[ext_resource path="res://global/fonts/Ubuntu/Ubuntu-Regular.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://global/fonts/Ubuntu/Ubuntu-Bold.ttf" type="DynamicFontData" id=4]
 
-[node name="CharacterSelection" type="Control"]
+[sub_resource type="DynamicFont" id=2]
+size = 20
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=1]
+size = 20
+use_mipmaps = true
+use_filter = true
+extra_spacing_top = 2
+font_data = ExtResource( 3 )
+
+[node name="Spatial" type="Spatial"]
+
+[node name="Canyon" parent="." instance=ExtResource( 2 )]
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( -1, 0, 3.25841e-07, 0, 1, 0, -3.25841e-07, 0, -1, 0, -4.27421, -2.75315 )
+
+[node name="Gui" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
@@ -10,7 +33,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Info" type="Control" parent="."]
+[node name="Info" type="Control" parent="Gui"]
+visible = false
 anchor_left = 0.781
 anchor_top = 0.093
 anchor_right = 0.938
@@ -23,14 +47,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="Info"]
+[node name="Panel" type="Panel" parent="Gui/Info"]
 anchor_right = 1.0
 anchor_bottom = 0.25
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="GridContainer" parent="Info/Panel"]
+[node name="VBoxContainer" type="GridContainer" parent="Gui/Info/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/vseparation = 23
@@ -40,53 +64,53 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="NameText" type="Label" parent="Info/Panel/VBoxContainer"]
+[node name="NameText" type="Label" parent="Gui/Info/Panel/VBoxContainer"]
 margin_right = 46.0
 margin_bottom = 14.0
 text = "Name: "
 
-[node name="NameVal" type="Label" parent="Info/Panel/VBoxContainer"]
+[node name="NameVal" type="Label" parent="Gui/Info/Panel/VBoxContainer"]
 margin_left = 56.0
 margin_right = 56.0
 margin_bottom = 14.0
 
-[node name="LevelText" type="Label" parent="Info/Panel/VBoxContainer"]
+[node name="LevelText" type="Label" parent="Gui/Info/Panel/VBoxContainer"]
 margin_top = 37.0
 margin_right = 46.0
 margin_bottom = 51.0
 text = "Level: "
 
-[node name="LevelVal" type="Label" parent="Info/Panel/VBoxContainer"]
+[node name="LevelVal" type="Label" parent="Gui/Info/Panel/VBoxContainer"]
 margin_left = 56.0
 margin_top = 37.0
 margin_right = 56.0
 margin_bottom = 51.0
 
-[node name="MapText" type="Label" parent="Info/Panel/VBoxContainer"]
+[node name="MapText" type="Label" parent="Gui/Info/Panel/VBoxContainer"]
 margin_top = 74.0
 margin_right = 46.0
 margin_bottom = 88.0
 text = "Map: "
 
-[node name="MapVal" type="Label" parent="Info/Panel/VBoxContainer"]
+[node name="MapVal" type="Label" parent="Gui/Info/Panel/VBoxContainer"]
 margin_left = 56.0
 margin_top = 74.0
 margin_right = 56.0
 margin_bottom = 88.0
 
-[node name="ClassText" type="Label" parent="Info/Panel/VBoxContainer"]
+[node name="ClassText" type="Label" parent="Gui/Info/Panel/VBoxContainer"]
 margin_top = 111.0
 margin_right = 46.0
 margin_bottom = 125.0
 text = "Class: "
 
-[node name="ClassVal" type="Label" parent="Info/Panel/VBoxContainer"]
+[node name="ClassVal" type="Label" parent="Gui/Info/Panel/VBoxContainer"]
 margin_left = 56.0
 margin_top = 111.0
 margin_right = 56.0
 margin_bottom = 125.0
 
-[node name="List" type="ItemList" parent="Info"]
+[node name="List" type="ItemList" parent="Gui/Info"]
 anchor_top = 0.334
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -95,7 +119,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button" type="Button" parent="."]
+[node name="Button" type="Button" parent="Gui"]
+visible = false
 margin_left = 660.0
 margin_top = 900.0
 margin_right = 1260.0
@@ -104,5 +129,98 @@ text = "PLAY"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="item_selected" from="Info/List" to="." method="_on_List_item_selected"]
-[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+
+[node name="Main" type="HBoxContainer" parent="Gui"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Left" type="VBoxContainer" parent="Gui/Main"]
+margin_right = 960.0
+margin_bottom = 1080.0
+size_flags_horizontal = 3
+size_flags_vertical = 5
+alignment = 1
+
+[node name="Panel" type="Panel" parent="Gui/Main/Left"]
+margin_left = 320.0
+margin_top = 250.0
+margin_right = 640.0
+margin_bottom = 830.0
+rect_min_size = Vector2( 320, 580 )
+size_flags_horizontal = 4
+
+[node name="Selection" type="VBoxContainer" parent="Gui/Main/Left/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Top" type="VBoxContainer" parent="Gui/Main/Left/Panel/Selection"]
+margin_right = 320.0
+margin_bottom = 180.0
+rect_min_size = Vector2( 0, 180 )
+
+[node name="Name" type="Label" parent="Gui/Main/Left/Panel/Selection/Top"]
+margin_right = 320.0
+margin_bottom = 23.0
+custom_fonts/font = SubResource( 2 )
+text = "{NAME}"
+align = 1
+valign = 1
+
+[node name="Offset" type="MarginContainer" parent="Gui/Main/Left/Panel/Selection/Top"]
+margin_top = 27.0
+margin_right = 320.0
+margin_bottom = 180.0
+size_flags_vertical = 3
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+
+[node name="Details" type="RichTextLabel" parent="Gui/Main/Left/Panel/Selection/Top/Offset"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 310.0
+margin_bottom = 143.0
+size_flags_vertical = 3
+custom_fonts/normal_font = SubResource( 1 )
+bbcode_enabled = true
+bbcode_text = "Level:
+
+Class:
+
+Loaction:"
+text = "Level:
+
+Class:
+
+Loaction:"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Gui/Main/Left/Panel/Selection"]
+margin_top = 184.0
+margin_right = 320.0
+margin_bottom = 580.0
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Gui/Main/Left/Panel/Selection/VBoxContainer"]
+margin_right = 320.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 0, 250 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Gui/Main/Left/Panel/Selection/VBoxContainer/ScrollContainer"]
+margin_right = 320.0
+size_flags_horizontal = 3
+
+[node name="Right" type="VBoxContainer" parent="Gui/Main"]
+margin_left = 960.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+size_flags_horizontal = 3
+[connection signal="item_selected" from="Gui/Info/List" to="Gui" method="_on_List_item_selected"]
+[connection signal="pressed" from="Gui/Button" to="Gui" method="_on_Button_pressed"]

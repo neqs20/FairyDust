@@ -1,0 +1,161 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/character_selection/scripts/character_selection.gd" type="Script" id=1]
+[ext_resource path="res://scenes/tadderia/assets/canyon/canyon.tscn" type="PackedScene" id=2]
+
+[sub_resource type="ViewportTexture" id=1]
+viewport_path = NodePath("Viewport")
+
+[node name="CharacterSelection" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Info" type="Control" parent="."]
+visible = false
+anchor_left = 0.781
+anchor_top = 0.093
+anchor_right = 0.938
+anchor_bottom = 0.648
+margin_left = 0.480103
+margin_top = -0.439995
+margin_right = -0.959961
+margin_bottom = 0.159973
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="Info"]
+anchor_right = 1.0
+anchor_bottom = 0.25
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="GridContainer" parent="Info/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/vseparation = 23
+custom_constants/hseparation = 10
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NameText" type="Label" parent="Info/Panel/VBoxContainer"]
+margin_right = 46.0
+margin_bottom = 14.0
+text = "Name: "
+
+[node name="NameVal" type="Label" parent="Info/Panel/VBoxContainer"]
+margin_left = 56.0
+margin_right = 56.0
+margin_bottom = 14.0
+
+[node name="LevelText" type="Label" parent="Info/Panel/VBoxContainer"]
+margin_top = 37.0
+margin_right = 46.0
+margin_bottom = 51.0
+text = "Level: "
+
+[node name="LevelVal" type="Label" parent="Info/Panel/VBoxContainer"]
+margin_left = 56.0
+margin_top = 37.0
+margin_right = 56.0
+margin_bottom = 51.0
+
+[node name="MapText" type="Label" parent="Info/Panel/VBoxContainer"]
+margin_top = 74.0
+margin_right = 46.0
+margin_bottom = 88.0
+text = "Map: "
+
+[node name="MapVal" type="Label" parent="Info/Panel/VBoxContainer"]
+margin_left = 56.0
+margin_top = 74.0
+margin_right = 56.0
+margin_bottom = 88.0
+
+[node name="ClassText" type="Label" parent="Info/Panel/VBoxContainer"]
+margin_top = 111.0
+margin_right = 46.0
+margin_bottom = 125.0
+text = "Class: "
+
+[node name="ClassVal" type="Label" parent="Info/Panel/VBoxContainer"]
+margin_left = 56.0
+margin_top = 111.0
+margin_right = 56.0
+margin_bottom = 125.0
+
+[node name="List" type="ItemList" parent="Info"]
+anchor_top = 0.334
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -0.399979
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="."]
+visible = false
+margin_left = 660.0
+margin_top = 900.0
+margin_right = 1260.0
+margin_bottom = 1000.0
+text = "PLAY"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Main" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Left" type="VBoxContainer" parent="Main"]
+margin_right = 960.0
+margin_bottom = 1080.0
+size_flags_horizontal = 3
+size_flags_vertical = 5
+alignment = 1
+
+[node name="Panel" type="Panel" parent="Main/Left"]
+margin_left = 320.0
+margin_top = 250.0
+margin_right = 640.0
+margin_bottom = 830.0
+rect_min_size = Vector2( 320, 580 )
+size_flags_horizontal = 4
+
+[node name="Right" type="VBoxContainer" parent="Main"]
+margin_left = 960.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+size_flags_horizontal = 3
+
+[node name="Viewport" type="Viewport" parent="."]
+size = Vector2( 1920, 1080 )
+msaa = 4
+render_target_v_flip = true
+
+[node name="Canyon" parent="Viewport" instance=ExtResource( 2 )]
+
+[node name="Camera" type="Camera" parent="Viewport"]
+transform = Transform( -1, 0, 3.25841e-07, 0, 1, 0, -3.25841e-07, 0, -1, 0, -4.27421, -2.75315 )
+[connection signal="item_selected" from="Info/List" to="." method="_on_List_item_selected"]
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

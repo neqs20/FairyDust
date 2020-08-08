@@ -1,0 +1,76 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/login_screen/scripts/login_window_manager.gd" type="Script" id=1]
+
+[node name="LoginWindow" type="VBoxContainer"]
+margin_left = 220.0
+margin_top = 842.0
+margin_right = 420.0
+margin_bottom = 976.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 4
+custom_constants/separation = 10
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Login" type="LineEdit" parent="."]
+margin_right = 200.0
+margin_bottom = 24.0
+focus_next = NodePath("../Password")
+focus_previous = NodePath("../Buttons/Quit")
+align = 1
+max_length = 16
+placeholder_text = "LOGIN"
+caret_blink = true
+
+[node name="Password" type="LineEdit" parent="."]
+margin_top = 34.0
+margin_right = 200.0
+margin_bottom = 62.0
+rect_min_size = Vector2( 0, 28 )
+focus_next = NodePath("../SaveId")
+focus_previous = NodePath("../Login")
+align = 1
+max_length = 16
+secret = true
+placeholder_text = "PASSWORD"
+caret_blink = true
+
+[node name="SaveId" type="CheckBox" parent="."]
+margin_top = 72.0
+margin_right = 74.0
+margin_bottom = 96.0
+size_flags_horizontal = 0
+text = "Save Id"
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+margin_top = 106.0
+margin_right = 200.0
+margin_bottom = 134.0
+
+[node name="Enter" type="Button" parent="Buttons"]
+margin_right = 98.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 0, 28 )
+focus_next = NodePath("../Quit")
+focus_previous = NodePath("../../SaveId")
+size_flags_horizontal = 3
+disabled = true
+text = "ENTER"
+
+[node name="Quit" type="Button" parent="Buttons"]
+margin_left = 102.0
+margin_right = 200.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 0, 28 )
+focus_next = NodePath("../../Login")
+focus_previous = NodePath("../Enter")
+size_flags_horizontal = 3
+text = "QUIT"
+[connection signal="text_changed" from="Login" to="." method="_on_Login_and_Password_text_changed"]
+[connection signal="text_changed" from="Password" to="." method="_on_Login_and_Password_text_changed"]
+[connection signal="text_entered" from="Password" to="." method="_on_Password_text_entered"]
+[connection signal="pressed" from="Buttons/Enter" to="." method="_on_Enter_pressed"]
+[connection signal="pressed" from="Buttons/Quit" to="." method="_on_Quit_pressed"]

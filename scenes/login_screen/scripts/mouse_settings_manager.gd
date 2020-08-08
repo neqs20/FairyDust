@@ -46,5 +46,6 @@ func _update_slider() -> void:
 	SensSlider.value = float(Value.text)
 	Value.release_focus()
 
+
 func _exit_tree() -> void:
 	Config.set_mouse_sensitivity(SensSlider.value)
