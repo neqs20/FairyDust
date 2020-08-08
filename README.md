@@ -1,4 +1,4 @@
-[![Fairy Dust logo](/assets/textures/fairy_dust_icon/fairy_dust_icon_128x128.png)](https://discord.gg/7PVQxmr)
+[![Fairy Dust logo](/assets/textures/fairy_dust_icon/icon128x128.png)](https://discord.gg/7PVQxmr)
 ## FairyDust Client
 
 Homepage: N/A  
