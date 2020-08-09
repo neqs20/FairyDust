@@ -30,16 +30,14 @@ func _exit_tree() -> void:
 ## Returns time in [HH:MM:SS] format
 func get_time() -> String:
 	var time : Dictionary = OS.get_time()
-	return "[%s:%s:%s]" % [str(time["hour"]).pad_zeros(2), str(time["minute"]).pad_zeros(2), 
-			str(time["second"]).pad_zeros(2)]
+	return "[%02d:%02d:%02d]" % [time["hour"], time["minute"], time["second"]]
 
 
 ##  Returns date and time in DD.MM.YYYY, HH:MM:SS format
 func get_datetime() -> String:
 	var datetime : Dictionary = OS.get_datetime()
-	return "%s.%s.%s, %s:%s:%s" % [str(datetime["day"]).pad_zeros(2), str(datetime["month"]).pad_zeros(2), 
-			str(datetime["year"]), str(datetime["hour"]).pad_zeros(2), str(datetime["minute"]).pad_zeros(2), 
-			str(datetime["second"]).pad_zeros(2)]
+	return "%02d.%02d.%04d, %02d:%02d:%02d" % [datetime["day"], datetime["month"], 
+			datetime["year"], datetime["hour"], datetime["minute"], datetime["second"]]
 
 
 ## Prints and stores [param format_string] formatted with [param args]

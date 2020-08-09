@@ -142,6 +142,11 @@ game_talk={
 
 locale_filter=[ 0, [  ] ]
 
+[logging]
+
+file_logging/enable_file_logging.pc=false
+file_logging/max_log_files=0
+
 [memory]
 
 limits/message_queue/max_size_kb=4096
