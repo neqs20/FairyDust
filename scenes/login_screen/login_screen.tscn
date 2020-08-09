@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/login_screen/scripts/settings_button.gd" type="Script" id=1]
 [ext_resource path="res://scenes/login_screen/scenes/settings_window.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/login_screen/scenes/login_window.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/fonts/ubuntu/normal16.tres" type="DynamicFont" id=4]
 
 [node name="LoginScreen" type="Control"]
 pause_mode = 1
@@ -35,6 +36,7 @@ margin_right = 369.0
 margin_bottom = 976.0
 rect_min_size = Vector2( 98, 28 )
 size_flags_horizontal = 4
+custom_fonts/font = ExtResource( 4 )
 toggle_mode = true
 text = "Settings"
 script = ExtResource( 1 )
@@ -43,7 +45,7 @@ __meta__ = {
 }
 SettingsWindowPath = NodePath("../../../SettingsWindow")
 
-[node name="Control" type="Control" parent="Main/Left"]
+[node name="Seperator" type="Control" parent="Main/Left"]
 margin_top = 980.0
 margin_right = 640.0
 margin_bottom = 1080.0
@@ -57,8 +59,9 @@ size_flags_horizontal = 3
 alignment = 2
 
 [node name="LoginWindow" parent="Main/Center" instance=ExtResource( 3 )]
+margin_top = 833.0
 
-[node name="Seperation" type="Control" parent="Main/Center"]
+[node name="Seperator" type="Control" parent="Main/Center"]
 margin_top = 980.0
 margin_right = 640.0
 margin_bottom = 1080.0

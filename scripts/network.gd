@@ -164,4 +164,5 @@ func _initialize_discord_game_sdk() -> void:
 		Logger.error(Messages.CANT_CREATE_DISCORD_HOOK, [error])
 		return
 	discord.set_activity_large_image("fairy_dust_icon")
+	discord.update_activity()
 	add_child(discord)

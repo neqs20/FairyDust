@@ -5,8 +5,15 @@
 extends Node
 
 
+const GRAPHICS_SECTION := "GRAPHICS"
+const LOGIN_SECTION := "LOGIN"
+const MISCELLANEOUS_SECTION := "MISCELLANEOUS"
+const NETWORK_SECTION := "NETWORK"
+const CONTROL_SECTION := "CONTROL"
+const INPUT_MAP_SECTION := "INPUT_MAP"
+
 ## A path to the file
-const PATH := "user://settings.ini"
+var path := OS.get_executable_path().get_base_dir().plus_file("settings.ini")
 
 
 var config := ConfigFile.new()
@@ -14,12 +21,12 @@ var is_loaded := false
 
 
 func _enter_tree() -> void:
-	var error = config.load(PATH)
+	var error = config.load(path)
 	if not error == OK:
 		if error == ERR_FILE_NOT_FOUND:
-			Logger.info(Messages.CONFIG_FILE_NOT_FOUND, [PATH])
+			Logger.info(Messages.CONFIG_FILE_NOT_FOUND, [path])
 		else:
-			Logger.error(Messages.CONFIG_FILE_ERROR, [PATH, error])
+			Logger.error(Messages.CONFIG_FILE_ERROR, [path, error])
 			return
 	is_loaded = true
 
@@ -50,66 +57,66 @@ func get_section_keys(section: String) -> Array:
 
 
 func get_resolution() -> Vector2:
-	return get_value("GRAPHICS", "resolution", Vector2(0, 0))
+	return get_value(GRAPHICS_SECTION, "resolution", Vector2(1920, 1080))
 
 
 func set_resolution(resolution: Vector2) -> void:
-	set_value("GRAPHICS", "resolution", resolution)
+	set_value(GRAPHICS_SECTION, "resolution", resolution)
 
 
 func get_save_id() -> bool:
-	return get_value("LOGIN", "save_id", false)
+	return get_value(LOGIN_SECTION, "save_id", false)
 
 
 func set_save_id(state: bool) -> void:
-	set_value("LOGIN", "save_id", state)
+	set_value(LOGIN_SECTION, "save_id", state)
 
 
 func get_username() -> String:
-	return get_value("LOGIN", "username", "")
+	return get_value(LOGIN_SECTION, "username", "")
 
 
 func set_username(value: String) -> void:
-	set_value("LOGIN", "username", value)
+	set_value(LOGIN_SECTION, "username", value)
 
 
 func get_version() -> String:
-	return get_value("MISC", "version", "0.0.0") 
+	return get_value(MISCELLANEOUS_SECTION, "version", "0.0.0") 
 
 
 func set_version(value: String) -> void:
-	set_value("MISC", "version", value)
+	set_value(MISCELLANEOUS_SECTION, "version", value)
 
 
 func get_ip() -> String:
-	return get_value("NETWORK", "ip", "127.0.0.1")
+	return get_value(NETWORK_SECTION, "ip", "127.0.0.1")
 
 
 func set_ip(value: String) -> void:
-	set_value("NETWORK", "ip", value)
+	set_value(NETWORK_SECTION, "ip", value)
 
 
 func get_port() -> int:
-	return get_value("NETWORK", "port", 4444)
+	return get_value(NETWORK_SECTION, "port", 4444)
 
 
 func set_port(value: int) -> void:
-	set_value("NETWORK", "port", value)
+	set_value(NETWORK_SECTION, "port", value)
 
 
 func get_mouse_sensitivity() -> float:
-	return get_value("INPUT", "mouse_sensitivity", 5.0)
+	return get_value(CONTROL_SECTION, "mouse_sensitivity", 5.0)
 
 
 func set_mouse_sensitivity(value: float) -> void:
-	set_value("INPUT", "mouse_sensitivity", value)
+	set_value(CONTROL_SECTION, "mouse_sensitivity", value)
 
 
 func get_input_map_section_keys() -> Array:
-	return get_section_keys("INPUT_MAP")
+	return get_section_keys(INPUT_MAP_SECTION)
 
 
 func _exit_tree() -> void:
-	if not config.save(PATH) == OK:
-		Logger.error(Messages.CONFIG_SAVE_FAIL, [PATH])
+	if not config.save(path) == OK:
+		Logger.error(Messages.CONFIG_SAVE_FAIL, [path])
 		

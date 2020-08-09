@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://scenes/login_screen/scripts/login_window_manager.gd" type="Script" id=1]
+[ext_resource path="res://assets/fonts/ubuntu/normal16.tres" type="DynamicFont" id=2]
 
 [node name="LoginWindow" type="VBoxContainer"]
 margin_left = 220.0
@@ -17,21 +18,23 @@ __meta__ = {
 
 [node name="Login" type="LineEdit" parent="."]
 margin_right = 200.0
-margin_bottom = 24.0
+margin_bottom = 29.0
 focus_next = NodePath("../Password")
 focus_previous = NodePath("../Buttons/Quit")
+custom_fonts/font = ExtResource( 2 )
 align = 1
 max_length = 16
 placeholder_text = "LOGIN"
 caret_blink = true
 
 [node name="Password" type="LineEdit" parent="."]
-margin_top = 34.0
+margin_top = 39.0
 margin_right = 200.0
-margin_bottom = 62.0
+margin_bottom = 68.0
 rect_min_size = Vector2( 0, 28 )
 focus_next = NodePath("../SaveId")
 focus_previous = NodePath("../Login")
+custom_fonts/font = ExtResource( 2 )
 align = 1
 max_length = 16
 secret = true
@@ -39,16 +42,17 @@ placeholder_text = "PASSWORD"
 caret_blink = true
 
 [node name="SaveId" type="CheckBox" parent="."]
-margin_top = 72.0
-margin_right = 74.0
-margin_bottom = 96.0
+margin_top = 78.0
+margin_right = 79.0
+margin_bottom = 105.0
 size_flags_horizontal = 0
+custom_fonts/font = ExtResource( 2 )
 text = "Save Id"
 
 [node name="Buttons" type="HBoxContainer" parent="."]
-margin_top = 106.0
+margin_top = 115.0
 margin_right = 200.0
-margin_bottom = 134.0
+margin_bottom = 143.0
 
 [node name="Enter" type="Button" parent="Buttons"]
 margin_right = 98.0
@@ -57,6 +61,7 @@ rect_min_size = Vector2( 0, 28 )
 focus_next = NodePath("../Quit")
 focus_previous = NodePath("../../SaveId")
 size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 2 )
 disabled = true
 text = "ENTER"
 
@@ -68,6 +73,7 @@ rect_min_size = Vector2( 0, 28 )
 focus_next = NodePath("../../Login")
 focus_previous = NodePath("../Enter")
 size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 2 )
 text = "QUIT"
 [connection signal="text_changed" from="Login" to="." method="_on_Login_and_Password_text_changed"]
 [connection signal="text_changed" from="Password" to="." method="_on_Login_and_Password_text_changed"]
