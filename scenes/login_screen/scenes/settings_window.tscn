@@ -11,6 +11,7 @@
 
 [node name="SettingsWindow" type="WindowDialog"]
 pause_mode = 1
+visible = true
 margin_right = 450.0
 margin_bottom = 550.0
 rect_min_size = Vector2( 350, 450 )
@@ -42,7 +43,6 @@ __meta__ = {
 }
 
 [node name="Window" type="VBoxContainer" parent="SettingsTabs/Graphic"]
-visible = false
 margin_right = 442.0
 margin_bottom = 114.0
 
@@ -87,8 +87,6 @@ size_flags_horizontal = 7
 size_flags_vertical = 4
 custom_fonts/font = ExtResource( 5 )
 text = "1920x1080"
-items = [ "1920x1080", null, false, 0, null, "1600x900", null, false, 1, null, "1366x768", null, false, 2, null, "1280x720", null, false, 3, null ]
-selected = 0
 __meta__ = {
 "0": Vector2( 1920, 1080 ),
 "1": Vector2( 1600, 900 ),
@@ -194,6 +192,7 @@ text = "Font Oversampling"
 align = 1
 
 [node name="Sound" type="VBoxContainer" parent="SettingsTabs"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -202,6 +201,7 @@ margin_right = -4.0
 margin_bottom = -4.0
 
 [node name="Input" type="VBoxContainer" parent="SettingsTabs"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0

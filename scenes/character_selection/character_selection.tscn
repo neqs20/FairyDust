@@ -1,9 +1,10 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scenes/character_selection/scripts/character_selection.gd" type="Script" id=1]
-[ext_resource path="res://scenes/tadderia/assets/canyon/canyon.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/models/canyon/canyon.tscn" type="PackedScene" id=2]
 [ext_resource path="res://global/fonts/Ubuntu/Ubuntu-Regular.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://global/fonts/Ubuntu/Ubuntu-Bold.ttf" type="DynamicFontData" id=4]
+
 
 [sub_resource type="DynamicFont" id=2]
 size = 20

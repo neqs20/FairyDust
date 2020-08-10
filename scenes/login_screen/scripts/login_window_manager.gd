@@ -28,6 +28,7 @@ func _ready() -> void:
 	Network.set_state("Login Screen")
 
 
+
 ## Called when pressed enter on [member Password].
 ## Triggers [signal Button.pressed]
 func _on_Password_text_entered(_new_text: String) -> void:

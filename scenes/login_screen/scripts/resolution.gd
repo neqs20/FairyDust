@@ -1,12 +1,10 @@
-tool
 extends HBoxContainer
 
 
 onready var option_button: OptionButton = $OptionButton
 
+
 func _ready() -> void:
-	if option_button.get_item_count() > 0:
-		option_button.clear()
 	option_button.add_item("1920x1080")
 	option_button.set_meta("0", Vector2(1920, 1080))
 
@@ -19,24 +17,31 @@ func _ready() -> void:
 	option_button.add_item("1280x720")
 	option_button.set_meta("3", Vector2(1280, 720))
 
-	if not Engine.is_editor_hint():
-		var resolution = Config.get_resolution()
-		#OS.set_window_size(resolution)
-		#OS.set_window_position((OS.get_screen_size() - resolution) / 2)
-		print(OS.get_window_size())
-
-	#print(screen_size - Vector2(20, 20))
-	#for meta in option_button.get_meta_list():
-	#	if option_button.get_meta(meta) == screen_size - Vector2(20, 20):
-	#		print(123)
-	#		option_button.select(int(meta))
-	#		OS.set_window_size(screen_size)
-	#		OS.set_window_position(Vector2(0,0))
+	
+	var resolution := ProjectSettingsOverride.get_resolution()
+	if resolution.x > 0 and resolution.y > 0:
+		var custom_resolution := true
+		for meta in option_button.get_meta_list():
+			if option_button.get_meta(meta) == resolution:
+				option_button.select(int(meta))
+				custom_resolution = false
+				break
+		if custom_resolution:
+			var index := option_button.get_item_count()
+			option_button.add_item("%dx%d (Custom)" % [resolution.x, resolution.y])
+			option_button.set_meta(str(index), resolution)
+			option_button.select(index)
 
 
 func update_resolution(index: int) -> void:
 	OS.set_window_size(option_button.get_meta(str(index)))
+	OS.set_window_position((OS.get_screen_size() - OS.get_window_size()) / 2)
+	ProjectSettingsOverride.set_resolution(OS.get_window_size())
 
 
 func _on_OptionButton_item_selected(index):
 	update_resolution(index)
+
+
+func _exit_tree() -> void:
+	ProjectSettingsOverride.set_resolution(option_button.get_meta(str(option_button.selected)))

@@ -2,7 +2,7 @@
 ## @desc:
 ##     Wrapper of [ConfigFile].
 ##     
-extends Node
+extends AbstractConfig
 
 
 const GRAPHICS_SECTION := "GRAPHICS"
@@ -12,40 +12,21 @@ const NETWORK_SECTION := "NETWORK"
 const CONTROL_SECTION := "CONTROL"
 const INPUT_MAP_SECTION := "INPUT_MAP"
 
-## A path to the file
-var path := OS.get_executable_path().get_base_dir().plus_file("settings.ini")
 
-
-var config := ConfigFile.new()
-var is_loaded := false
-
+func _init() -> void:
+	path = OS.get_executable_path().get_base_dir()
+	file_name = "settings.ini"
 
 func _enter_tree() -> void:
-	var error = config.load(path)
+	var error = config.load(path.plus_file(file_name))
 	if not error == OK:
 		if error == ERR_FILE_NOT_FOUND:
-			Logger.info(Messages.CONFIG_FILE_NOT_FOUND, [path])
+			Logger.info(Messages.CONFIG_FILE_NOT_FOUND, [path.plus_file(file_name)])
 		else:
-			Logger.error(Messages.CONFIG_FILE_ERROR, [path, error])
+			Logger.error(Messages.CONFIG_FILE_ERROR, [path.plus_file(file_name), error])
 			return
 	is_loaded = true
 
-## Returns a value located under [param section] with a [param key].
-## If config is not loaded or entry doesn't exist or 
-## types aren't matching returns default.
-func get_value(section: String, key: String, default):
-	if is_loaded:
-		var v = config.get_value(section, key, default)
-		if typeof(v) == typeof(default):
-			return v
-	return default
-
-
-## Sets a value in given [param section] and [param key]. If config is not loaded
-## does nothing
-func set_value(section: String, key: String, value) -> void:
-	if is_loaded:
-		config.set_value(section, key, value)
 
 ## Returns [Array] of [String]s (keys) from [param section]. If section doesn't
 ## exists or doesn't have any keys returns empty array
@@ -54,14 +35,6 @@ func get_section_keys(section: String) -> Array:
 		if config.has_section(section):
 			return Array(config.get_section_keys(section))
 	return []
-
-
-func get_resolution() -> Vector2:
-	return get_value(GRAPHICS_SECTION, "resolution", Vector2(1920, 1080))
-
-
-func set_resolution(resolution: Vector2) -> void:
-	set_value(GRAPHICS_SECTION, "resolution", resolution)
 
 
 func get_save_id() -> bool:
@@ -117,6 +90,6 @@ func get_input_map_section_keys() -> Array:
 
 
 func _exit_tree() -> void:
-	if not config.save(path) == OK:
-		Logger.error(Messages.CONFIG_SAVE_FAIL, [path])
+	if not config.save(path.plus_file(file_name)) == OK:
+		Logger.error(Messages.CONFIG_SAVE_FAIL, [path.plus_file(file_name)])
 		
