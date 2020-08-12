@@ -17,8 +17,9 @@ func _ready() -> void:
 	option_button.add_item("1280x720")
 	option_button.set_meta("3", Vector2(1280, 720))
 
-	
+
 	var resolution := ProjectSettingsOverride.get_resolution()
+
 	if resolution.x > 0 and resolution.y > 0:
 		var custom_resolution := true
 		for meta in option_button.get_meta_list():
@@ -34,12 +35,13 @@ func _ready() -> void:
 
 
 func update_resolution(index: int) -> void:
-	OS.set_window_size(option_button.get_meta(str(index)))
-	OS.set_window_position((OS.get_screen_size() - OS.get_window_size()) / 2)
+	if not OS.is_window_fullscreen():
+		OS.set_window_size(option_button.get_meta(str(index)))
+		OS.set_window_position((OS.get_screen_size() - OS.get_window_size()) / 2)
 	ProjectSettingsOverride.set_resolution(OS.get_window_size())
 
 
-func _on_OptionButton_item_selected(index):
+func _on_OptionButton_item_selected(index: int) -> void:
 	update_resolution(index)
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scenes/login_screen/scripts/key_binds_manager.gd" type="Script" id=1]
 [ext_resource path="res://scenes/login_screen/scripts/key_binds_generator.gd" type="Script" id=2]
@@ -6,6 +6,9 @@
 [ext_resource path="res://assets/fonts/ubuntu/normal16.tres" type="DynamicFont" id=4]
 [ext_resource path="res://assets/fonts/ubuntu/normal14.tres" type="DynamicFont" id=5]
 [ext_resource path="res://scenes/login_screen/scripts/resolution.gd" type="Script" id=6]
+[ext_resource path="res://scenes/login_screen/scripts/mode.gd" type="Script" id=7]
+[ext_resource path="res://scenes/login_screen/scripts/msaa.gd" type="Script" id=8]
+[ext_resource path="res://scenes/login_screen/scenes/quality.gd" type="Script" id=9]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
@@ -98,6 +101,8 @@ __meta__ = {
 margin_top = 64.0
 margin_right = 442.0
 margin_bottom = 87.0
+script = ExtResource( 7 )
+resolution_option = NodePath("../Resolution")
 
 [node name="Label" type="Label" parent="SettingsTabs/Graphic/Window/Mode"]
 margin_top = 3.0
@@ -115,14 +120,13 @@ margin_bottom = 23.0
 size_flags_horizontal = 7
 size_flags_vertical = 4
 custom_fonts/font = ExtResource( 5 )
-text = "Fullscreen"
-items = [ "Fullscreen", null, false, 0, null, "Windowed", null, false, 1, null ]
-selected = 0
+text = "Windowed"
 
 [node name="Msaa" type="HBoxContainer" parent="SettingsTabs/Graphic/Window"]
 margin_top = 91.0
 margin_right = 442.0
 margin_bottom = 114.0
+script = ExtResource( 8 )
 
 [node name="Label" type="Label" parent="SettingsTabs/Graphic/Window/Msaa"]
 margin_top = 3.0
@@ -141,13 +145,12 @@ size_flags_horizontal = 7
 size_flags_vertical = 4
 custom_fonts/font = ExtResource( 5 )
 text = "Disabled"
-items = [ "Disabled", null, false, 0, null, "MSAA 2x", null, false, 1, null, "MSAA 4x", null, false, 2, null, "MSAA 8x", null, false, 3, null, "MSAA 16x", null, false, 4, null ]
 selected = 0
 
 [node name="Quality" type="VBoxContainer" parent="SettingsTabs/Graphic"]
-visible = false
+margin_top = 118.0
 margin_right = 442.0
-margin_bottom = 62.0
+margin_bottom = 180.0
 
 [node name="HSeparator" type="HSeparator" parent="SettingsTabs/Graphic/Quality"]
 margin_right = 442.0
@@ -172,6 +175,7 @@ margin_top = 37.0
 margin_right = 442.0
 margin_bottom = 62.0
 columns = 2
+script = ExtResource( 9 )
 
 [node name="Vsync" type="CheckBox" parent="SettingsTabs/Graphic/Quality/GridContainer"]
 margin_left = 50.0
@@ -330,6 +334,10 @@ margin_right = 442.0
 margin_bottom = 347.0
 size_flags_horizontal = 3
 [connection signal="item_selected" from="SettingsTabs/Graphic/Window/Resolution/OptionButton" to="SettingsTabs/Graphic/Window/Resolution" method="_on_OptionButton_item_selected"]
+[connection signal="item_selected" from="SettingsTabs/Graphic/Window/Mode/OptionButton" to="SettingsTabs/Graphic/Window/Mode" method="_on_OptionButton_item_selected"]
+[connection signal="item_selected" from="SettingsTabs/Graphic/Window/Msaa/OptionButton" to="SettingsTabs/Graphic/Window/Msaa" method="_on_OptionButton_item_selected"]
+[connection signal="toggled" from="SettingsTabs/Graphic/Quality/GridContainer/Vsync" to="SettingsTabs/Graphic/Quality/GridContainer" method="_on_Vsync_toggled"]
+[connection signal="toggled" from="SettingsTabs/Graphic/Quality/GridContainer/FontOversampling" to="SettingsTabs/Graphic/Quality/GridContainer" method="_on_FontOversampling_toggled"]
 [connection signal="value_changed" from="SettingsTabs/Input/Control/MouseSensitivity/Input/Slider" to="SettingsTabs/Input/Control/MouseSensitivity/Input" method="_on_Slider_value_changed"]
 [connection signal="focus_exited" from="SettingsTabs/Input/Control/MouseSensitivity/Input/Value" to="SettingsTabs/Input/Control/MouseSensitivity/Input" method="_on_Value_focus_exited"]
 [connection signal="text_entered" from="SettingsTabs/Input/Control/MouseSensitivity/Input/Value" to="SettingsTabs/Input/Control/MouseSensitivity/Input" method="_on_Value_text_entered"]

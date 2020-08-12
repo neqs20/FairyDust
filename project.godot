@@ -55,11 +55,16 @@ gdscript/warnings/unsafe_call_argument=true
 
 window/size/width=1920
 window/size/height=1080
+window/size/resizable=false
 window/vsync/use_vsync=false
 
 [editor]
 
 convert_text_resources_to_binary_on_export=true
+
+[editor_plugins]
+
+enabled=PoolStringArray( "cpp_templator" )
 
 [input]
 
@@ -159,5 +164,4 @@ limits/message_queue/max_size_kb=4096
 
 [rendering]
 
-quality/filters/msaa=3
 environment/default_environment="res://default_env.tres"
