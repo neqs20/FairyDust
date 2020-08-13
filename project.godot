@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "AbstractConfig",
 "language": "GDScript",
 "path": "res://scripts/abstract_config.gd"
+}, {
+"base": "VBoxContainer",
+"class": "Generator",
+"language": "GDScript",
+"path": "res://scenes/character_selection/scripts/buttons_generator.gd"
 } ]
 _global_script_class_icons={
-"AbstractConfig": ""
+"AbstractConfig": "",
+"Generator": ""
 }
 
 [application]
@@ -46,10 +52,6 @@ ProjectSettingsOverride="*res://scripts/project_settings_override.gd"
 [debug]
 
 gdscript/warnings/unused_class_variable=true
-gdscript/warnings/unsafe_property_access=true
-gdscript/warnings/unsafe_method_access=true
-gdscript/warnings/unsafe_cast=true
-gdscript/warnings/unsafe_call_argument=true
 
 [display]
 
@@ -64,7 +66,7 @@ convert_text_resources_to_binary_on_export=true
 
 [editor_plugins]
 
-enabled=PoolStringArray( "cpp_templator" )
+enabled=PoolStringArray(  )
 
 [input]
 
