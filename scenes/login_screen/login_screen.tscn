@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/login_screen/scripts/settings_button.gd" type="Script" id=1]
-[ext_resource path="res://scenes/login_screen/scenes/settings_window.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/settings_dialog/settings_dialog.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/login_screen/scenes/login_window.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/fonts/ubuntu/normal16.tres" type="DynamicFont" id=4]
 
@@ -43,7 +43,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-SettingsWindowPath = NodePath("../../../SettingsWindow")
+SettingsWindowPath = NodePath("../../../SettingsDialog")
 
 [node name="Seperator" type="Control" parent="Main/Left"]
 margin_top = 980.0
@@ -73,6 +73,6 @@ margin_right = 1920.0
 margin_bottom = 1080.0
 size_flags_horizontal = 3
 
-[node name="SettingsWindow" parent="." instance=ExtResource( 2 )]
+[node name="SettingsDialog" parent="." instance=ExtResource( 2 )]
 [connection signal="toggled" from="Main/Left/Settings" to="Main/Left/Settings" method="_on_Settings_toggled"]
-[connection signal="popup_hide" from="SettingsWindow" to="Main/Left/Settings" method="_on_SettingsWindow_popup_hide"]
+[connection signal="popup_hide" from="SettingsDialog" to="Main/Left/Settings" method="_on_SettingsWindow_popup_hide"]

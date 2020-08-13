@@ -48,13 +48,12 @@ func _on_key_bind_gui_input(event: InputEvent, button: Button) -> void:
 			b.pressed = false
 
 
-
 ## Deletes every occurence of [param event] and adds [param event] to the [param action]
 func _change_key(action: String, event: InputEventKey) -> void:
 	# Delete all events from the action
 	InputMap.action_erase_events(action)
 
-	# Check if event already exist
+	# Check if event already exists
 	for button in buttons:
 		if not InputMap.action_has_event(button.name, event):
 			continue

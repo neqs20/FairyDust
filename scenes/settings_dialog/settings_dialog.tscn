@@ -1,20 +1,19 @@
 [gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://scenes/login_screen/scripts/key_binds_manager.gd" type="Script" id=1]
-[ext_resource path="res://scenes/login_screen/scripts/key_binds_generator.gd" type="Script" id=2]
-[ext_resource path="res://scenes/login_screen/scripts/mouse_settings_manager.gd" type="Script" id=3]
+[ext_resource path="res://scenes/settings_dialog/scripts/key_binds_manager.gd" type="Script" id=1]
+[ext_resource path="res://scenes/settings_dialog/scripts/key_binds_generator.gd" type="Script" id=2]
+[ext_resource path="res://scenes/settings_dialog/scripts/mouse_settings_manager.gd" type="Script" id=3]
 [ext_resource path="res://assets/fonts/ubuntu/normal16.tres" type="DynamicFont" id=4]
 [ext_resource path="res://assets/fonts/ubuntu/normal14.tres" type="DynamicFont" id=5]
-[ext_resource path="res://scenes/login_screen/scripts/resolution.gd" type="Script" id=6]
-[ext_resource path="res://scenes/login_screen/scripts/mode.gd" type="Script" id=7]
-[ext_resource path="res://scenes/login_screen/scripts/msaa.gd" type="Script" id=8]
-[ext_resource path="res://scenes/login_screen/scenes/quality.gd" type="Script" id=9]
+[ext_resource path="res://scenes/settings_dialog/scripts/resolution.gd" type="Script" id=6]
+[ext_resource path="res://scenes/settings_dialog/scripts/mode.gd" type="Script" id=7]
+[ext_resource path="res://scenes/settings_dialog/scripts/msaa.gd" type="Script" id=8]
+[ext_resource path="res://scenes/settings_dialog/scripts/quality.gd" type="Script" id=9]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
-[node name="SettingsWindow" type="WindowDialog"]
+[node name="SettingsDialog" type="WindowDialog"]
 pause_mode = 1
-visible = true
 margin_right = 450.0
 margin_bottom = 550.0
 rect_min_size = Vector2( 350, 450 )
@@ -102,7 +101,7 @@ margin_top = 64.0
 margin_right = 442.0
 margin_bottom = 87.0
 script = ExtResource( 7 )
-resolution_option = NodePath("../Resolution")
+resolution_option = NodePath("../../../../../SettingsDialog/SettingsTabs/Graphic/Window/Resolution")
 
 [node name="Label" type="Label" parent="SettingsTabs/Graphic/Window/Mode"]
 margin_top = 3.0
@@ -145,7 +144,6 @@ size_flags_horizontal = 7
 size_flags_vertical = 4
 custom_fonts/font = ExtResource( 5 )
 text = "Disabled"
-selected = 0
 
 [node name="Quality" type="VBoxContainer" parent="SettingsTabs/Graphic"]
 margin_top = 118.0

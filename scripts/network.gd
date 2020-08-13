@@ -8,9 +8,9 @@ extends Node
 signal log_in(result)
 ## [param map] is a 8-bit unsigned integer (hex: 00-ff)
 ## [param level] is a 8-bit unsigned integer (hex: 00-ff)
-## [param classname] is a 4-bit unsigned integer (hex: 0-f)
+## [param class_type] is a 4-bit unsigned integer (hex: 0-f)
 ## [param charname] is a String
-signal characters_data(map, level, classname, charname)
+signal characters_data(map, level, class_type, charname)
 
 enum State {
 	NONE,
@@ -52,7 +52,7 @@ func _enter_tree() -> void:
 
 
 ## Called when a packet is received from the server
-func on_server_packet(channel: int, raw_packet: PoolByteArray) -> void:
+func on_server_packet(_channel: int, raw_packet: PoolByteArray) -> void:
 	latency = int((OS.get_ticks_usec() - start) / 1000.0)
 
 	var packet = raw_packet.get_string_from_utf8()

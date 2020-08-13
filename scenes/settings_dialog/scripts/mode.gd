@@ -11,10 +11,8 @@ func _ready() -> void:
 	option_button.add_item("Fullscreen")
 	
 	var is_fullscreened = ProjectSettingsOverride.is_fullscreen()
-	if is_fullscreened:
-		option_button.select(1)
-	else:
-		option_button.select(0)
+	# Convertion from bool to int
+	option_button.select(int(is_fullscreened))
 
 
 func _on_OptionButton_item_selected(index: int) -> void:
