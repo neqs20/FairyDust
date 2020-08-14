@@ -4,6 +4,7 @@ extends VBoxContainer
 enum { MENTION_TAG = 64, MONSTER_TAG = 58, QUEST_TAG = 91 }
 
 const SPECIAL_TAGS_REGEX := "(\\[.+?\\])|(:.+?:)|(@[A-Za-z0-9]+)"
+const PLAYER_NAME = "NeQs"
 
 var regex := RegEx.new()
 var style : StyleBoxFlat = null
@@ -52,7 +53,7 @@ func get_quest_id(quest_name: String) -> int:
 
 
 func validate_player(p_name: String) -> int:
-	if Network.player_name == p_name:
+	if PLAYER_NAME == p_name:
 		return ERR_CYCLIC_LINK
 	#if players.has(p_name):
 	#	return OK
@@ -68,3 +69,4 @@ func _on_messages_mouse_exited():
 
 func _on_messages_mouse_entered():
 	style.bg_color = Color("#3cffffff")
+
