@@ -101,7 +101,7 @@ margin_top = 64.0
 margin_right = 442.0
 margin_bottom = 87.0
 script = ExtResource( 7 )
-resolution_option = NodePath("../../../../../SettingsDialog/SettingsTabs/Graphic/Window/Resolution")
+resolution_option = NodePath("../Resolution")
 
 [node name="Label" type="Label" parent="SettingsTabs/Graphic/Window/Mode"]
 margin_top = 3.0

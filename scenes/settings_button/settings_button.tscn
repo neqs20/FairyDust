@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/settings_button/scripts/settings_button.gd" type="Script" id=1]
+
+[node name="Settings" type="Button"]
+margin_right = 98.0
+margin_bottom = 28.0
+size_flags_horizontal = 4
+toggle_mode = true
+text = "Settings"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="toggled" from="." to="." method="_on_Settings_toggled"]

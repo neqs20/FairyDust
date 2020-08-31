@@ -1,0 +1,198 @@
+[gd_scene format=2]
+
+[node name="CreateContainer" type="HBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 0
+__meta__ = {
+"_edit_horizontal_guides_": [  ],
+"_edit_use_anchors_": false,
+"_edit_vertical_guides_": [  ]
+}
+
+[node name="Left" type="VBoxContainer" parent="."]
+margin_right = 960.0
+margin_bottom = 1080.0
+size_flags_horizontal = 3
+
+[node name="Top" type="HBoxContainer" parent="Left"]
+margin_right = 960.0
+margin_bottom = 500.0
+rect_min_size = Vector2( 0, 500 )
+alignment = 1
+
+[node name="Explanation" type="PanelContainer" parent="Left/Top"]
+margin_left = 280.0
+margin_top = 125.0
+margin_right = 680.0
+margin_bottom = 375.0
+rect_min_size = Vector2( 400, 250 )
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="Margin" type="MarginContainer" parent="Left/Top/Explanation"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 393.0
+margin_bottom = 243.0
+size_flags_vertical = 3
+
+[node name="Label" type="RichTextLabel" parent="Left/Top/Explanation/Margin"]
+margin_right = 386.0
+margin_bottom = 236.0
+
+[node name="Bottom" type="HBoxContainer" parent="Left"]
+margin_top = 504.0
+margin_right = 960.0
+margin_bottom = 1080.0
+size_flags_vertical = 3
+
+[node name="Setup" type="PanelContainer" parent="Left/Bottom"]
+margin_left = 280.0
+margin_right = 680.0
+margin_bottom = 576.0
+rect_min_size = Vector2( 400, 0 )
+size_flags_horizontal = 6
+
+[node name="MarginContainer" type="MarginContainer" parent="Left/Bottom/Setup"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 393.0
+margin_bottom = 569.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 0
+
+[node name="Container" type="VBoxContainer" parent="Left/Bottom/Setup/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 366.0
+margin_bottom = 562.0
+custom_constants/separation = 10
+
+[node name="Name" type="Label" parent="Left/Bottom/Setup/MarginContainer/Container"]
+margin_right = 346.0
+margin_bottom = 14.0
+text = "Name"
+align = 1
+valign = 1
+
+[node name="Container" type="HBoxContainer" parent="Left/Bottom/Setup/MarginContainer/Container"]
+margin_top = 24.0
+margin_right = 346.0
+margin_bottom = 48.0
+
+[node name="Input" type="LineEdit" parent="Left/Bottom/Setup/MarginContainer/Container/Container"]
+margin_right = 200.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 200, 0 )
+
+[node name="Check" type="Button" parent="Left/Bottom/Setup/MarginContainer/Container/Container"]
+margin_left = 246.0
+margin_right = 346.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 100, 0 )
+size_flags_horizontal = 10
+text = "Check Name"
+
+[node name="Class" type="Label" parent="Left/Bottom/Setup/MarginContainer/Container"]
+margin_top = 58.0
+margin_right = 346.0
+margin_bottom = 72.0
+text = "Class"
+align = 1
+valign = 1
+
+[node name="Classes" type="GridContainer" parent="Left/Bottom/Setup/MarginContainer/Container"]
+margin_top = 82.0
+margin_right = 346.0
+margin_bottom = 212.0
+custom_constants/vseparation = 10
+columns = 3
+
+[node name="Fighter" type="Button" parent="Left/Bottom/Setup/MarginContainer/Container/Classes"]
+margin_left = 26.0
+margin_right = 86.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 60, 60 )
+size_flags_horizontal = 6
+text = "F"
+
+[node name="Defender" type="Button" parent="Left/Bottom/Setup/MarginContainer/Container/Classes"]
+margin_left = 142.0
+margin_right = 202.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 60, 60 )
+size_flags_horizontal = 6
+text = "D"
+
+[node name="Ranger" type="Button" parent="Left/Bottom/Setup/MarginContainer/Container/Classes"]
+margin_left = 258.0
+margin_right = 318.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 60, 60 )
+size_flags_horizontal = 6
+text = "R"
+
+[node name="Mage" type="Button" parent="Left/Bottom/Setup/MarginContainer/Container/Classes"]
+margin_left = 26.0
+margin_top = 70.0
+margin_right = 86.0
+margin_bottom = 130.0
+rect_min_size = Vector2( 60, 60 )
+size_flags_horizontal = 6
+text = "M"
+
+[node name="Priest" type="Button" parent="Left/Bottom/Setup/MarginContainer/Container/Classes"]
+margin_left = 142.0
+margin_top = 70.0
+margin_right = 202.0
+margin_bottom = 130.0
+rect_min_size = Vector2( 60, 60 )
+size_flags_horizontal = 6
+text = "P"
+
+[node name="Archer" type="Button" parent="Left/Bottom/Setup/MarginContainer/Container/Classes"]
+margin_left = 258.0
+margin_top = 70.0
+margin_right = 318.0
+margin_bottom = 130.0
+rect_min_size = Vector2( 60, 60 )
+size_flags_horizontal = 6
+text = "A"
+
+[node name="Gender" type="Label" parent="Left/Bottom/Setup/MarginContainer/Container"]
+margin_top = 222.0
+margin_right = 346.0
+margin_bottom = 236.0
+text = "Gender"
+align = 1
+valign = 1
+
+[node name="Genders" type="HBoxContainer" parent="Left/Bottom/Setup/MarginContainer/Container"]
+margin_top = 246.0
+margin_right = 346.0
+margin_bottom = 306.0
+custom_constants/separation = 10
+alignment = 1
+
+[node name="Male" type="Button" parent="Left/Bottom/Setup/MarginContainer/Container/Genders"]
+margin_left = 108.0
+margin_right = 168.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 60, 60 )
+text = "M"
+
+[node name="Female" type="Button" parent="Left/Bottom/Setup/MarginContainer/Container/Genders"]
+margin_left = 178.0
+margin_right = 238.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 60, 60 )
+text = "F"
+
+[node name="Right" type="VBoxContainer" parent="."]
+margin_left = 960.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+size_flags_horizontal = 3

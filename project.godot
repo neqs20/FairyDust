@@ -48,6 +48,7 @@ Data="*res://scripts/data.gd"
 KeyBinds="*res://scripts/key_binds.gd"
 Packet="*res://scripts/packet.gd"
 ProjectSettingsOverride="*res://scripts/project_settings_override.gd"
+Chat="*res://scripts/chat.gd"
 
 [debug]
 

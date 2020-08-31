@@ -11,5 +11,6 @@ func _ready() -> void:
 	Network.emit_signal("characters_data", 1, 90, 1, "HazmatDemon")
 
 
+
 func _char_data_received(map: int, level: int, class_type: int, charname: String) -> void:
 	generator.run(charname, {"map": map, "level": level, "class": class_type})

@@ -3,7 +3,6 @@ extends VBoxContainer
 
 enum { MENTION_TAG = 64, MONSTER_TAG = 58, QUEST_TAG = 91 }
 
-const SPECIAL_TAGS_REGEX := "(\\[.+?\\])|(:.+?:)|(@[A-Za-z0-9]+)"
 const PLAYER_NAME = "NeQs"
 
 var regex := RegEx.new()
@@ -14,16 +13,17 @@ onready var messages: RichTextLabel = $messages
 
 
 func _ready() -> void:
-	regex.compile(SPECIAL_TAGS_REGEX)
+	regex.compile("(\\[.+?\\])|(:.+?:)|(@[A-Za-z0-9]+)")
 	style = messages.get("custom_styles/normal")
 	set_process_internal(true)
 
 
 func _on_input_text_entered(new_text: String) -> void:
 	$input.clear()
-	if new_text.strip_edges().empty():
+	if new_text.empty():
 		return
-	add_message(new_text)
+	Network.send_tcp((Packet.TEXT_CHAT + Chat.GLOBAL + new_text).to_utf8())
+	#add_message(new_text)
 	#send new_text to the server
 
 func add_message(text: String) -> void:

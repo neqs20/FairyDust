@@ -11,6 +11,9 @@ signal log_in(result)
 ## [param class_type] is a 4-bit unsigned integer (hex: 0-f)
 ## [param charname] is a String
 signal characters_data(map, level, class_type, charname)
+## [param chat_type] is a one of constants from chat.gd
+## [param text] is the message sent
+signal text_message(chat_type, text)
 
 enum State {
 	NONE,
@@ -32,7 +35,7 @@ var latency := 0
 var id := -1
 
 ## Represents current state of the client. This is used to prevent some
-## unwanted actions (e.g. client should not receive login packets if is already in game)
+## unwanted actions (e.g. client should never receive login packets if is already in game)
 var state: int = State.NONE
 
 var _client := ENetNode.new()
@@ -58,7 +61,6 @@ func on_server_packet(_channel: int, raw_packet: PoolByteArray) -> void:
 	var packet = raw_packet.get_string_from_utf8()
 	if packet.length() < Packet.LENGTH: 
 		return
-	print(packet)
 	match packet.lcut(Packet.LENGTH):
 		Packet.LOGIN:
 			if not packet.length() == 1:
@@ -70,6 +72,10 @@ func on_server_packet(_channel: int, raw_packet: PoolByteArray) -> void:
 			elif packet.length() > 5:
 				emit_signal("characters_data", get_int(packet.lcut(2)), 
 						get_int(packet.lcut(2)), get_int(packet.lcut(1)), packet)
+		Packet.TEXT_CHAT:
+			if packet.length() < 2:
+				return
+			emit_signal("text_message", packet.lcut(1), packet)
 		_:
 			Logger.info("Unhandled packet type. Data: {0}", [packet])
 
@@ -134,27 +140,30 @@ func _create_client() -> void:
 	_client.signal_mode = ENetNode.MODE_PHYSICS
 
 	id = _client.get_network_unique_id()
-	
-	var signals := {
+
+	_connect_signals({
 		"connected_to_server": "connected",
 		"connection_failed": "failed",
 		"server_disconnected": "disconnected",
 		"server_packet": "on_server_packet",
-	}
-
-	_connect_signals(signals)
+	})
 
 	add_child(_client)
 
 
 ## Helper function that connects signals
-## Keys are signals, Values are functions
+## Keys are signals, values are functions
 func _connect_signals(signals: Dictionary) -> void:
 	for signal_name in signals:
-		if not _client.is_connected(signal_name, self, signals[signal_name]):
-			var connect_error = _client.connect(signal_name, self, signals[signal_name])
-			if not connect_error == OK:
-				Logger.error(Messages.CANT_CONNECT_SIGNAL, [self, signal_name, signals[signal_name], connect_error])
+		if _client.is_connected(signal_name, self, signals[signal_name]):
+			return
+
+		var error = _client.connect(signal_name, self, signals[signal_name])
+
+		if error == OK:
+			return
+
+		Logger.error(Messages.CANT_CONNECT_SIGNAL, [self, signal_name, signals[signal_name], error])
 
 
 ## Creates [DiscordGameSDK] instance, sets default image for Rich Presence

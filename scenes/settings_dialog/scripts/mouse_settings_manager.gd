@@ -25,7 +25,7 @@ func _on_Value_focus_exited() -> void:
 
 
 ## Called when Enter is pressed on [LineEdit]
-func _on_Value_text_entered(new_text: String) -> void:
+func _on_Value_text_entered(_new_text: String) -> void:
 	_update_slider()
 
 

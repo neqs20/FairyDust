@@ -39,7 +39,7 @@ __meta__ = {
 }
 
 [node name="messages" type="RichTextLabel" parent="chat/Container"]
-margin_right = 450.0
+margin_right = 449.0
 margin_bottom = 276.0
 focus_mode = 2
 size_flags_vertical = 3
@@ -59,7 +59,7 @@ __meta__ = {
 
 [node name="input" type="LineEdit" parent="chat/Container"]
 margin_top = 276.0
-margin_right = 450.0
+margin_right = 449.0
 margin_bottom = 300.0
 [connection signal="meta_hover_ended" from="chat/Container/messages" to="chat/Container" method="_on_messages_meta_hover_ended"]
 [connection signal="meta_hover_started" from="chat/Container/messages" to="chat/Container" method="_on_messages_meta_hover_started"]

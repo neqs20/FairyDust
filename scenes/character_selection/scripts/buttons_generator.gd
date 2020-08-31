@@ -29,3 +29,11 @@ func _character_selected(pressed: bool, button: Button) -> void:
 	details.update_information(button.get_meta("map"), button.get_meta("level"),
 			button.get_meta("class"))
 	name_tag.text = button.text
+
+## Called when Play button is pressed. If one of the button is selected
+## sends it's text (character name) to the server
+func _on_Play_pressed():
+	var selected := button_group.get_pressed_button()
+	if selected == null:
+		return
+	Network.send_udp((Packet.FULL_CHAR_DATA + selected.text).to_utf8())

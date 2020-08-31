@@ -20,7 +20,7 @@ var _log_file: File = null
 
 func _init() -> void:
 	load_file()
-
+	delete_recursive(list_files(folder_path))
 
 func _exit_tree() -> void:
 	if not _log_file == null:
@@ -108,3 +108,32 @@ func store(line : String) -> void:
 func print_and_store(line : String) -> void:
 	print(line)
 	store(line)
+
+
+func list_files(path: String) -> Array:
+	var ret := []
+
+	var dir := Directory.new()
+	if dir.open(path) == OK:
+		dir.list_dir_begin(true, true)
+
+		var file := dir.get_next()
+
+		while not file.empty():
+			if not dir.current_is_dir() and file.get_basename().match("????-??-??"):
+				ret.append(file)
+
+			file = dir.get_next()
+
+		dir.list_dir_end()
+
+	return ret
+
+
+func delete_recursive(files: Array) -> void:
+	if files.size() > 10:
+		var file = files.min()
+		files.erase(file)
+		
+		delete_recursive(files)
+
